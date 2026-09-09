@@ -1,0 +1,9 @@
+venv/
+.env
+**pycache**/
+__pycache__/
+*.pyc
+data/raw_videos/
+evidence/
+models/*.pt
+*.db
