@@ -6,8 +6,9 @@
   is the business reference; explicit user instructions govern execution scope.
 - Work on one authorized milestone at a time. Do not implement unrelated or
   future modules just because the source document lists them.
-- Current checkpoint: Milestone 0 environment audit. CPU checks pass, but
-  installed PyTorch/torchvision are CPU-only and GPU readiness is unresolved.
+- Current checkpoint: Milestone 0 complete; GPU readiness verified. PyTorch
+  2.14.0+cu130 and torchvision 0.29.0+cu130 execute CUDA on the GTX 1650;
+  the environment checker returns 0 and all 11 unit tests pass.
   Recheck current results rather than assuming this observation is permanent.
 - Do not start Milestone 1 until Milestone 0's readiness gate is resolved or the
   user explicitly chooses and documents a CPU-only scope. Stop this execution

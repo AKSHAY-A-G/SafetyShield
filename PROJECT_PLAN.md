@@ -6,10 +6,12 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 0 implemented and audited; GPU readiness blocked.**
-The existing environment passes package imports and a CPU calculation, but its
-PyTorch build cannot use CUDA. Milestone 1 has not started. No inference,
-training, model accuracy or video processing performance has been measured.
+Current stage: **Milestone 0 complete; GPU readiness gate resolved.**
+The existing Python 3.14.5 environment now uses CUDA-enabled PyTorch and
+torchvision. Actual CUDA matrix computation, the environment checker (exit 0),
+all 11 unit tests, dependency consistency and Ultralytics import passed.
+Milestone 1 has not started. No model inference, training, model accuracy or
+video processing performance has been measured.
 
 ## Source requirements and authority
 
@@ -214,7 +216,7 @@ and a Git commit before proceeding. Unresolved gates must be reported honestly.
 
 | Milestone | Deliverable | Observable acceptance check |
 | --- | --- | --- |
-| 0 - Audit/environment | Source mapping, this plan, AGENTS instructions and diagnostic script | Expected folders/files exist; existing venv is used; package and compute results plus blockers are reported; checker tests pass; no packages installed |
+| 0 - Audit/environment | Source mapping, this plan, AGENTS instructions and diagnostic script; authorized CUDA package replacement | COMPLETE: existing venv retained; only torch/torchvision replaced; actual CUDA matrix computation passes; checker exit 0, all 11 tests, pip check and Ultralytics import pass |
 | 1 - Recorded video/person detection | OpenCV reader, one nano detector, person boxes/confidence/FPS and saved output | Process a supplied local MP4; reopen saved output and visually verify boxes, frame dimensions, end-of-file handling and measured throughput. No PPE/RTSP/tracking/database/dashboard |
 | 2 - Tracking | ByteTrack and temporary ID overlay | Inspect an annotated clip for stable IDs on continuously visible workers; measure/report losses and switches; no employee/cross-camera identity claim |
 | 3 - PPE training workspace | Interval extraction, dataset/PPE YAML, train/validate/predict utilities | Verify extraction times, group-disjoint splits and labels; complete a small authorized training/validation run with a loadable checkpoint and recorded memory use |
@@ -263,7 +265,7 @@ claims and cloud services require their own scoped decisions. Do not infer
 
 | Risk | Response and verification |
 | --- | --- |
-| CPU-only PyTorch despite visible NVIDIA GPU | Report separate driver and compute results. Resolve a compatible CUDA-enabled torch/torchvision pair only after explicit installation authorization, then rerun actual CUDA checks |
+| CPU-only PyTorch despite visible NVIDIA GPU | Resolved in Milestone 0 through the authorized CUDA-enabled pair and real GPU execution. Recheck driver, imports and actual CUDA computation after future dependency changes |
 | Python/package/CUDA compatibility | Keep the existing venv. Verify official Windows/Python/driver/GPU support before a proposed change; never recreate the environment automatically |
 | Small/distant or hidden PPE | Preserve source resolution, crop workers, use visibility/size gates and UNKNOWN, then evaluate by size and scene |
 | No proof of missing PPE | Define supervised absence evidence and annotation rules before enabling missing-PPE violations |
@@ -275,13 +277,16 @@ claims and cloud services require their own scoped decisions. Do not infer
 | Secret exposure | `.env` references only, ignored credentials, redacted logs; the M0 script never loads `.env` |
 | Overstated accuracy/safety capability | Report measured evidence and limitations; source marketing claims remain unverified |
 
-## Milestone 0 audit and reproducible checks
+## Milestone 0 audit history and reproducible checks
 
-Audit date: 2026-09-09. The initial repository contained the seven starter files,
+### Previous state
+
+Initial audit date: 2026-09-09. The initial repository contained the seven starter files,
 the requested directories and `venv`; there was no Git repository. Requirements
 were reviewed and left unchanged: `ultralytics`, `opencv-python`,
 `python-dotenv`, `pyyaml`. PyTorch and torchvision already exist as installed
-dependencies. No installation or model download was performed.
+dependencies. No installation or model download was performed during that
+initial audit. Its CPU-only results are retained below as historical findings.
 
 | Check | Actual result |
 | --- | --- |
@@ -306,6 +311,54 @@ sandbox completed with the results above. This sandbox failure was not evidence
 of a broken ML package. The checker confines Ultralytics/matplotlib settings to
 temporary storage, disables Ultralytics online checks/automatic installation,
 suppresses raw third-party output and disables Python bytecode writes.
+
+### Resolved state
+
+Completion verification date: 2026-09-09. The user explicitly authorized
+replacing only torch and torchvision in the existing project-root venv.
+Python 3.14.5, all other installed package versions and `.env` were preserved.
+The pre-install `pip check` passed and Git status was clean. The NVIDIA driver
+reported GTX 1650, 4096 MiB VRAM, driver/KMD 610.47 and CUDA UMD 13.3.
+
+The exact Windows CPython 3.14 wheels from the official CUDA 13.0 channel were
+downloaded through `download.pytorch.org` and verified against the SHA-256
+hashes published in the official index before removing the CPU packages. This
+used the primary host because the index's alternate host had previously
+returned HTTP 403. The replacement followed uninstall then install, using the
+verified local wheels with `--no-index --no-deps --no-cache-dir --no-compile`.
+Both operations succeeded; no other dependency was installed or upgraded.
+
+| Completion check | Actual measured result |
+| --- | --- |
+| Python / interpreter | 3.14.5, 64-bit; existing `venv\Scripts\python.exe` |
+| torch | 2.14.0+cu130 |
+| torchvision | 0.29.0+cu130 |
+| `torch.version.cuda` | 13.0 |
+| `torch.cuda.is_available()` | True |
+| CUDA device count | 1 |
+| `torch.cuda.get_device_name(0)` | NVIDIA GeForce GTX 1650 |
+| GPU VRAM | 4.0 GiB / 4096 MiB |
+| Real CUDA computation | PASS: two 32x32 all-ones tensors on CUDA multiplied to a CUDA result containing 32.0 in every entry; synchronization succeeded |
+| GPU memory after matrix check | 8.13671875 MiB allocated; 22.0 MiB reserved; these are allocator readings for this small check, not a model memory benchmark |
+| torchvision CUDA operator | PASS: NMS on two identical synthetic boxes returned `[0]` on `cuda:0`; no detection model was used |
+| `scripts/check_environment.py` | GPU ENVIRONMENT READY; actual `$LASTEXITCODE` = 0 |
+| Unit tests | All 11 existing unittest tests passed unchanged |
+| `pip check` | No broken requirements found |
+| Ultralytics import | PASS; version 8.4.144; no YOLO model instantiated |
+| Installed-package comparison | Only torch and torchvision changed; torchaudio remains absent |
+| `.env` preservation | SHA-256 matches the pre-install snapshot; contents were not displayed or modified |
+
+The original CPU-only torch/torchvision state had readiness exit 2. The resolved
+state has CUDA-enabled builds and verified real CUDA execution with readiness
+exit 0. No new venv, Python downgrade, standalone CUDA Toolkit, model download
+or Milestone 1 implementation was performed.
+
+Download files and the package inventory were stored outside the repository in
+`%TEMP%\SafetyShield-cuda-recovery-2.14.0`. Ultralytics import settings were
+confined there with online checks and automatic installation disabled. The
+CUDA wheels, inventory and temporary library settings remain there; CPU
+recovery wheels were not downloaded. Nothing from this temporary directory
+or from venv belongs in the documentation commit.
 
 Run in PowerShell from the project root; activation is optional because these
 commands explicitly select the existing interpreter:
@@ -342,21 +395,18 @@ component before changing dependencies; do not dump `.env` or the environment.
 
 ### Gate before Milestone 1
 
-The laptop can import the CPU inference stack. It is **not yet ready for the
-planned GPU-backed Milestone 1** because the installed torch/torchvision builds
-are CPU-only. Do not downgrade Python or create a replacement venv based on that
-finding. After explicit authorization, verify a supported CUDA-enabled wheel
-pair for this Windows/Python/GPU/driver combination, update the existing venv
-and rerun the diagnostic, tests and `pip check`. A deliberately CPU-only first
-milestone is an alternative only if the user chooses that scope and its speed
-limits are recorded. No package-install command is prescribed before that
-compatibility check.
+The GPU environment gate is **resolved** by the completion checks above.
+Milestone 0 is complete. Milestone 1 remains unstarted and requires the next
+authorized task and a representative recorded factory MP4. GPU environment
+readiness does not establish person-detection accuracy, codec support or
+real-video throughput; those remain Milestone 1 acceptance checks.
 
-Git was initialized for this audited Milestone 0 checkpoint. The unresolved
-GPU gate remains documented when the audit is committed. Verify its commit
-with `git log -1 --oneline` and workspace state with `git status --short`.
-A representative local MP4 is also needed for Milestone 1's observable video
-test. Empty starter directories exist locally but Git does not track empty
+Git was initialized for the initial audit checkpoint `2ab28dd`, which preserves
+the former GPU blocker. The completion checkpoint contains only documentation
+updates in `PROJECT_PLAN.md`, `AGENTS.md` and `README.md`; installed packages
+remain ignored. Verify the latest commit with `git log -1 --oneline` and
+workspace state with `git status --short`.
+Empty starter directories exist locally but Git does not track empty
 directories; the environment checker will identify missing folders in a clone.
 
 What to learn: a package being installed, a package importing, a driver seeing

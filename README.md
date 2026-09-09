@@ -2,11 +2,13 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 0 - project audit and environment check.
+Current stage: Milestone 0 complete - GPU readiness verified.
 
-The existing Python environment passes package imports and a small CPU check.
-GPU readiness is blocked: PyTorch and torchvision are CPU-only builds, although
-the NVIDIA driver detects the GTX 1650. Milestone 1 has not started.
+The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
+torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,
+the environment checker returned 0, all 11 tests passed and dependencies are
+consistent. The previous CPU-only finding is preserved in the project plan.
+Milestone 1 has not started.
 
 Read [PROJECT_PLAN.md](PROJECT_PLAN.md) for scope, source requirements,
 milestones, measured audit results and troubleshooting. [AGENTS.md](AGENTS.md)
@@ -23,7 +25,8 @@ $LASTEXITCODE
 
 The checker reports Python/OS, package imports, PyTorch CUDA support and driver
 GPU details. It does not load credentials, install packages or load a model.
-Exit code 2 currently means CPU checks passed but GPU readiness is blocked;
-0 means GPU environment checks passed; 1 means prerequisite/check failure.
+The verified checker result is exit code 0: GPU environment checks passed.
+Exit 2 means CPU checks passed but GPU readiness is blocked; exit 1 means
+prerequisite/check failure.
 
 Do not recreate `venv`. Package changes require explicit authorization.
