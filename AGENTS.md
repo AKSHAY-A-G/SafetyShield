@@ -6,13 +6,14 @@
   is the business reference; explicit user instructions govern execution scope.
 - Work on one authorized milestone at a time. Do not implement unrelated or
   future modules just because the source document lists them.
-- Current checkpoint: Milestone 0 complete; GPU readiness verified. PyTorch
-  2.14.0+cu130 and torchvision 0.29.0+cu130 execute CUDA on the GTX 1650;
-  the environment checker returns 0 and all 11 unit tests pass.
-  Recheck current results rather than assuming this observation is permanent.
-- Do not start Milestone 1 until Milestone 0's readiness gate is resolved or the
-  user explicitly chooses and documents a CPU-only scope. Stop this execution
-  at Milestone 0.
+- Current checkpoint: Milestone 1 complete; selected person-detection baseline
+  is `yolo26n.pt`, `imgsz=960`, `conf=0.20`, subject to later labelled
+  evaluation. These values remain configurable and are not scientific
+  constants. PyTorch 2.14.0+cu130 and torchvision 0.29.0+cu130 execute CUDA on
+  the GTX 1650; all 16 current unit tests and `pip check` pass. Recheck current
+  results rather than assuming this observation is permanent.
+- Do not start Milestone 2 until the user explicitly authorizes it. Stop this
+  execution after closing Milestone 1.
 - Every milestone needs a purpose, necessary files only, local verification,
   observable acceptance evidence and a Git commit before advancing. Report
   blocked checks; code running without errors is not evidence of CV quality.

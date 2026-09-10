@@ -2,8 +2,8 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 1 controlled tuning experiment complete; visual
-comparison is pending user review.
+Current stage: Milestone 1 complete. The selected configurable person-detection
+baseline is `yolo26n.pt`, `imgsz=960`, confidence 0.20 on CUDA device 0.
 
 The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
 torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,
@@ -35,11 +35,11 @@ prerequisite/check failure.
 Run Milestone 1 from the project root:
 
 ```powershell
-.\venv\Scripts\python.exe -B scripts\run_person_detection.py --input data\raw_videos\cam_good_test.mp4
+.\venv\Scripts\python.exe -B scripts\run_person_detection.py --input data\raw_videos\cam_good_test.mp4 --imgsz 960 --confidence 0.20
 ```
 
-The input must be a readable local MP4. The command uses CUDA device 0,
-`imgsz=640` and a configurable starting confidence threshold of 0.25. It writes
+The input must be a readable local MP4. The command uses CUDA device 0 and the
+selected configurable `imgsz=960`, confidence 0.20 settings. It writes
 `outputs\cam_good_test_person_detected.mp4`, reports measured processing FPS and
 PyTorch peak allocated GPU memory, then reopens the output to check its frame
 size and readability. A missing input, invalid FPS, unavailable CUDA device or
@@ -59,5 +59,11 @@ videos, run:
 
 This writes ignored, side-by-side PNGs from matching frame indices. They are for
 manual comparison only and do not measure detection accuracy.
+
+Manual review of the five comparisons accepted 960/0.20 as the Milestone 1
+prototype baseline because it recovered additional valid medium/distant workers
+without an obvious false-positive problem in those samples. This is not a
+labelled accuracy benchmark; formal precision, recall and mAP evaluation remains
+for Milestone 12. The settings are configurable rather than scientific constants.
 
 Do not recreate `venv`. Package changes require explicit authorization.

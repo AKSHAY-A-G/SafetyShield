@@ -6,14 +6,16 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 1 controlled tuning experiment complete; visual
-comparison is pending user review.**
+Current stage: **Milestone 1 complete.** The selected configurable person
+detection baseline is `yolo26n.pt`, `imgsz=960`, confidence 0.20 on CUDA device
+0. Milestone 2 has not started.
 The existing Python 3.14.5 environment now uses CUDA-enabled PyTorch and
 torchvision. Actual CUDA matrix computation, the environment checker (exit 0),
 all Milestone 0 unit tests, dependency consistency and Ultralytics import
-passed. Milestone 1 has now measured real CUDA person inference and recorded
-video throughput. Detection quality has not been accepted and no model
-training has been performed.
+passed. Milestone 1 measured real CUDA person inference and recorded-video
+throughput, followed by manual prototype visual comparison. Formal labelled
+accuracy evaluation remains deferred to Milestone 12, and no model training has
+been performed.
 
 ## Source requirements and authority
 
@@ -220,7 +222,7 @@ Unresolved gates must be reported honestly.
 | Milestone | Deliverable | Observable acceptance check |
 | --- | --- | --- |
 | 0 - Audit/environment | Source mapping, this plan, AGENTS instructions and diagnostic script; authorized CUDA package replacement | COMPLETE: existing venv retained; only torch/torchvision replaced; actual CUDA matrix computation passes; checker exit 0, all 11 tests, pip check and Ultralytics import pass |
-| 1 - Recorded video/person detection | OpenCV reader, one nano detector, person boxes/confidence/FPS and saved output | AUTOMATED COMPLETE: supplied MP4 processed on CUDA, output reopened with matching dimensions/frame count and throughput measured. Visual quality PENDING USER REVIEW. No PPE/RTSP/tracking/database/dashboard |
+| 1 - Recorded video/person detection | OpenCV reader, one nano detector, person boxes/confidence/FPS and saved output | **COMPLETE:** supplied MP4 processed on CUDA; output reopened with matching dimensions/frame count; throughput measured; controlled 640/0.25 versus 960/0.20 comparison manually accepted for the prototype. Formal labelled accuracy evaluation remains in Milestone 12. No PPE/RTSP/tracking/database/dashboard |
 | 2 - Tracking | ByteTrack and temporary ID overlay | Inspect an annotated clip for stable IDs on continuously visible workers; measure/report losses and switches; no employee/cross-camera identity claim |
 | 3 - PPE training workspace | Interval extraction, dataset/PPE YAML, train/validate/predict utilities | Verify extraction times, group-disjoint splits and labels; complete a small authorized training/validation run with a loadable checkpoint and recorded memory use |
 | 4 - PPE inference | Original-resolution crops, person size, helmet/vest observations and three states | Inspect labelled near/medium/far crops and overlays; verify PRESENT/UNKNOWN and evidence-supported MISSING; small/occluded observations must become UNKNOWN |
@@ -399,10 +401,11 @@ component before changing dependencies; do not dump `.env` or the environment.
 ### Gate before Milestone 1
 
 The GPU environment gate is **resolved** by the completion checks above.
-Milestone 0 is complete. Milestone 1 remains unstarted and requires the next
-authorized task and a representative recorded factory MP4. GPU environment
-readiness does not establish person-detection accuracy, codec support or
-real-video throughput; those remain Milestone 1 acceptance checks.
+Milestone 0 is complete. At this historical checkpoint, Milestone 1 had not yet
+started and still required authorization plus a representative recorded factory
+MP4; it was later completed as documented below. GPU environment readiness by
+itself did not establish person-detection accuracy, codec support or real-video
+throughput.
 
 Git was initialized for the initial audit checkpoint `2ab28dd`, which preserves
 the former GPU blocker. The completion checkpoint contains only documentation
@@ -439,7 +442,7 @@ starting point, not an optimized or scientifically validated value.
 | Output reopen | PASS: opened, readable first frame, 1612x904, 30.0 FPS, 2,965 frames; dimensions match input |
 | Automated tests | PASS: all 15 unit tests (11 existing plus 4 Milestone 1 tests) |
 | Dependency consistency | PASS: `pip check` reported no broken requirements |
-| Visual acceptance | **PENDING USER REVIEW** |
+| Initial visual review | Close workers detected well; some medium/distant workers missed, leading to the controlled tuning experiment below |
 
 The reader validates file existence, OpenCV opening, dimensions and FPS; exposes
 frame count/duration; distinguishes expected end-of-file from an early decode
@@ -502,8 +505,8 @@ Compared with A, B recorded 3,325 more accepted detections (125.7% more),
 2.137 fewer end-to-end FPS (9.4% lower), 13.466 seconds more processing time,
 0.929 ms/frame more reported inference time and 32.634 MiB more peak PyTorch
 allocated memory. More detections do not establish better quality because they
-may include false positives. Detection-quality comparison remains **PENDING
-USER VISUAL REVIEW**.
+may include false positives. Detection-quality comparison was subsequently
+accepted through the scoped manual review recorded below.
 
 `scripts/extract_detection_comparisons.py` maps timestamps to frame indices
 using the shared 30 FPS metadata, reads that same index from both outputs and
@@ -521,9 +524,41 @@ accuracy benchmark. Matching comparisons were generated at 10, 30, 50, 70 and
 ```
 
 All 16 unit tests passed after adding the timestamp/frame-index check, and
-`pip check` reported no broken requirements. Do not select a final configuration
-until the user reviews both videos and the matched images for added true
-detections, false positives and box alignment. Milestone 2 has not started.
+`pip check` reported no broken requirements.
+
+### Milestone 1 manual visual acceptance and selected baseline
+
+The user manually reviewed the matching 10, 30, 50, 70 and 80 second comparison
+images. Configuration B (`yolo26n.pt`, `imgsz=960`, confidence 0.20) was selected
+as the Milestone 1 baseline because it substantially improved prototype visual
+detection of medium and distant workers in those samples:
+
+- at 10 seconds, B recovered a distant worker missed by A;
+- at 30 seconds, B recovered visible foreground and distant workers missed by A;
+- at 50 seconds, both detected the main worker and B recovered a distant worker;
+- at 70 seconds, B recovered additional valid visible workers; and
+- at 80 seconds, A detected one nearby worker while B detected both nearby
+  workers and an additional distant worker.
+
+No obvious false-positive problem was observed in these five comparison frames.
+This is a manual prototype visual evaluation, not a labelled benchmark. It does
+not establish precision, recall, mAP or accuracy. Formal labelled accuracy
+evaluation remains required in Milestone 12.
+
+| Selected setting/result | Milestone 1 value |
+| --- | --- |
+| Checkpoint | `yolo26n.pt` |
+| Person inference size | 960 |
+| Person confidence threshold | 0.20 |
+| Device | CUDA device 0, NVIDIA GeForce GTX 1650 4 GB |
+| Measured tuning run | 2,965 frames; 5,970 accepted detections; 20.648 end-to-end FPS; 17.998 ms/frame reported inference; 98.711 MiB peak PyTorch allocation |
+| Output resolution | 1612x904 |
+| Status | **MILESTONE 1 COMPLETE** |
+
+The selected inference size and confidence remain configurable prototype
+defaults, not permanent scientific constants. The measured runtime values are
+specific to this run and are not production guarantees. Milestone 2 has not
+started and requires separate authorization.
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)

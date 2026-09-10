@@ -47,8 +47,8 @@ class PersonDetector:
     def __init__(
         self,
         checkpoint: str | Path = "yolo26n.pt",
-        confidence_threshold: float = 0.25,
-        image_size: int = 640,
+        confidence_threshold: float = 0.20,
+        image_size: int = 960,
         device: int = 0,
     ) -> None:
         if not 0.0 <= confidence_threshold <= 1.0:

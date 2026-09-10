@@ -115,8 +115,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--input", required=True, type=Path)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--checkpoint", default="yolo26n.pt")
-    parser.add_argument("--confidence", type=float, default=0.25)
-    parser.add_argument("--imgsz", type=int, default=640)
+    parser.add_argument("--confidence", type=float, default=0.20)
+    parser.add_argument("--imgsz", type=int, default=960)
     parser.add_argument("--device", type=int, default=0)
     return parser.parse_args()
 
