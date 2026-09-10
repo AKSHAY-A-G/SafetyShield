@@ -16,6 +16,12 @@ PROJECT_ROOT = SCRIPT.parents[1]
 SPEC = importlib.util.spec_from_file_location("run_person_detection", SCRIPT)
 run = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(run)
+COMPARISON_SCRIPT = PROJECT_ROOT / "scripts" / "extract_detection_comparisons.py"
+COMPARISON_SPEC = importlib.util.spec_from_file_location(
+    "extract_detection_comparisons", COMPARISON_SCRIPT
+)
+comparison = importlib.util.module_from_spec(COMPARISON_SPEC)
+COMPARISON_SPEC.loader.exec_module(comparison)
 
 
 class VideoReaderTests(unittest.TestCase):
@@ -66,6 +72,12 @@ class OutputTests(unittest.TestCase):
                 self.assertTrue(output.parent.is_dir())
             finally:
                 writer.release()
+
+    def test_comparison_timestamp_uses_matching_frame_index(self):
+        self.assertEqual(comparison.timestamp_to_frame_index(10.0, 30.0), 300)
+        self.assertEqual(comparison.timestamp_to_frame_index(1.25, 24.0), 30)
+        with self.assertRaises(ValueError):
+            comparison.timestamp_to_frame_index(-1.0, 30.0)
 
 
 if __name__ == "__main__":

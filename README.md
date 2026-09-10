@@ -2,8 +2,8 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 1 automated checks complete; visual acceptance is
-pending user review.
+Current stage: Milestone 1 controlled tuning experiment complete; visual
+comparison is pending user review.
 
 The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
 torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,
@@ -45,5 +45,19 @@ PyTorch peak allocated GPU memory, then reopens the output to check its frame
 size and readability. A missing input, invalid FPS, unavailable CUDA device or
 unsupported output codec is reported as an error. Generated videos and model
 weights are ignored by Git.
+
+To reproduce the matched-frame comparison after generating the two experiment
+videos, run:
+
+```powershell
+.\venv\Scripts\python.exe -B scripts\extract_detection_comparisons.py `
+  --baseline outputs\person_detection_640_conf025.mp4 `
+  --higher outputs\person_detection_960_conf020.mp4 `
+  --output-dir outputs\comparison `
+  --timestamps 10 30 50 70 80
+```
+
+This writes ignored, side-by-side PNGs from matching frame indices. They are for
+manual comparison only and do not measure detection accuracy.
 
 Do not recreate `venv`. Package changes require explicit authorization.

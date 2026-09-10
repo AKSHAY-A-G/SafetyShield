@@ -6,8 +6,8 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 1 automated checks complete; visual acceptance is
-pending user review.**
+Current stage: **Milestone 1 controlled tuning experiment complete; visual
+comparison is pending user review.**
 The existing Python 3.14.5 environment now uses CUDA-enabled PyTorch and
 torchvision. Actual CUDA matrix computation, the environment checker (exit 0),
 all Milestone 0 unit tests, dependency consistency and Ultralytics import
@@ -476,6 +476,54 @@ Do not infer accuracy from the successful run or the detection count. The user
 must inspect close, medium, distant, moving and partially hidden workers; false
 detections and missed obvious people; bounding-box alignment; confidence labels;
 and playback quality. Stop at Milestone 1 and wait for that review.
+
+### Controlled detection tuning experiment
+
+Experiment date: 2026-09-10. Manual review of the first Milestone 1 output found
+good close-worker detection but missed some medium/distant workers. The same
+input and `yolo26n.pt` checkpoint were therefore run twice to isolate the
+combined effect of inference size and confidence threshold. The original
+`outputs/cam_good_test_person_detected.mp4` was preserved.
+
+| Check | A: baseline | B: higher resolution/lower confidence |
+| --- | --- | --- |
+| Model / device | `yolo26n.pt`; CUDA 0, GTX 1650 | `yolo26n.pt`; CUDA 0, GTX 1650 |
+| Inference size / confidence | 640 / 0.25 | 960 / 0.20 |
+| Frames processed | 2,965 | 2,965 |
+| Accepted person detections | 2,645 | 5,970 |
+| Processing time | 130.130 seconds | 143.596 seconds |
+| Average end-to-end FPS | 22.785 | 20.648 |
+| Ultralytics-reported inference time | 17.069 ms/frame | 17.998 ms/frame |
+| Peak PyTorch allocated GPU memory | 66.077 MiB | 98.711 MiB |
+| Output video | `outputs/person_detection_640_conf025.mp4` | `outputs/person_detection_960_conf020.mp4` |
+| Output reopen | PASS: 1612x904, 30 FPS, 2,965 frames, readable frame | PASS: 1612x904, 30 FPS, 2,965 frames, readable frame |
+
+Compared with A, B recorded 3,325 more accepted detections (125.7% more),
+2.137 fewer end-to-end FPS (9.4% lower), 13.466 seconds more processing time,
+0.929 ms/frame more reported inference time and 32.634 MiB more peak PyTorch
+allocated memory. More detections do not establish better quality because they
+may include false positives. Detection-quality comparison remains **PENDING
+USER VISUAL REVIEW**.
+
+`scripts/extract_detection_comparisons.py` maps timestamps to frame indices
+using the shared 30 FPS metadata, reads that same index from both outputs and
+writes full-resolution side-by-side PNGs without using them as an automatic
+accuracy benchmark. Matching comparisons were generated at 10, 30, 50, 70 and
+80 seconds (frames 300, 900, 1500, 2100 and 2400) under
+`outputs/comparison/`. The output directory remains ignored by Git.
+
+```powershell
+.\venv\Scripts\python.exe -B scripts\extract_detection_comparisons.py `
+  --baseline outputs\person_detection_640_conf025.mp4 `
+  --higher outputs\person_detection_960_conf020.mp4 `
+  --output-dir outputs\comparison `
+  --timestamps 10 30 50 70 80
+```
+
+All 16 unit tests passed after adding the timestamp/frame-index check, and
+`pip check` reported no broken requirements. Do not select a final configuration
+until the user reviews both videos and the matched images for added true
+detections, false positives and box alignment. Milestone 2 has not started.
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)
