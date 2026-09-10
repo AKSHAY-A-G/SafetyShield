@@ -6,10 +6,10 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 2 ByteTrack tuning candidate completed; tracking
-visual acceptance is pending user A/B review.** The initial manual review found
-apparent track fragmentation. The selected configurable person detector remains
-`yolo26n.pt`, `imgsz=960`, confidence 0.20 on CUDA device 0.
+Current stage: **Milestone 2 COMPLETE after manual prototype visual acceptance.**
+The selected configurable person detector remains `yolo26n.pt`, `imgsz=960`,
+confidence 0.20 on CUDA device 0. Selected configurable ByteTrack defaults are
+high 0.20, low 0.10, new 0.20, buffer 45, match 0.80 and score fusion enabled.
 The existing Python 3.14.5 environment now uses CUDA-enabled PyTorch and
 torchvision. Actual CUDA matrix computation, the environment checker (exit 0),
 all Milestone 0 unit tests, dependency consistency and Ultralytics import
@@ -224,7 +224,7 @@ Unresolved gates must be reported honestly.
 | --- | --- | --- |
 | 0 - Audit/environment | Source mapping, this plan, AGENTS instructions and diagnostic script; authorized CUDA package replacement | COMPLETE: existing venv retained; only torch/torchvision replaced; actual CUDA matrix computation passes; checker exit 0, all 11 tests, pip check and Ultralytics import pass |
 | 1 - Recorded video/person detection | OpenCV reader, one nano detector, person boxes/confidence/FPS and saved output | **COMPLETE:** supplied MP4 processed on CUDA; output reopened with matching dimensions/frame count; throughput measured; controlled 640/0.25 versus 960/0.20 comparison manually accepted for the prototype. Formal labelled accuracy evaluation remains in Milestone 12. No PPE/RTSP/tracking/database/dashboard |
-| 2 - Tracking | ByteTrack and temporary ID overlay | NEEDS TUNING: initial manual review found apparent fragmentation. Candidate B completed the full clip and matching A/B sheets were generated; continuity, occlusion and swap quality remain PENDING USER REVIEW. No employee/cross-camera identity claim |
+| 2 - Tracking | ByteTrack and temporary ID overlay | **COMPLETE:** Candidate B completed the full clip and was manually accepted from matched A/B contact sheets. This is prototype visual acceptance, not labelled tracking evaluation; no employee/cross-camera identity claim |
 | 3 - PPE training workspace | Interval extraction, dataset/PPE YAML, train/validate/predict utilities | Verify extraction times, group-disjoint splits and labels; complete a small authorized training/validation run with a loadable checkpoint and recorded memory use |
 | 4 - PPE inference | Original-resolution crops, person size, helmet/vest observations and three states | Inspect labelled near/medium/far crops and overlays; verify PRESENT/UNKNOWN and evidence-supported MISSING; small/occluded observations must become UNKNOWN |
 | 5 - Temporal state/events | Recent per-track history, configurable voting and suspected PPE events | Replay present/present/unknown/present and get no violation; sustained valid missing evidence yields one event per episode; verify expiry and independent tracks |
@@ -587,7 +587,7 @@ checker returned 0 and `pip check` reported no broken requirements.
 | Output reopen | PASS: opened, readable first frame, 1612x904, 30 FPS, 2,965 frames; dimensions match input |
 | Review samples | 10, 30, 50, 70 and 80 seconds under `outputs/tracking_samples/` |
 | Automated tests | PASS: all 23 unit tests; mocked/synthetic tests do not prove real tracking quality |
-| Visual tracking acceptance | **PENDING USER REVIEW** |
+| Initial visual tracking review | **NEEDS TUNING:** apparent fragmentation motivated the controlled experiment below |
 
 `src/tracking/person_tracker.py` owns ByteTrack configuration and conversion
 from person detections to `TrackedPerson` observations. Each observation carries
@@ -665,11 +665,33 @@ reconfirmed torch 2.14.0+cu130, torchvision 0.29.0+cu130, CUDA build 13.0 and
 CUDA execution on the NVIDIA GeForce GTX 1650. No package was installed or
 changed.
 
-**TRACKING VISUAL ACCEPTANCE: PENDING USER REVIEW.** A lower temporary-ID count
-must not be treated as proof that B is better; inspect the A/B sheets for actual
-ID continuity, fragmentation, occlusion recovery and swaps before selecting a
-configuration. Do not start Milestone 3 without that review and explicit user
-authorization.
+### Milestone 2 manual visual acceptance and selected baseline
+
+The user manually reviewed the A/B contact sheets for 5-15, 25-35 and 75-85
+seconds, sampled at approximately 0.5-second intervals. Bounding boxes were
+generally aligned; continuously visible people had acceptable temporary-track
+continuity for the prototype; distant people were tracked when usable person
+detections existed; and multiple nearby people showed no obvious ID swap in the
+reviewed samples. No obvious persistent false-track problem or meaningful visual
+regression from A was observed.
+
+Candidate B is therefore the selected Milestone 2 prototype configuration:
+Ultralytics ByteTrack with high 0.20, low 0.10, new 0.20, buffer 45, match 0.80
+and score fusion enabled. The detector remains `yolo26n.pt`, `imgsz=960`,
+confidence 0.20, person class only on CUDA device 0. These are configurable
+prototype defaults, not permanent scientific constants.
+
+This was sampled manual prototype review, not labelled tracking ground truth.
+It establishes no IDF1, MOTA, HOTA, ID-switch rate or tracking-accuracy
+percentage. Formal labelled tracking evaluation remains future evaluation work,
+and 54 temporary IDs must not be interpreted as 54 unique people.
+
+Closure verification passed all 27 unit tests and `pip check`. The environment
+checker returned 0 and reconfirmed CUDA execution on the GTX 1650 with torch
+2.14.0+cu130, torchvision 0.29.0+cu130 and PyTorch CUDA build 13.0 unchanged.
+
+**MILESTONE 2 STATUS: COMPLETE.** Do not start Milestone 3 until it is explicitly
+authorized.
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)

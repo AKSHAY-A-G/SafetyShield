@@ -12,6 +12,15 @@ def detection(x1=10, y1=10, x2=30, y2=50, confidence=0.90):
 
 
 class PersonTrackerTests(unittest.TestCase):
+    def test_selected_prototype_defaults(self):
+        config = ByteTrackConfig()
+        self.assertEqual(config.track_high_thresh, 0.20)
+        self.assertEqual(config.track_low_thresh, 0.10)
+        self.assertEqual(config.new_track_thresh, 0.20)
+        self.assertEqual(config.track_buffer, 45)
+        self.assertEqual(config.match_thresh, 0.80)
+        self.assertTrue(config.fuse_score)
+
     def test_tracker_initializes_and_empty_frames_do_not_crash(self):
         tracker = PersonTracker("camera-a", "session-a")
         self.assertEqual(

@@ -18,10 +18,10 @@ from src.detection.person_detector import PERSON_CLASS_ID, PersonDetection
 class ByteTrackConfig:
     """Conservative Ultralytics ByteTrack defaults, kept configurable."""
 
-    track_high_thresh: float = 0.25
+    track_high_thresh: float = 0.20
     track_low_thresh: float = 0.10
-    new_track_thresh: float = 0.25
-    track_buffer: int = 30
+    new_track_thresh: float = 0.20
+    track_buffer: int = 45
     match_thresh: float = 0.80
     fuse_score: bool = True
 
