@@ -4,6 +4,9 @@ venv/
 __pycache__/
 *.pyc
 data/raw_videos/
+outputs/
 evidence/
+models/
 models/*.pt
+*.pt
 *.db

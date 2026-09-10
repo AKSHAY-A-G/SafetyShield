@@ -6,12 +6,14 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 0 complete; GPU readiness gate resolved.**
+Current stage: **Milestone 1 automated checks complete; visual acceptance is
+pending user review.**
 The existing Python 3.14.5 environment now uses CUDA-enabled PyTorch and
 torchvision. Actual CUDA matrix computation, the environment checker (exit 0),
-all 11 unit tests, dependency consistency and Ultralytics import passed.
-Milestone 1 has not started. No model inference, training, model accuracy or
-video processing performance has been measured.
+all Milestone 0 unit tests, dependency consistency and Ultralytics import
+passed. Milestone 1 has now measured real CUDA person inference and recorded
+video throughput. Detection quality has not been accepted and no model
+training has been performed.
 
 ## Source requirements and authority
 
@@ -210,14 +212,15 @@ test set. Nightly automatic retraining is outside the MVP.
 
 ## Development milestones and completion criteria
 
-Only Milestone 0 is authorized for this execution. Each later milestone needs
-its necessary files, local checks, observed acceptance evidence, documentation
-and a Git commit before proceeding. Unresolved gates must be reported honestly.
+Milestone 1 was explicitly authorized after Milestone 0 completed. Each later
+milestone needs separate authorization, its necessary files, local checks,
+observed acceptance evidence, documentation and a Git commit before proceeding.
+Unresolved gates must be reported honestly.
 
 | Milestone | Deliverable | Observable acceptance check |
 | --- | --- | --- |
 | 0 - Audit/environment | Source mapping, this plan, AGENTS instructions and diagnostic script; authorized CUDA package replacement | COMPLETE: existing venv retained; only torch/torchvision replaced; actual CUDA matrix computation passes; checker exit 0, all 11 tests, pip check and Ultralytics import pass |
-| 1 - Recorded video/person detection | OpenCV reader, one nano detector, person boxes/confidence/FPS and saved output | Process a supplied local MP4; reopen saved output and visually verify boxes, frame dimensions, end-of-file handling and measured throughput. No PPE/RTSP/tracking/database/dashboard |
+| 1 - Recorded video/person detection | OpenCV reader, one nano detector, person boxes/confidence/FPS and saved output | AUTOMATED COMPLETE: supplied MP4 processed on CUDA, output reopened with matching dimensions/frame count and throughput measured. Visual quality PENDING USER REVIEW. No PPE/RTSP/tracking/database/dashboard |
 | 2 - Tracking | ByteTrack and temporary ID overlay | Inspect an annotated clip for stable IDs on continuously visible workers; measure/report losses and switches; no employee/cross-camera identity claim |
 | 3 - PPE training workspace | Interval extraction, dataset/PPE YAML, train/validate/predict utilities | Verify extraction times, group-disjoint splits and labels; complete a small authorized training/validation run with a loadable checkpoint and recorded memory use |
 | 4 - PPE inference | Original-resolution crops, person size, helmet/vest observations and three states | Inspect labelled near/medium/far crops and overlays; verify PRESENT/UNKNOWN and evidence-supported MISSING; small/occluded observations must become UNKNOWN |
@@ -412,6 +415,67 @@ directories; the environment checker will identify missing folders in a clone.
 What to learn: a package being installed, a package importing, a driver seeing
 the GPU and PyTorch executing GPU calculations are separate checks. A passing
 environment audit does not establish detection quality.
+
+## Milestone 1 recorded-video person detection
+
+Automated acceptance run date: 2026-09-10. The official COCO-pretrained
+`yolo26n.pt` nano detection checkpoint was selected because it is the current
+lightweight Ultralytics detection variant and fits the laptop's 4 GB VRAM
+constraint better than larger variants. The threshold below is a configurable
+starting point, not an optimized or scientifically validated value.
+
+| Check | Actual observed result |
+| --- | --- |
+| Input video | `data/raw_videos/cam_good_test.mp4` |
+| Source metadata | 1612x904; 30.000 FPS; 2,965 frames; approximately 98.833 seconds |
+| Model | Ultralytics YOLO26 nano detection, checkpoint `yolo26n.pt` |
+| Inference configuration | `imgsz=640`; confidence 0.25; person class 0 only; CUDA device 0 |
+| CUDA device | NVIDIA GeForce GTX 1650; CUDA used for the real run |
+| Processing | 2,965 frames in 141.261 seconds; 20.989 average end-to-end FPS |
+| Model timing | 17.923 ms/frame average inference time reported by Ultralytics |
+| Accepted detections | 2,645 person detections across the clip; this is not an accuracy measurement |
+| GPU allocation | 58.401 MiB peak allocated according to `torch.cuda.max_memory_allocated()`; not total system GPU usage |
+| Output | `outputs/cam_good_test_person_detected.mp4` |
+| Output reopen | PASS: opened, readable first frame, 1612x904, 30.0 FPS, 2,965 frames; dimensions match input |
+| Automated tests | PASS: all 15 unit tests (11 existing plus 4 Milestone 1 tests) |
+| Dependency consistency | PASS: `pip check` reported no broken requirements |
+| Visual acceptance | **PENDING USER REVIEW** |
+
+The reader validates file existence, OpenCV opening, dimensions and FPS; exposes
+frame count/duration; distinguishes expected end-of-file from an early decode
+failure when frame count metadata is available; and releases the capture. The
+detector loads one checkpoint, requires CUDA, restricts inference to COCO person
+class 0 and returns original-frame clipped coordinates. The runner draws small
+labels, writes at the original size, records actual processing measurements and
+reopens the generated MP4.
+
+Run from PowerShell in the project root:
+
+```powershell
+.\venv\Scripts\python.exe -B scripts\run_person_detection.py --input data\raw_videos\cam_good_test.mp4
+.\venv\Scripts\python.exe -B -m unittest discover -s tests -v
+.\venv\Scripts\python.exe -B -m pip check
+```
+
+| File | Purpose, input and output |
+| --- | --- |
+| `src/camera/video_reader.py` | Local MP4 path to validated metadata and original-resolution decoded frames |
+| `src/detection/person_detector.py` | Original BGR frame plus model settings to clipped person detections |
+| `scripts/run_person_detection.py` | Input video and detections to labelled output MP4, timings, memory reading and reopen check |
+| `tests/test_person_detection.py` | Synthetic video/structures to reader, clipping and output-directory checks; it does not test detection accuracy |
+
+Common errors: a missing input means the supplied MP4 is not at the requested
+path; an invalid FPS or dimension indicates unusable video metadata; an early
+decode error may indicate a corrupt/truncated clip or codec problem; a CUDA
+error means device 0 must be diagnosed rather than silently using CPU; output
+writer failure may mean the output directory is unwritable or the MP4 codec is
+unavailable. Model download is only needed when the ignored checkpoint is not
+already local.
+
+Do not infer accuracy from the successful run or the detection count. The user
+must inspect close, medium, distant, moving and partially hidden workers; false
+detections and missed obvious people; bounding-box alignment; confidence labels;
+and playback quality. Stop at Milestone 1 and wait for that review.
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)

@@ -1,0 +1,1 @@
+"""Detection abstractions for SafetyShield."""
