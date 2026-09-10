@@ -6,9 +6,10 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 2 automated checks complete; tracking visual
-acceptance is pending user review.** The selected configurable person detector
-remains `yolo26n.pt`, `imgsz=960`, confidence 0.20 on CUDA device 0.
+Current stage: **Milestone 2 ByteTrack tuning candidate completed; tracking
+visual acceptance is pending user A/B review.** The initial manual review found
+apparent track fragmentation. The selected configurable person detector remains
+`yolo26n.pt`, `imgsz=960`, confidence 0.20 on CUDA device 0.
 The existing Python 3.14.5 environment now uses CUDA-enabled PyTorch and
 torchvision. Actual CUDA matrix computation, the environment checker (exit 0),
 all Milestone 0 unit tests, dependency consistency and Ultralytics import
@@ -223,7 +224,7 @@ Unresolved gates must be reported honestly.
 | --- | --- | --- |
 | 0 - Audit/environment | Source mapping, this plan, AGENTS instructions and diagnostic script; authorized CUDA package replacement | COMPLETE: existing venv retained; only torch/torchvision replaced; actual CUDA matrix computation passes; checker exit 0, all 11 tests, pip check and Ultralytics import pass |
 | 1 - Recorded video/person detection | OpenCV reader, one nano detector, person boxes/confidence/FPS and saved output | **COMPLETE:** supplied MP4 processed on CUDA; output reopened with matching dimensions/frame count; throughput measured; controlled 640/0.25 versus 960/0.20 comparison manually accepted for the prototype. Formal labelled accuracy evaluation remains in Milestone 12. No PPE/RTSP/tracking/database/dashboard |
-| 2 - Tracking | ByteTrack and temporary ID overlay | AUTOMATED COMPLETE: entire clip processed on CUDA, temporary camera/session-local IDs rendered, output reopened, runtime measured, and tests passed. Stable-ID, occlusion and swap quality PENDING USER REVIEW; no employee/cross-camera identity claim |
+| 2 - Tracking | ByteTrack and temporary ID overlay | NEEDS TUNING: initial manual review found apparent fragmentation. Candidate B completed the full clip and matching A/B sheets were generated; continuity, occlusion and swap quality remain PENDING USER REVIEW. No employee/cross-camera identity claim |
 | 3 - PPE training workspace | Interval extraction, dataset/PPE YAML, train/validate/predict utilities | Verify extraction times, group-disjoint splits and labels; complete a small authorized training/validation run with a loadable checkpoint and recorded memory use |
 | 4 - PPE inference | Original-resolution crops, person size, helmet/vest observations and three states | Inspect labelled near/medium/far crops and overlays; verify PRESENT/UNKNOWN and evidence-supported MISSING; small/occluded observations must become UNKNOWN |
 | 5 - Temporal state/events | Recent per-track history, configurable voting and suspected PPE events | Replay present/present/unknown/present and get no violation; sustained valid missing evidence yields one event per episode; verify expiry and independent tracks |
@@ -613,6 +614,62 @@ partial-occlusion recovery, swaps when people pass, distant-worker tracking,
 persistent false detections, box alignment and the observed performance impact.
 Do not start Milestone 3 until this visual review is complete and the next
 milestone is explicitly authorized.
+
+### Controlled ByteTrack tuning experiment
+
+Experiment date: 2026-09-10. Initial manual review found generally aligned
+boxes, separate temporary tracks for multiple people and tracking of distant
+workers when detections were available, but also apparent fragmentation during
+intermittent detections and occlusion. This is a manual prototype observation,
+not a labelled tracking benchmark. No IDF1, MOTA, HOTA or ID-switch rate is
+claimed.
+
+The candidate aligns ByteTrack's high and new-track thresholds with the selected
+0.20 detector confidence floor and experimentally extends retention from 30
+frames (about 1.0 second at 30 FPS) to 45 frames (about 1.5 seconds). All other
+detector and tracker settings remain identical. These tracker values are
+configurable experiment settings, not validated constants.
+
+| Check | A: baseline | B: candidate |
+| --- | --- | --- |
+| Detector | `yolo26n.pt`; `imgsz=960`; confidence 0.20; person only; CUDA 0 | Same |
+| ByteTrack high / low / new threshold | 0.25 / 0.10 / 0.25 | 0.20 / 0.10 / 0.20 |
+| Buffer / match / score fusion | 30 / 0.80 / enabled | 45 / 0.80 / enabled |
+| Frames | 2,965 | 2,965 |
+| Processing time | 147.724 seconds | 140.838 seconds |
+| Average end-to-end FPS | 20.071 | 21.053 |
+| Peak PyTorch allocated GPU memory | 98.711 MiB | 98.711 MiB |
+| Temporary track IDs generated | 57 | 54 |
+| Maximum simultaneous active tracks | 5 | 5 |
+| Output | `outputs/cam_good_test_tracked.mp4` | `outputs/cam_good_test_tracked_candidate_b.mp4` |
+| Output reopen | PASS: 1612x904, 30 FPS, 2,965 frames | PASS: 1612x904, 30 FPS, 2,965 frames, readable first frame |
+
+The candidate produced three fewer temporary IDs, but that diagnostic does not
+prove better continuity and is not a unique-person count. Run-to-run throughput
+differences are measured values, not production guarantees. No optional
+track-lifetime heuristic was added because rendered tracker output alone cannot
+establish when two IDs belong to the same real person.
+
+`scripts/extract_tracking_comparisons.py` reads the preserved baseline and
+candidate annotated videos without rerunning detection or tracking. It creates
+six ignored 6448x4740 JPEG sheets under
+`outputs/tracking_tuning/comparison_sheets/`: two sheets per 10-second interval
+for 5-15, 25-35 and 75-85 seconds. Each sheet preserves full-resolution video
+tiles and labels A/B, absolute timestamp and frame index for ten matching
+0.5-second samples.
+
+All 26 unit tests passed outside the restrictive sandbox after the sandboxed
+run encountered its known temporary-file permission limitation. `pip check`
+reported no broken requirements. The environment checker returned 0 and
+reconfirmed torch 2.14.0+cu130, torchvision 0.29.0+cu130, CUDA build 13.0 and
+CUDA execution on the NVIDIA GeForce GTX 1650. No package was installed or
+changed.
+
+**TRACKING VISUAL ACCEPTANCE: PENDING USER REVIEW.** A lower temporary-ID count
+must not be treated as proof that B is better; inspect the A/B sheets for actual
+ID continuity, fragmentation, occlusion recovery and swaps before selecting a
+configuration. Do not start Milestone 3 without that review and explicit user
+authorization.
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)

@@ -6,12 +6,14 @@
   is the business reference; explicit user instructions govern execution scope.
 - Work on one authorized milestone at a time. Do not implement unrelated or
   future modules just because the source document lists them.
-- Current checkpoint: Milestone 2 automated tracking checks complete; visual
-  tracking acceptance is pending. The selected detector remains `yolo26n.pt`,
-  `imgsz=960`, `conf=0.20`; ByteTrack uses the recorded configurable defaults.
-  PyTorch 2.14.0+cu130 and torchvision 0.29.0+cu130 execute CUDA on the GTX 1650;
-  all 23 current unit tests and `pip check` pass. Recheck current results rather
-  than assuming this observation is permanent.
+- Current checkpoint: Milestone 2 automated tracking works, but initial manual
+  review found apparent track fragmentation. A controlled ByteTrack candidate
+  (`high=0.20`, `new=0.20`, buffer 45) has completed automated checks and awaits
+  manual A/B review against the 0.25/0.25/buffer-30 baseline. The detector stays
+  `yolo26n.pt`, `imgsz=960`, `conf=0.20`. PyTorch 2.14.0+cu130 and torchvision
+  0.29.0+cu130 execute CUDA on the GTX 1650; all 26 current unit tests and
+  `pip check` pass. Recheck current results rather than assuming this observation
+  is permanent.
 - Do not start Milestone 3 until Milestone 2 tracking quality is manually
   reviewed and the user explicitly authorizes the next milestone.
 - Every milestone needs a purpose, necessary files only, local verification,

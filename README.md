@@ -2,8 +2,8 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 2 automated tracking checks complete; visual tracking
-acceptance is pending user review.
+Current stage: Milestone 2 ByteTrack tuning candidate completed; tracking visual
+acceptance is pending user A/B review. Do not start Milestone 3 yet.
 
 The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
 torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,
@@ -79,5 +79,22 @@ camera/session; they are not employee IDs or cross-camera identities. The run
 reports throughput, PyTorch peak allocated GPU memory, temporary IDs appearing
 in output and maximum simultaneous tracks. Visual review is required to assess
 ID stability, occlusion recovery and swaps.
+
+The initial review found apparent fragmentation, so candidate B keeps the
+detector fixed and tests ByteTrack high/new thresholds of 0.20 with a 45-frame
+buffer. Its separate full-video output is
+`outputs\cam_good_test_tracked_candidate_b.mp4`. Generate matching A/B contact
+sheets without rerunning detection or tracking:
+
+```powershell
+.\venv\Scripts\python.exe -B scripts\extract_tracking_comparisons.py `
+  --baseline outputs\cam_good_test_tracked.mp4 `
+  --candidate outputs\cam_good_test_tracked_candidate_b.mp4 `
+  --output-dir outputs\tracking_tuning\comparison_sheets
+```
+
+The ignored sheets cover 5-15, 25-35 and 75-85 seconds at 0.5-second intervals.
+A lower temporary Track ID count is only a diagnostic and does not prove better
+tracking or represent a unique-person count. Visual acceptance remains pending.
 
 Do not recreate `venv`. Package changes require explicit authorization.
