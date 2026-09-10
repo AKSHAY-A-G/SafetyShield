@@ -60,7 +60,7 @@ class PersonDetector:
         from ultralytics import YOLO
 
         if not torch.cuda.is_available():
-            raise RuntimeError("CUDA is required for this Milestone 1 run")
+            raise RuntimeError("CUDA is required for this person-detection pipeline")
         if device < 0 or device >= torch.cuda.device_count():
             raise RuntimeError(f"CUDA device {device} is not available")
 

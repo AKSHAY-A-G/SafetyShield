@@ -2,8 +2,8 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 1 complete. The selected configurable person-detection
-baseline is `yolo26n.pt`, `imgsz=960`, confidence 0.20 on CUDA device 0.
+Current stage: Milestone 2 automated tracking checks complete; visual tracking
+acceptance is pending user review.
 
 The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
 torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,
@@ -65,5 +65,19 @@ prototype baseline because it recovered additional valid medium/distant workers
 without an obvious false-positive problem in those samples. This is not a
 labelled accuracy benchmark; formal precision, recall and mAP evaluation remains
 for Milestone 12. The settings are configurable rather than scientific constants.
+
+Run Milestone 2 camera-local ByteTrack processing from the project root:
+
+```powershell
+.\venv\Scripts\python.exe -B scripts\run_person_tracking.py --input data\raw_videos\cam_good_test.mp4
+```
+
+This reuses the selected Milestone 1 detector, writes
+`outputs\cam_good_test_tracked.mp4`, and extracts review frames under
+`outputs\tracking_samples\`. Labels such as `Track 7` are temporary within one
+camera/session; they are not employee IDs or cross-camera identities. The run
+reports throughput, PyTorch peak allocated GPU memory, temporary IDs appearing
+in output and maximum simultaneous tracks. Visual review is required to assess
+ID stability, occlusion recovery and swaps.
 
 Do not recreate `venv`. Package changes require explicit authorization.

@@ -6,9 +6,9 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 1 complete.** The selected configurable person
-detection baseline is `yolo26n.pt`, `imgsz=960`, confidence 0.20 on CUDA device
-0. Milestone 2 has not started.
+Current stage: **Milestone 2 automated checks complete; tracking visual
+acceptance is pending user review.** The selected configurable person detector
+remains `yolo26n.pt`, `imgsz=960`, confidence 0.20 on CUDA device 0.
 The existing Python 3.14.5 environment now uses CUDA-enabled PyTorch and
 torchvision. Actual CUDA matrix computation, the environment checker (exit 0),
 all Milestone 0 unit tests, dependency consistency and Ultralytics import
@@ -223,7 +223,7 @@ Unresolved gates must be reported honestly.
 | --- | --- | --- |
 | 0 - Audit/environment | Source mapping, this plan, AGENTS instructions and diagnostic script; authorized CUDA package replacement | COMPLETE: existing venv retained; only torch/torchvision replaced; actual CUDA matrix computation passes; checker exit 0, all 11 tests, pip check and Ultralytics import pass |
 | 1 - Recorded video/person detection | OpenCV reader, one nano detector, person boxes/confidence/FPS and saved output | **COMPLETE:** supplied MP4 processed on CUDA; output reopened with matching dimensions/frame count; throughput measured; controlled 640/0.25 versus 960/0.20 comparison manually accepted for the prototype. Formal labelled accuracy evaluation remains in Milestone 12. No PPE/RTSP/tracking/database/dashboard |
-| 2 - Tracking | ByteTrack and temporary ID overlay | Inspect an annotated clip for stable IDs on continuously visible workers; measure/report losses and switches; no employee/cross-camera identity claim |
+| 2 - Tracking | ByteTrack and temporary ID overlay | AUTOMATED COMPLETE: entire clip processed on CUDA, temporary camera/session-local IDs rendered, output reopened, runtime measured, and tests passed. Stable-ID, occlusion and swap quality PENDING USER REVIEW; no employee/cross-camera identity claim |
 | 3 - PPE training workspace | Interval extraction, dataset/PPE YAML, train/validate/predict utilities | Verify extraction times, group-disjoint splits and labels; complete a small authorized training/validation run with a loadable checkpoint and recorded memory use |
 | 4 - PPE inference | Original-resolution crops, person size, helmet/vest observations and three states | Inspect labelled near/medium/far crops and overlays; verify PRESENT/UNKNOWN and evidence-supported MISSING; small/occluded observations must become UNKNOWN |
 | 5 - Temporal state/events | Recent per-track history, configurable voting and suspected PPE events | Replay present/present/unknown/present and get no violation; sustained valid missing evidence yields one event per episode; verify expiry and independent tracks |
@@ -557,8 +557,62 @@ evaluation remains required in Milestone 12.
 
 The selected inference size and confidence remain configurable prototype
 defaults, not permanent scientific constants. The measured runtime values are
-specific to this run and are not production guarantees. Milestone 2 has not
-started and requires separate authorization.
+specific to this run and are not production guarantees. At this checkpoint,
+Milestone 2 had not started and still required separate authorization.
+
+## Milestone 2 camera-local person tracking
+
+Automated acceptance run date: 2026-09-10. The existing Milestone 1 detector
+feeds person detections into Ultralytics ByteTrack. The required `lap==0.5.13`
+package was explicitly authorized and installed with `--no-deps`; no other
+package was installed or upgraded. Torch remained `2.14.0+cu130`, torchvision
+remained `0.29.0+cu130`, the PyTorch CUDA build remained 13.0, the environment
+checker returned 0 and `pip check` reported no broken requirements.
+
+| Check | Actual observed result |
+| --- | --- |
+| Tracker | Ultralytics ByteTrack through a separate `PersonTracker` abstraction |
+| Tracker configuration | high threshold 0.25; low threshold 0.10; new-track threshold 0.25; buffer 30 frames; match threshold 0.80; score fusion enabled |
+| Scope | Person class only; IDs local to `camera_id` plus `session_id`; no identity or cross-camera claim |
+| Input | `data/raw_videos/cam_good_test.mp4`; 1612x904; 30 FPS; 2,965 frames |
+| Detector | `yolo26n.pt`; `imgsz=960`; confidence 0.20; CUDA device 0 on NVIDIA GeForce GTX 1650 |
+| Accepted person detections | 5,970 |
+| Processing | 2,965 frames in 147.724 seconds; 20.071 average end-to-end FPS |
+| Detector timing | 17.374 ms/frame average inference time reported by Ultralytics |
+| GPU allocation | 98.711 MiB peak allocated according to `torch.cuda.max_memory_allocated()`; not total system GPU usage |
+| Temporary track IDs | 57 IDs appeared in tracker output during this session; this is not a count of unique real people |
+| Maximum active tracks | 5 simultaneously returned tracks |
+| Output | `outputs/cam_good_test_tracked.mp4` |
+| Output reopen | PASS: opened, readable first frame, 1612x904, 30 FPS, 2,965 frames; dimensions match input |
+| Review samples | 10, 30, 50, 70 and 80 seconds under `outputs/tracking_samples/` |
+| Automated tests | PASS: all 23 unit tests; mocked/synthetic tests do not prove real tracking quality |
+| Visual tracking acceptance | **PENDING USER REVIEW** |
+
+`src/tracking/person_tracker.py` owns ByteTrack configuration and conversion
+from person detections to `TrackedPerson` observations. Each observation carries
+camera ID, session ID, temporary track ID, frame/time, confidence and clipped
+original-frame coordinates, plus derived width, height and bottom-centre values
+for later authorized milestones. A local mapping prevents separate tracker
+instances from exposing shared ID numbering. Empty detections and invalid boxes
+are handled without crashing.
+
+Run the recorded-video tracker from the project root:
+
+```powershell
+.\venv\Scripts\python.exe -B scripts\run_person_tracking.py --input data\raw_videos\cam_good_test.mp4
+```
+
+The output labels use `Track N | confidence`. They identify only a temporary
+track within the current camera/session. The 57 generated IDs cannot establish
+the number of real people because a person may receive another ID after track
+loss. No IDF1, MOTA, HOTA or ID-switch rate is reported without labelled
+tracking ground truth.
+
+Manual review must check continuous-person ID stability, unnecessary changes,
+partial-occlusion recovery, swaps when people pass, distant-worker tracking,
+persistent false detections, box alignment and the observed performance impact.
+Do not start Milestone 3 until this visual review is complete and the next
+milestone is explicitly authorized.
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)
