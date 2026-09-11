@@ -6,9 +6,9 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 4 temporal-rule automated acceptance complete;
-TEMPORAL RULE VISUAL ACCEPTANCE is PENDING USER REVIEW.** Milestones 0-3 remain
-complete. Milestone 5 has not started and requires separate authorization.
+Current stage: **Milestone 4 COMPLETE after manual prototype visual
+acceptance.** Milestones 0-3 remain complete. Milestone 5 has not started and
+requires separate authorization.
 The selected configurable person detector remains `yolo26n.pt`, `imgsz=960`,
 confidence 0.20 on CUDA device 0. Selected configurable ByteTrack defaults are
 high 0.20, low 0.10, new 0.20, buffer 45, match 0.80 and score fusion enabled.
@@ -839,12 +839,29 @@ fatigue, unconsciousness or diagnosis detection.
 | Dependency check | PASS: `pip check` found no broken requirements; no dependency was installed or changed |
 | Environment check | PASS, exit 0: torch 2.14.0+cu130, torchvision 0.29.0+cu130 and a CUDA calculation on the NVIDIA GeForce GTX 1650 |
 
-The inspected review sequence shows the buddy zone clear at 35.0 and 38.0
-seconds; confirmation at 39.2 and 40.0 seconds; one EXC-002 event/banner at 41.2
-seconds; reset pending during a brief detection gap at 41.9 seconds; the same
-episode active again at 42.0 and 42.3 seconds without a second event; and clear
-at 45.0 seconds. The low-movement display resets as meaningful movement occurs.
-No ERG-006 visual event was fabricated.
+### Milestone 4 manual visual acceptance
+
+The user manually reviewed the temporal-rule frames and accepted the behavior
+for this prototype. The buddy-required test zone was clear with Track 9 outside
+at 35.0 seconds. At approximately 38 seconds Track 9 approached/entered without
+an immediate EXC-002 alert. Exactly one confirmed occupant was present at 39.2
+seconds, with confirmation near 1.0 second and the existing BAR-001 indication;
+the low-movement timer remained short because the person was moving. At 40.0
+seconds confirmation had progressed to about 1.8 seconds without a premature
+event.
+
+At 41.2 seconds the configured 3.0-second confirmation was satisfied and the
+EXC-002 LONE WORKER indication appeared; automated execution recorded one event
+at frame 1,236. EXC-002 entered reset-pending at 41.9 seconds. The condition
+returned at 42.0-42.3 seconds before the configured 1.0-second reset completed,
+so the same episode remained active without a new event. At 45.0 seconds the
+person was outside and the condition was clear. Multiple frames displaying
+LONE WORKER are presentation duration/state, not multiple events.
+
+The displayed ERG-006 low-movement duration remained short or reset while the
+person moved. No ERG-006 event was generated, which is consistent with the
+600-second configured threshold and approximately 99-second video. The runtime
+threshold was not reduced to force a demonstration.
 
 | File | Purpose, input and output |
 | --- | --- |
@@ -859,10 +876,11 @@ missing or corrupt video, CUDA and codec failures retain the existing runner
 diagnostics. Fragmented tracks can reset ERG-006 history and can affect temporal
 events. Formal labelled evaluation remains future work.
 
-**MILESTONE 4 AUTOMATED STATUS: COMPLETE.**
+**MILESTONE 4 STATUS: COMPLETE.**
 
-**TEMPORAL RULE VISUAL ACCEPTANCE: PENDING USER REVIEW.** Do not start Milestone
-5 until the user completes visual review and explicitly authorizes it.
+**TEMPORAL RULE VISUAL ACCEPTANCE: PASS (manual prototype review).** This is not
+formal accuracy evaluation. Do not start Milestone 5 until the user explicitly
+authorizes it.
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)

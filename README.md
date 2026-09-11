@@ -2,8 +2,8 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 4 temporal-rule automated acceptance complete. Visual
-acceptance is pending user review; Milestone 5 has not started.
+Current stage: Milestone 4 complete after manual prototype visual acceptance.
+Milestone 5 has not started and requires separate authorization.
 
 The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
 torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,
@@ -136,5 +136,12 @@ single-occupancy episode. ERG-006 keeps the 600-second requirement and uses
 bottom-centre displacement above `max(5 pixels, 10% of box height)` to reset
 the timer. It is not medical or fatigue diagnosis. The runner writes ignored
 review material under `outputs\temporal_rule_samples\`.
+
+Manual review accepted the delayed EXC-002 confirmation, single event,
+reset-pending debounce, continued episode without duplication and final clear
+state. It also confirmed that low-movement time remained short or reset while
+Track 9 moved. No ERG-006 event was expected or generated in the approximately
+99-second clip under the unchanged 600-second requirement. This is prototype
+visual acceptance, not formal safety accuracy evaluation.
 
 Do not recreate `venv`. Package changes require explicit authorization.
