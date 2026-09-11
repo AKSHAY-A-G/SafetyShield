@@ -2,8 +2,8 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 5 complete (automated pipeline and evidence capture).
-Evidence visual acceptance is pending user review; Milestone 6 has not started.
+Current stage: Milestone 5 complete (automated pipeline, evidence capture, and visual acceptance PASS).
+Milestones 0-5 are complete. Milestone 6 has not started and requires separate authorization.
 
 The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
 torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,

@@ -6,13 +6,19 @@
   is the business reference; explicit user instructions govern execution scope.
 - Work on one authorized milestone at a time. Do not implement unrelated or
   future modules just because the source document lists them.
-- Current checkpoint: Milestones 0, 1, 2, 3, 4 and 5 are complete. The selected
-  detector is `yolo26n.pt`, `imgsz=960`, `conf=0.20`; selected
-  prototype ByteTrack defaults
-  are `high=0.20`, `low=0.10`, `new=0.20`, buffer 45, match 0.80 and score fusion
-  enabled. These remain configurable and require future labelled evaluation.
-  PyTorch 2.14.0+cu130 and torchvision 0.29.0+cu130 execute CUDA on the GTX 1650.
-  Recheck current results rather than assuming this observation is permanent.
+- Current checkpoint:
+  - Milestone 0 COMPLETE
+  - Milestone 1 COMPLETE
+  - Milestone 2 COMPLETE
+  - Milestone 3 COMPLETE
+  - Milestone 4 COMPLETE
+  - Milestone 5 COMPLETE
+  The selected detector is `yolo26n.pt`, `imgsz=960`, `conf=0.20`; selected
+  prototype ByteTrack defaults are `high=0.20`, `low=0.10`, `new=0.20`, buffer 45,
+  match 0.80 and score fusion enabled. These remain configurable and require
+  future labelled evaluation. PyTorch 2.14.0+cu130 and torchvision 0.29.0+cu130
+  execute CUDA on the GTX 1650. Recheck current results rather than assuming this
+  observation is permanent.
 - Do not start Milestone 6 until the user explicitly authorizes it.
 - Every milestone needs a purpose, necessary files only, local verification,
   observable acceptance evidence and a Git commit before advancing. Report

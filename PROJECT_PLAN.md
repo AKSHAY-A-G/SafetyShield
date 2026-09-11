@@ -6,9 +6,9 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 5 complete (automated pipeline and evidence capture);
-EVIDENCE VISUAL ACCEPTANCE is PENDING USER REVIEW.** Milestones 0-4 remain
-complete. Milestone 6 has not started and requires separate authorization.
+Current stage: **Milestone 5 complete (automated pipeline, evidence capture,
+and visual acceptance PASS).** Milestones 0-5 are complete. Milestone 6 has not
+started and requires separate authorization.
 The selected configurable person detector remains `yolo26n.pt`, `imgsz=960`,
 confidence 0.20 on CUDA device 0. Selected configurable ByteTrack defaults are
 high 0.20, low 0.10, new 0.20, buffer 45, match 0.80 and score fusion enabled.
@@ -1004,10 +1004,37 @@ The full factory video `data/raw_videos/cam_good_test.mp4` (2,965 frames,
 | `scripts/run_evidence_pipeline.py` | Recorded video evidence runner combining detector, tracker, rules, and evidence capture |
 | `tests/test_evidence.py` | 22 comprehensive unit tests covering all 25 Milestone 5 requirements |
 
-**MILESTONE 5 AUTOMATED STATUS: COMPLETE.**
+**MILESTONE 5 STATUS: COMPLETE.**
 
-**EVIDENCE VISUAL ACCEPTANCE: PENDING USER REVIEW.** Do not start Milestone 6
-until the user completes visual review and explicitly authorizes it.
+### Milestone 5 visual evidence review results
+
+Manual prototype visual review completed and accepted by the user:
+
+- **EVIDENCE VISUAL ACCEPTANCE: PASS**
+- **BAR-001 evidence review: PASS**
+  - Raw snapshot: clean original CCTV imagery (1612x904)
+  - Annotated snapshot: corresponds to BAR-001 event; shows Track 9, configured restricted-zone polygon, and BAR-001 ENTRY banner
+  - Evidence clip: ~10.0 seconds total (bounds 33.20s -> 43.20s; frame 996 to 1296); visually provides correct ~5s pre-event, event (38.200s, frame 1146, Track 9 in `restricted_zone_1`), and ~5s post-event context
+- **EXC-002 evidence review: PASS**
+  - Raw snapshot: clean original CCTV imagery (1612x904)
+  - Annotated snapshot: corresponds to EXC-002 event; displays `EXC-002 LONE WORKER` banner, Track 9, and configured zone polygon
+  - Evidence clip: ~10.0 seconds total (bounds 36.20s -> 46.20s; frame 1086 to 1386); visually provides correct ~5s pre-event context (approx. 36.2s), event time (41.200s, frame 1236, Track 9 in `restricted_zone_1`), and ~5s post-event context (approx. 46.2s)
+- **ERG-006 evidence review:**
+  - 0 events recorded and 0 evidence packages created.
+  - Correct and expected because `no_movement_seconds = 600`, while the test video is ~98.8s long. No fabricated evidence. Threshold remains 600s.
+- **Audit log review:**
+  - `evidence/cam_good_test/milestone5_test/audit.jsonl` verified with 4 valid JSON Lines: 2 `EVENT_CREATED` and 2 `EVIDENCE_SAVED`.
+
+### Milestone 5 limitations (preserved)
+
+- Evidence capture and audit trail functionality are prototype-level software mechanisms.
+- `audit.jsonl` is an append-only JSON Lines file for local traceability; it is not tamper-proof, immutable, forensically certified, or regulatory-compliant.
+- Severity remains prototype standard `"unclassified"` (automated severity classification `EVD-003` is deferred).
+- Status remains `"new"` (acknowledgement workflow `EVD-011` is not implemented).
+- Temporary Track IDs are strictly camera/session-local; no employee identity or cross-camera identity is inferred.
+- Visual review is manual prototype verification on a single test video, not formal safety certification or statistical accuracy validation.
+
+**MILESTONE 6 STATUS: NOT STARTED.** Requires explicit user authorization before execution.
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)
