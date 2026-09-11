@@ -6,8 +6,7 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 6 automated implementation and 120-second live run
-complete; live RTSP visual acceptance is PENDING USER REVIEW.** Milestones 0-5
+Current stage: **Milestone 6 COMPLETE.** Milestones 0-6
 are complete. Milestone 7 has not started and requires separate authorization.
 The selected configurable person detector remains `yolo26n.pt`, `imgsz=960`,
 confidence 0.20 on CUDA device 0. Selected configurable ByteTrack defaults are
@@ -1121,25 +1120,45 @@ show readable LIVE/performance/zone-disabled overlays. Two temporary tracks
 were produced, but correctness is not asserted without the user's visual
 review or labelled ground truth.
 
-Pyrefly 1.3 reports **0 errors for the three Milestone 6 Python files**. Its
-whole-repository CLI run reports 23 diagnostics in older Milestone 0-3 files
-that were not changed in this milestone; this differs from the prior editor
-checkpoint of zero Problems and is recorded rather than hidden or broadly
-suppressed. No dependency or environment changes were made.
+### Milestone 6 visual review result
+
+The user completed manual visual review of the native reference frame (`outputs/live_cam_1_reference.jpg`), sample contact sheet (`outputs/live_cam_1_review_samples.jpg`), and individual full-resolution review frames extracted under `outputs/live_cam_1_track_review/`.
+
+1. **Camera visual acceptance (PASS)**:
+   - Stable fixed-view CCTV perspective with native 2560x1440 imagery and no apparent camera motion across reviewed samples.
+   - Clean, readable live overlay showing camera ID, processing FPS (~10 FPS), and zone status.
+   - Zone status correctly displayed as disabled / not configured. The old 1612x904 `restricted_zone_1` polygon belonging to `cam_good_test` was correctly not reused.
+
+2. **Track 1 visual acceptance (PASS)**:
+   - Evaluated on frames `track1_t26.0s_frame_0520.jpg` and `track1_t26.2s_frame_0524.jpg` (note: 26.0s / 26.2s are review-video playback timestamps, not live monotonic session elapsed time).
+   - Shows a real distant worker with valid person bounding box and temporary Track 1 label visible and consistently assigned across nearby frames.
+   - Reasonable bounding-box alignment for distant worker scale. Prototype validation only; no formal distant-person accuracy benchmark is claimed.
+
+3. **Track 2 visual acceptance (PASS)**:
+   - Evaluated on frames `track2_t31.6s_frame_0632.jpg`, `track2_t32.2s_frame_0644.jpg`, `track2_t33.0s_frame_0660.jpg`, and `track2_t33.8s_frame_0675.jpg` (review-video playback timestamps).
+   - Shows a clearly visible worker with consistent temporary Track 2 label followed across the slope and foreground across multiple frames.
+   - Good bounding-box continuity and alignment during posture changes and movement. Prototype validation only; no formal MOTA/HOTA/IDF1 metrics are claimed.
+
+4. **Overall visual conclusion**:
+   - Visual acceptance validates prototype stability, person detection, temporary camera/session-local tracking continuity, and safe zone-disabled behavior on this live RTSP feed.
+   - Does not assert formal labelled detection accuracy, MOT tracking benchmarks, cross-camera identity, or safety/production certification.
+
+Pre-existing Antigravity/Pyrefly diagnostics remain in the Milestone 0 environment-check script (`scripts/check_environment.py`); runtime validation passes (exit 0) and they are not a Milestone 6 blocker.
 
 | File | Purpose, input and output |
 | --- | --- |
 | `src/camera/rtsp_reader.py` | Secret-safe camera config, one-slot reader, timeout/reconnect logic, metrics, resolution detection, and shutdown |
-| `scripts/run_rtsp_pipeline.py` | Finite one-camera detector/tracker runner, overlay, raw reference, and annotated review output |
-| `tests/test_rtsp_reader.py` | Offline fake-capture tests for config security, connection, frame accounting, reconnect, resolution, shutdown, zones, reference saving, and duration |
+| `scripts/run_rtsp_pipeline.py` | Finite one-camera detector/tracker runner, overlay, raw reference, configurable `--output-fps`, and annotated review output |
+| `tests/test_rtsp_reader.py` | Offline fake-capture tests for config security, connection, frame accounting, reconnect, resolution, shutdown, zones, reference saving, duration, and output FPS |
 | `config/cameras.yaml` | Non-secret `live_cam_1` metadata and approved environment-variable name only |
 
 **MILESTONE 6 AUTOMATED STATUS: PASS.**
 
-**LIVE RTSP VISUAL ACCEPTANCE: PENDING USER REVIEW.**
+**LIVE RTSP VISUAL ACCEPTANCE: PASS.**
 
-Next action: wait for the user to inspect the raw reference and annotated live
-review video. Do not start Milestone 7 without explicit authorization.
+**MILESTONE 6 STATUS: COMPLETE.**
+
+Next milestone: Milestone 7 - basic dashboard / module controls (NOT STARTED / requires separate authorization).
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)

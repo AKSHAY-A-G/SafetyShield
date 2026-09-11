@@ -13,16 +13,15 @@
   - Milestone 3 COMPLETE
   - Milestone 4 COMPLETE
   - Milestone 5 COMPLETE
-  - Milestone 6 AUTOMATED IMPLEMENTATION COMPLETE; live visual acceptance is
-    PENDING USER REVIEW
+  - Milestone 6 COMPLETE
+  Milestone 7 NOT STARTED / requires separate authorization.
   The selected detector is `yolo26n.pt`, `imgsz=960`, `conf=0.20`; selected
   prototype ByteTrack defaults are `high=0.20`, `low=0.10`, `new=0.20`, buffer 45,
   match 0.80 and score fusion enabled. These remain configurable and require
   future labelled evaluation. PyTorch 2.14.0+cu130 and torchvision 0.29.0+cu130
   execute CUDA on the GTX 1650. Recheck current results rather than assuming this
   observation is permanent.
-- Do not start Milestone 7 until Milestone 6 live output is manually reviewed
-  and the user explicitly authorizes the next milestone.
+- Do not start Milestone 7 until the user explicitly authorizes the next milestone.
 - Every milestone needs a purpose, necessary files only, local verification,
   observable acceptance evidence and a Git commit before advancing. Report
   blocked checks; code running without errors is not evidence of CV quality.

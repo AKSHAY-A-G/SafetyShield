@@ -2,9 +2,8 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 6 automated implementation and live acceptance run
-complete; live-camera visual acceptance is pending user review. Milestones 0-5
-remain complete. Milestone 7 has not started and requires separate authorization.
+Current stage: Milestone 6 COMPLETE. Milestones 0-6 are complete.
+Milestone 7 has not started and requires separate authorization.
 
 The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
 torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,
@@ -205,7 +204,9 @@ normal duration expiry release the capture and join the thread.
 
 The runner preserves native decoded frames for inference and the raw reference,
 uses the locked `yolo26n.pt` / 960 / 0.20 person detector and selected ByteTrack
-defaults, and optionally writes an ignored annotated review video. No validated
+defaults, and optionally writes an ignored annotated review video (`--output-fps`
+defaults to a 10 FPS prototype cap approximately matching the GTX 1650 processing
+rate; authoritative session elapsed time remains monotonic). No validated
 `live_cam_1` polygon currently exists, so zone and temporal rules remain
 disabled; the recorded `cam_good_test` polygon is never reused. Milestone 5's
 recorded-video evidence remains unchanged, and live pre/post evidence is
