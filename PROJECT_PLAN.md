@@ -6,9 +6,9 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 5 complete (automated pipeline, evidence capture,
-and visual acceptance PASS).** Milestones 0-5 are complete. Milestone 6 has not
-started and requires separate authorization.
+Current stage: **Milestone 6 automated implementation and 120-second live run
+complete; live RTSP visual acceptance is PENDING USER REVIEW.** Milestones 0-5
+are complete. Milestone 7 has not started and requires separate authorization.
 The selected configurable person detector remains `yolo26n.pt`, `imgsz=960`,
 confidence 0.20 on CUDA device 0. Selected configurable ByteTrack defaults are
 high 0.20, low 0.10, new 0.20, buffer 45, match 0.80 and score fusion enabled.
@@ -1034,7 +1034,106 @@ Manual prototype visual review completed and accepted by the user:
 - Temporary Track IDs are strictly camera/session-local; no employee identity or cross-camera identity is inferred.
 - Visual review is manual prototype verification on a single test video, not formal safety certification or statistical accuracy validation.
 
-**MILESTONE 6 STATUS: NOT STARTED.** Requires explicit user authorization before execution.
+## Milestone 6: one live RTSP camera (PLT-001)
+
+Milestone 6 adds only one fixed-view live source, `live_cam_1`. Non-secret
+metadata is stored in `config/cameras.yaml`; the RTSP value is resolved at
+runtime exclusively through `SAFETYSHIELD_RTSP_LIVE_CAM_1`. The ignored `.env`
+was confirmed by `git check-ignore -v .env`. No URL is stored in YAML, source,
+documentation, metrics, CLI arguments, or Git.
+
+`src/camera/rtsp_reader.py` owns OpenCV connection/decode/reconnect state. One
+reader thread publishes into a single protected latest-frame slot. Replacing an
+unconsumed frame increments `frames_overwritten_or_dropped` once; a completed
+inference increments `frames_processed`. Any remaining delivered/latest frame
+is classified as dropped during shutdown, so the final run satisfies:
+`frames_received = frames_processed + frames_overwritten_or_dropped`.
+There is no queue and no multiprocessing.
+
+The reader uses monotonic elapsed time, a stop event, bounded capture timeouts,
+bounded thread join, safe capture release, five initial connection attempts,
+and reconnect backoff of 1, 2, 4, 8, then at most 10 seconds. A valid decoded
+frame resets consecutive failures and backoff. Installed OpenCV 5.0.0 exposes
+`CAP_FFMPEG`, `CAP_PROP_OPEN_TIMEOUT_MSEC`, and
+`CAP_PROP_READ_TIMEOUT_MSEC`; the prototype supplies 5,000 ms open/read values
+through the FFmpeg capture constructor, with a constructor fallback for builds
+that reject parameters.
+
+The dedicated `scripts/run_rtsp_pipeline.py` loads the environment internally,
+runs the locked `yolo26n.pt`, `imgsz=960`, confidence 0.20 person-only CUDA 0
+detector and unchanged ByteTrack defaults, and uses monotonic live-session
+timestamps. Actual decoded `frame.shape` is authoritative and remains native;
+resolution changes are detected and keep fixed geometry disabled. Optional
+review output and one clean raw reference frame are written under ignored
+`outputs/`.
+
+No `live_cam_1` zone exists. The 1612x904 `restricted_zone_1` polygon remains
+owned by `cam_good_test` and was not reused. Therefore BAR-001, IDT-004,
+EXC-002, and all temporal-rule execution were disabled for the live run while
+person detection and camera/session-local ByteTrack continued. No zone event or
+event evidence was fabricated. Milestone 5 can reopen finite recorded MP4s for
+evidence; it does not provide pre-event context for an endless live source.
+Large live raw-frame buffers and live pre/post evidence remain deferred.
+
+### Actual 120-second live acceptance result
+
+The command documented in README ran once with display disabled, annotated
+review output enabled, and third-party stderr suppressed to avoid accidental
+credential disclosure. Session ID was `live_acf176649da2`.
+
+| Check | Actual observed result |
+| --- | --- |
+| Secret configured | YES; source name only: `SAFETYSHIELD_RTSP_LIVE_CAM_1` |
+| Connection | SUCCESS; 1 attempt, 1 successful connection, 0 reconnects |
+| Time to first decoded frame | 1.957 seconds |
+| Native decoded resolution | 2560x1440 (validated from frame shape) |
+| Reported source FPS | 20.0 |
+| Acceptance duration | 120.029 seconds |
+| Frames received | 2,434 (~20.28 received/s over acceptance time) |
+| Frames processed | 1,229 |
+| Frames dropped/overwritten | 1,205 (intentional latest-frame replacement) |
+| Failed reads | 0 |
+| Processing throughput | 10.239 FPS |
+| Peak PyTorch GPU memory | 98.711 MiB allocated |
+| Temporary track IDs observed | 2, scoped to this camera/session only |
+| Zone status | Disabled / not configured |
+| Zone and temporal rules | Disabled |
+| Live evidence | Deferred; no live pre/post buffer or event evidence |
+| Shutdown | Clean; capture released and reader thread joined |
+| Raw reference | `outputs/live_cam_1_reference.jpg`; readable 2560x1440 |
+| Annotated review | `outputs/live_cam_1_rtsp_test.mp4`; readable 1,229 frames, 2560x1440, 20 FPS |
+| Unit/regression tests | PASS: 107/107, including 18 offline RTSP tests |
+| Dependency check | PASS: no broken requirements |
+| Environment check | PASS, exit 0; CUDA calculation on GTX 1650 |
+
+The live rate includes transport, decode, inference, tracking, and deliberate
+stale-frame replacement and is not directly comparable to recorded-video FPS.
+No synchronized camera timestamp was available, so no numeric end-to-end
+network latency is claimed. The latest-frame design prevented a growing frame
+queue. The raw reference shows the native fixed view; sampled review frames
+show readable LIVE/performance/zone-disabled overlays. Two temporary tracks
+were produced, but correctness is not asserted without the user's visual
+review or labelled ground truth.
+
+Pyrefly 1.3 reports **0 errors for the three Milestone 6 Python files**. Its
+whole-repository CLI run reports 23 diagnostics in older Milestone 0-3 files
+that were not changed in this milestone; this differs from the prior editor
+checkpoint of zero Problems and is recorded rather than hidden or broadly
+suppressed. No dependency or environment changes were made.
+
+| File | Purpose, input and output |
+| --- | --- |
+| `src/camera/rtsp_reader.py` | Secret-safe camera config, one-slot reader, timeout/reconnect logic, metrics, resolution detection, and shutdown |
+| `scripts/run_rtsp_pipeline.py` | Finite one-camera detector/tracker runner, overlay, raw reference, and annotated review output |
+| `tests/test_rtsp_reader.py` | Offline fake-capture tests for config security, connection, frame accounting, reconnect, resolution, shutdown, zones, reference saving, and duration |
+| `config/cameras.yaml` | Non-secret `live_cam_1` metadata and approved environment-variable name only |
+
+**MILESTONE 6 AUTOMATED STATUS: PASS.**
+
+**LIVE RTSP VISUAL ACCEPTANCE: PENDING USER REVIEW.**
+
+Next action: wait for the user to inspect the raw reference and annotated live
+review video. Do not start Milestone 7 without explicit authorization.
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)

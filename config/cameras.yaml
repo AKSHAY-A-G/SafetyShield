@@ -1,2 +1,6 @@
-# Camera configuration will be added here later.
-# RTSP credentials will be stored in .env.
+cameras:
+  live_cam_1:
+    camera_id: live_cam_1
+    source_type: rtsp
+    rtsp_env_var: SAFETYSHIELD_RTSP_LIVE_CAM_1
+    enabled: true

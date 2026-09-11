@@ -2,8 +2,9 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 5 complete (automated pipeline, evidence capture, and visual acceptance PASS).
-Milestones 0-5 are complete. Milestone 6 has not started and requires separate authorization.
+Current stage: Milestone 6 automated implementation and live acceptance run
+complete; live-camera visual acceptance is pending user review. Milestones 0-5
+remain complete. Milestone 7 has not started and requires separate authorization.
 
 The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
 torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,
@@ -178,3 +179,40 @@ storage. This is a prototype software audit log for local development, not a
 tamper-proof or forensically certified audit system.
 
 Do not recreate `venv`. Package changes require explicit authorization.
+
+Run the Milestone 6 single-camera live pipeline from the project root:
+
+```powershell
+.\venv\Scripts\python.exe -B scripts\run_rtsp_pipeline.py `
+  --camera-id live_cam_1 `
+  --duration-seconds 120 `
+  --no-display `
+  --output outputs\live_cam_1_rtsp_test.mp4 `
+  --save-reference-frame outputs\live_cam_1_reference.jpg
+```
+
+The only approved secret source is `SAFETYSHIELD_RTSP_LIVE_CAM_1`. Its value is
+loaded internally from the ignored `.env`/runtime environment through
+`config\cameras.yaml`; the runner intentionally has no URL, username, or
+password command-line option. Never put the value in YAML, source code, Git,
+logs, or a command.
+
+One reader thread decodes continuously into a single latest-frame slot. If
+inference is slower than the source, a newer frame replaces the unprocessed
+one and increments the dropped/overwritten metric, preventing an unbounded
+latency backlog. Open/read timeouts and reconnect waits are bounded. Ctrl+C and
+normal duration expiry release the capture and join the thread.
+
+The runner preserves native decoded frames for inference and the raw reference,
+uses the locked `yolo26n.pt` / 960 / 0.20 person detector and selected ByteTrack
+defaults, and optionally writes an ignored annotated review video. No validated
+`live_cam_1` polygon currently exists, so zone and temporal rules remain
+disabled; the recorded `cam_good_test` polygon is never reused. Milestone 5's
+recorded-video evidence remains unchanged, and live pre/post evidence is
+deferred.
+
+Common errors are reported using the camera ID and environment-variable name,
+not the secret value. A missing `SAFETYSHIELD_RTSP_LIVE_CAM_1`, malformed camera
+YAML, unavailable stream, writer failure, or reference-image failure exits
+clearly. Native OpenCV/FFmpeg diagnostics should be handled cautiously because
+third-party builds may independently include connection details.

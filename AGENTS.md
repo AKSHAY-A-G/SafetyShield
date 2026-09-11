@@ -13,13 +13,16 @@
   - Milestone 3 COMPLETE
   - Milestone 4 COMPLETE
   - Milestone 5 COMPLETE
+  - Milestone 6 AUTOMATED IMPLEMENTATION COMPLETE; live visual acceptance is
+    PENDING USER REVIEW
   The selected detector is `yolo26n.pt`, `imgsz=960`, `conf=0.20`; selected
   prototype ByteTrack defaults are `high=0.20`, `low=0.10`, `new=0.20`, buffer 45,
   match 0.80 and score fusion enabled. These remain configurable and require
   future labelled evaluation. PyTorch 2.14.0+cu130 and torchvision 0.29.0+cu130
   execute CUDA on the GTX 1650. Recheck current results rather than assuming this
   observation is permanent.
-- Do not start Milestone 6 until the user explicitly authorizes it.
+- Do not start Milestone 7 until Milestone 6 live output is manually reviewed
+  and the user explicitly authorizes the next milestone.
 - Every milestone needs a purpose, necessary files only, local verification,
   observable acceptance evidence and a Git commit before advancing. Report
   blocked checks; code running without errors is not evidence of CV quality.
@@ -57,6 +60,10 @@
 - Never print credentials, full credential-bearing RTSP URLs, environment dumps
   or raw third-party exception text that could contain secrets. Redact logs
   and evidence metadata. Do not read or populate `.env` for environment audits.
+- One live RTSP reader uses a single latest-frame slot, bounded timeouts and
+  reconnect backoff. Keep RTSP values out of CLI arguments and serializable
+  camera/metric objects; `config/cameras.yaml` stores only environment-variable
+  names.
 - Disable package auto-install/download behaviour during diagnostic runs.
 - Use clear logging for camera state, performance, detections and errors when
   those modules exist. Report failures explicitly instead of silently ignoring
