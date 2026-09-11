@@ -335,11 +335,11 @@ class EvidenceWriter:
                 post_event_seconds=self.post_event_seconds,
             )
 
-            start_frame = max(0, int(round(start_sec * fps)))
+            start_frame = max(0, round(start_sec * fps))
             end_frame = (
-                min(total_frames - 1, int(round(end_sec * fps)))
+                min(total_frames - 1, round(end_sec * fps))
                 if total_frames > 0
-                else int(round(end_sec * fps))
+                else round(end_sec * fps)
             )
             if end_frame < start_frame:
                 end_frame = start_frame
@@ -348,7 +348,7 @@ class EvidenceWriter:
 
             writer = cv2.VideoWriter(
                 str(output_clip_path),
-                cv2.VideoWriter_fourcc(*"mp4v"),
+                cv2.VideoWriter_fourcc(*"mp4v"),  # pyrefly: ignore[missing-attribute]
                 fps,
                 (expected_width, expected_height),
             )

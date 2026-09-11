@@ -36,9 +36,9 @@ def create_synthetic_test_video(
 ) -> Path:
     """Create a minimal synthetic MP4 file for fast, deterministic unit testing."""
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+    fourcc = cv2.VideoWriter_fourcc(*"mp4v")  # pyrefly: ignore[missing-attribute]
     writer = cv2.VideoWriter(str(output_path), fourcc, fps, (width, height))
-    total_frames = int(round(fps * duration_seconds))
+    total_frames = round(fps * duration_seconds)
     for i in range(total_frames):
         # Create a frame with a moving colored patch
         frame = np.zeros((height, width, 3), dtype=np.uint8)

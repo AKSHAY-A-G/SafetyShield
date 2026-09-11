@@ -33,7 +33,10 @@ class VideoReaderTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=PROJECT_ROOT) as directory:
             path = Path(directory) / "tiny.avi"
             writer = cv2.VideoWriter(
-                str(path), cv2.VideoWriter_fourcc(*"MJPG"), 12.0, (32, 24)
+                str(path),
+                cv2.VideoWriter_fourcc(*"MJPG"),  # pyrefly: ignore[missing-attribute]
+                12.0,
+                (32, 24),
             )
             self.assertTrue(writer.isOpened())
             try:

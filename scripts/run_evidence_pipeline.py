@@ -138,7 +138,7 @@ def main() -> int:
                 args.output.parent.mkdir(parents=True, exist_ok=True)
                 video_writer = cv2.VideoWriter(
                     str(args.output),
-                    cv2.VideoWriter_fourcc(*"mp4v"),
+                    cv2.VideoWriter_fourcc(*"mp4v"),  # pyrefly: ignore[missing-attribute]
                     metadata.fps,
                     (metadata.width, metadata.height),
                 )

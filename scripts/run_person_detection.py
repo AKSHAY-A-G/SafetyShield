@@ -28,7 +28,10 @@ def create_output_writer(
     path = Path(output_path)
     path.parent.mkdir(parents=True, exist_ok=True)
     writer = cv2.VideoWriter(
-        str(path), cv2.VideoWriter_fourcc(*"mp4v"), fps, (width, height)
+        str(path),
+        cv2.VideoWriter_fourcc(*"mp4v"),  # pyrefly: ignore[missing-attribute]
+        fps,
+        (width, height),
     )
     if not writer.isOpened():
         writer.release()
