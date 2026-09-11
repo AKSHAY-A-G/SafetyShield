@@ -2,8 +2,8 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 3 complete after manual prototype visual acceptance.
-Milestone 4 has not started and requires separate authorization.
+Current stage: Milestone 4 temporal-rule automated acceptance complete. Visual
+acceptance is pending user review; Milestone 5 has not started.
 
 The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
 torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,
@@ -119,5 +119,22 @@ images remain ignored by Git. Manual review of the seven event-focused frames
 accepted the outside, confirmation, single entry, inside, exit and occupancy
 transitions for the prototype. The one-second banner display does not represent
 additional events. This review is not a labelled accuracy evaluation.
+
+Run the authorized Milestone 4 temporal rules from the project root:
+
+```powershell
+.\venv\Scripts\python.exe -B scripts\run_temporal_rules.py `
+  --input data\raw_videos\cam_good_test.mp4 `
+  --output outputs\cam_good_test_temporal_rules.mp4
+```
+
+This retains BAR-001 and IDT-004 while adding configured EXC-002 buddy-zone and
+ERG-006 prolonged-low-movement state. `restricted_zone_1` is only a prototype
+test zone; the system does not recognize confined spaces. EXC-002 uses a
+configurable experimental 3-second confirmation and one event per continuous
+single-occupancy episode. ERG-006 keeps the 600-second requirement and uses
+bottom-centre displacement above `max(5 pixels, 10% of box height)` to reset
+the timer. It is not medical or fatigue diagnosis. The runner writes ignored
+review material under `outputs\temporal_rule_samples\`.
 
 Do not recreate `venv`. Package changes require explicit authorization.

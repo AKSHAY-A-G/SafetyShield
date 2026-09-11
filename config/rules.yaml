@@ -1,1 +1,15 @@
-# Safety monitoring rules will be configured here later.
+temporal_rules:
+  EXC-002:
+    enabled: true
+    applicable_zone_ids:
+    - restricted_zone_1
+    lone_person_confirm_seconds: 3.0
+    reset_confirm_seconds: 1.0
+  ERG-006:
+    enabled: true
+    applicable_zone_ids:
+    - restricted_zone_1
+    no_movement_seconds: 600.0
+    movement_ratio: 0.10
+    minimum_movement_pixels: 5.0
+    state_ttl_seconds: 2.0

@@ -6,9 +6,9 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 3 COMPLETE after manual prototype visual
-acceptance.** Milestones 0-2 remain complete. Milestone 4 has not started and
-requires separate authorization.
+Current stage: **Milestone 4 temporal-rule automated acceptance complete;
+TEMPORAL RULE VISUAL ACCEPTANCE is PENDING USER REVIEW.** Milestones 0-3 remain
+complete. Milestone 5 has not started and requires separate authorization.
 The selected configurable person detector remains `yolo26n.pt`, `imgsz=960`,
 confidence 0.20 on CUDA device 0. Selected configurable ByteTrack defaults are
 high 0.20, low 0.10, new 0.20, buffer 45, match 0.80 and score fusion enabled.
@@ -771,6 +771,98 @@ fixed camera viewpoint, and formal evaluation remains future work.
 
 **ZONE/RULE VISUAL ACCEPTANCE: PASS (manual prototype review).** Do not start
 Milestone 4 until the user explicitly authorizes it.
+
+## Milestone 4 easy-first temporal safety rules
+
+Automated acceptance run date: 2026-09-11. The user explicitly authorized only
+EXC-002 and ERG-006 after completing Milestone 3. This scoped sequencing
+supersedes the earlier roadmap ordering for this checkpoint. No new model,
+training, PPE, RTSP, evidence persistence, database or later milestone work was
+added.
+
+`src/rules/temporal.py` keeps temporal state separate from detection, tracking
+and polygon geometry. `config/rules.yaml` supplies all important thresholds.
+The recorded-video runner reuses the accepted detector, ByteTrack configuration
+and Milestone 3 zone engine without changing them.
+
+### EXC-002 configured buddy-required zone
+
+EXC-002 represents exactly one confirmed current track in a configured
+buddy-required monitoring zone. It is a state rule, so a system starting with
+one person already inside can generate an event after confirmation; unlike
+BAR-001 it does not require an observed crossing. The prototype confirmation
+threshold is 3.0 seconds and reset confirmation is 1.0 second. Both values are
+configurable experimental defaults, not regulatory, certified or production-
+validated values. One event is emitted per continuous single-occupancy episode;
+confirmed occupancy 0 or 2+ clears the episode, after which a later confirmed
+single-occupancy episode may produce another event.
+
+The accepted `restricted_zone_1` polygon is reused only to exercise the generic
+rule on the recorded clip. It is a manually configured prototype/test zone, not
+a validated confined space. SafetyShield does not automatically recognize a
+confined space in this milestone.
+
+### ERG-006 prolonged low movement
+
+ERG-006 measures the image-space bottom-centre trajectory of each temporary
+camera/session-local track while it is confirmed inside an applicable zone. The
+stationary anchor is reset only when displacement exceeds
+`max(5 pixels, 0.10 * person bounding-box height)`, preventing small tracker
+jitter from continuously resetting the timer while remaining scale-aware. No
+pixel-to-metre conversion, pose estimation, optical flow or additional AI model
+is used.
+
+The configured no-movement duration remains 600 seconds, matching the master
+requirement rather than being shortened for the approximately 99-second test
+clip. State expires after 2.0 seconds without an applicable track observation.
+Track loss/expiry or a new Track ID starts fresh history; identity is not
+inferred across IDs. One event is emitted per prolonged low-movement episode,
+and meaningful movement resets the episode. This is only a prolonged
+low-movement safety alert for human interpretation, not medical-emergency,
+fatigue, unconsciousness or diagnosis detection.
+
+| Check | Actual observed result |
+| --- | --- |
+| Input | `data/raw_videos/cam_good_test.mp4`; 1612x904; 30 FPS; 2,965 frames |
+| Locked pipeline | `yolo26n.pt`; `imgsz=960`; confidence 0.20; person only; CUDA 0; ByteTrack high/low/new 0.20/0.10/0.20, buffer 45, match 0.80, score fusion enabled; saved zone unchanged |
+| Processing | 2,965 frames in 154.350 seconds; 19.210 average end-to-end FPS |
+| Performance comparison | 0.081 FPS above the Milestone 3 run (about 0.4%); no substantial temporal-rule slowdown observed |
+| BAR-001 regression | PASS: 1 entry event, Track 9 at 38.200 seconds/frame 1,146 |
+| IDT-004 regression | PASS: maximum confirmed camera-local occupancy 1 |
+| EXC-002 | 1 event, Track 9 in `restricted_zone_1` at 41.200 seconds/frame 1,236 |
+| ERG-006 | 0 events; expectedly possible because the clip is shorter than the configured 600-second requirement |
+| GPU allocation | 98.711 MiB peak allocated according to `torch.cuda.max_memory_allocated()`; not total system GPU use |
+| Output | `outputs/cam_good_test_temporal_rules.mp4`; generated artifact remains ignored by Git |
+| Output reopen | PASS: readable frame, 1612x904, 30 FPS, 2,965 frames, dimensions matched |
+| Review material | Frames at 35.0, 38.0, 39.2, 40.0, 41.2, 41.9, 42.0, 42.3 and 45.0 seconds in `outputs/temporal_rule_samples/`; ignored by Git |
+| Unit tests | PASS: all 67 tests, including 20 focused temporal tests and existing BAR-001/IDT-004 regression tests |
+| Dependency check | PASS: `pip check` found no broken requirements; no dependency was installed or changed |
+| Environment check | PASS, exit 0: torch 2.14.0+cu130, torchvision 0.29.0+cu130 and a CUDA calculation on the NVIDIA GeForce GTX 1650 |
+
+The inspected review sequence shows the buddy zone clear at 35.0 and 38.0
+seconds; confirmation at 39.2 and 40.0 seconds; one EXC-002 event/banner at 41.2
+seconds; reset pending during a brief detection gap at 41.9 seconds; the same
+episode active again at 42.0 and 42.3 seconds without a second event; and clear
+at 45.0 seconds. The low-movement display resets as meaningful movement occurs.
+No ERG-006 visual event was fabricated.
+
+| File | Purpose, input and output |
+| --- | --- |
+| `config/rules.yaml` | Runtime zone applicability, confirmation/reset, movement and expiry thresholds |
+| `src/rules/temporal.py` | Zone counts and tracked observations to in-memory EXC-002/ERG-006 states and events |
+| `scripts/run_temporal_rules.py` | Local MP4 through the existing detection/tracking/zone pipeline to a labelled ignored MP4 and review frames |
+| `tests/test_temporal_rules.py` | Simulated timestamps, occupancies and tracks to temporal semantics checks; not real safety accuracy evaluation |
+
+Common errors: an unknown zone ID means `config/rules.yaml` does not match an
+enabled configured zone; an invalid threshold reports a configuration error;
+missing or corrupt video, CUDA and codec failures retain the existing runner
+diagnostics. Fragmented tracks can reset ERG-006 history and can affect temporal
+events. Formal labelled evaluation remains future work.
+
+**MILESTONE 4 AUTOMATED STATUS: COMPLETE.**
+
+**TEMPORAL RULE VISUAL ACCEPTANCE: PENDING USER REVIEW.** Do not start Milestone
+5 until the user completes visual review and explicitly authorizes it.
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)
