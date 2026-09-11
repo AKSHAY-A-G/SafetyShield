@@ -6,8 +6,9 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 3 automated zone/rule acceptance complete; zone/rule
-visual acceptance is PENDING USER REVIEW.** Milestones 0-2 remain complete.
+Current stage: **Milestone 3 COMPLETE after manual prototype visual
+acceptance.** Milestones 0-2 remain complete. Milestone 4 has not started and
+requires separate authorization.
 The selected configurable person detector remains `yolo26n.pt`, `imgsz=960`,
 confidence 0.20 on CUDA device 0. Selected configurable ByteTrack defaults are
 high 0.20, low 0.10, new 0.20, buffer 45, match 0.80 and score fusion enabled.
@@ -743,16 +744,33 @@ confidence 0.20, person class only, CUDA device 0) and selected ByteTrack values
 
 The annotated output overlays the polygon and name, current occupancy, person
 boxes, temporary Track IDs, bottom-centre markers, green inside boxes and a
-one-second BAR-001 entry banner. Inspected samples show Track 9 outside at 35.0
-seconds, approaching/crossing at 37.5 seconds, confirmed inside with the event
-banner and occupancy 1 at 38.2 seconds, still inside through 42.0 seconds, and
-outside with occupancy 0 by 45.0 seconds. These are review aids rather than a
-labelled accuracy or tracking benchmark.
+one-second BAR-001 entry banner. The banner's presence on multiple rendered
+frames is display duration only; the rule engine generated one event.
 
-**MILESTONE 3 AUTOMATED STATUS: COMPLETE.**
+### Milestone 3 manual visual acceptance
 
-**ZONE/RULE VISUAL ACCEPTANCE: PENDING USER REVIEW.** Do not start Milestone 4
-until the user completes visual review and explicitly authorizes it.
+The user manually reviewed the event-focused frames at 35.0, 37.5, 38.2, 38.7,
+40.0, 42.0 and 45.0 seconds and accepted the behavior for this prototype. Track
+9 was outside with occupancy 0 at 35.0 seconds, approaching/crossing while
+confirmation kept occupancy at 0 at 37.5 seconds, and confirmed inside with
+occupancy 1 and the BAR-001 entry indication at 38.2 seconds. It remained
+inside with occupancy 1 at 38.7 and 40.0 seconds without another event. At 42.0
+seconds it approached/left the boundary consistently with exit debounce, and by
+45.0 seconds it was clearly outside with occupancy 0. The yellow bottom-centre
+marker behaved consistently with polygon membership, and no obvious edge-jitter
+problem appeared in the reviewed sequence.
+
+This is manual prototype visual acceptance, not labelled accuracy evaluation.
+Track IDs remain temporary and camera/session-local; the BAR-001 event count is
+not a unique-person count; IDT-004 reports current camera-local occupancy rather
+than unique site workers; and tracker fragmentation can affect downstream
+events. The polygon is a prototype/test zone, fixed polygon rules require a
+fixed camera viewpoint, and formal evaluation remains future work.
+
+**MILESTONE 3 STATUS: COMPLETE.**
+
+**ZONE/RULE VISUAL ACCEPTANCE: PASS (manual prototype review).** Do not start
+Milestone 4 until the user explicitly authorizes it.
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)

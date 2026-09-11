@@ -2,8 +2,8 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 3 automated fixed-camera zone/rule acceptance complete.
-Zone/rule visual acceptance is pending user review; Milestone 4 has not started.
+Current stage: Milestone 3 complete after manual prototype visual acceptance.
+Milestone 4 has not started and requires separate authorization.
 
 The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
 torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,
@@ -115,6 +115,9 @@ the saved zone, current camera-local occupancy, tracks, bottom-centre markers,
 inside state and BAR-001 entry banners. An entry requires confirmed OUTSIDE
 followed by confirmed INSIDE; a track first appearing inside is counted after
 confirmation but does not create an entry event. Generated videos and review
-images remain ignored by Git. Visual acceptance is still required.
+images remain ignored by Git. Manual review of the seven event-focused frames
+accepted the outside, confirmation, single entry, inside, exit and occupancy
+transitions for the prototype. The one-second banner display does not represent
+additional events. This review is not a labelled accuracy evaluation.
 
 Do not recreate `venv`. Package changes require explicit authorization.
