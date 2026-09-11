@@ -1205,14 +1205,17 @@ Milestone 7 provides an operator-facing prototype dashboard on localhost
    - Strictly enforces module hierarchy:
      - Person Detection is the root vision module.
      - Person Tracking depends on Person Detection.
-     - BAR-001 (Restricted Zone Entry), IDT-004 (Zone Worker Count), EXC-002
-       (Buddy-Required Zone), and ERG-006 (Prolonged Low Movement) depend on
-       Person Detection, Person Tracking, and a validated camera zone.
+     - BAR-001 (Restricted Zone Entry), IDT-004 (Zone Occupancy), and EXC-002
+       (Buddy-Required Zone) depend on Person Detection, Person Tracking, and
+       a valid camera-specific zone.
+     - ERG-006 (Prolonged Low Movement) depends on Person Detection and
+       Person Tracking; it does NOT require a zone.
    - Explicitly distinguishes "Global Enabled" toggle state from "Camera Available".
    - **Zone guard**: `live_cam_1` has no validated zone polygon (`cam_good_test`
      zone 1612x904 must not be reused for 2560x1440 live stream). Therefore, the
-     dashboard marks all zone-dependent modules as camera-unavailable for
-     `live_cam_1` with clear explanatory guidance.
+     dashboard marks zone-dependent modules (BAR-001, IDT-004, EXC-002) as
+     camera-unavailable for `live_cam_1`, while ERG-006 remains camera-available
+     when detection and tracking are enabled.
 
 6. **Recent events & evidence explorer**:
    - Discovers structured event packages across `evidence/<camera_id>/<session_id>/`.
@@ -1221,8 +1224,12 @@ Milestone 7 provides an operator-facing prototype dashboard on localhost
      and banners, playable evidence video clip, and full metadata JSON.
 
 7. **Prototype audit log viewer**:
-   - Parses `evidence/audit.jsonl` into a readable tabular log showing UTC
-     timestamp, action, module ID, event ID, camera ID, and details.
+   - Safely discovers `audit.jsonl` files across the evidence hierarchy
+     (`evidence/<camera_id>/<session_id>/audit.jsonl` or session paths).
+   - Deduplicates records, tolerates missing or malformed JSONL files without
+     crashing, and preserves camera/session context.
+   - Parses records into a readable tabular log showing UTC timestamp, action,
+     camera ID, session ID, module ID, event ID, and details.
    - Clearly noted as an internal prototype development log (not immutable or
      forensically certified).
 

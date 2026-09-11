@@ -287,9 +287,10 @@ def main() -> None:
             {
                 "Timestamp (UTC)": entry.audit_timestamp_utc or "N/A",
                 "Action": entry.action,
+                "Camera ID": entry.camera_id or "N/A",
+                "Session ID": entry.session_id or "N/A",
                 "Module": entry.module_id or "N/A",
                 "Event ID": entry.event_id or "N/A",
-                "Camera ID": entry.camera_id or "N/A",
                 "Details": str(entry.details),
             }
             for entry in audit_entries[:20]

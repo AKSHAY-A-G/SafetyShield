@@ -442,13 +442,42 @@ def load_recent_events(evidence_dir: Path, limit: int = 50) -> list[DashboardEve
 
 
 def load_audit_log(evidence_dir: Path, limit: int = 100) -> list[AuditEntry]:
-    """Load audit activity lines safely, skipping malformed JSON lines."""
-    if not evidence_dir.exists() or not evidence_dir.is_dir():
+    """Load audit activity lines safely, discovering audit.jsonl across the evidence hierarchy.
+
+    Requirements satisfied:
+    - Recursive discovery under evidence/<camera_id>/<session_id>/audit.jsonl or root/session paths
+    - No duplicate entries (deduplication on key tuple)
+    - Malformed JSONL lines are skipped without crashing
+    - Missing audit file returns empty list gracefully
+    - Preserves camera and session context from record or directory hierarchy
+    """
+    if not evidence_dir.exists():
         return []
 
     entries: list[AuditEntry] = []
+    seen: set[tuple[Any, ...]] = set()
 
-    for audit_file in evidence_dir.rglob("audit.jsonl"):
+    if evidence_dir.is_file() and evidence_dir.name == "audit.jsonl":
+        audit_files = [evidence_dir]
+    elif evidence_dir.is_dir():
+        audit_files = sorted(evidence_dir.rglob("audit.jsonl"))
+    else:
+        return []
+
+    for audit_file in audit_files:
+        # Determine fallback camera and session context from directory hierarchy
+        fallback_camera: str | None = None
+        fallback_session: str | None = None
+        try:
+            rel_parts = audit_file.relative_to(evidence_dir).parts
+            if len(rel_parts) >= 3:
+                fallback_camera = rel_parts[0]
+                fallback_session = rel_parts[1]
+            elif len(rel_parts) == 2:
+                fallback_session = rel_parts[0]
+        except Exception:
+            pass
+
         try:
             lines = audit_file.read_text(encoding="utf-8").splitlines()
             for line in lines:
@@ -459,14 +488,26 @@ def load_audit_log(evidence_dir: Path, limit: int = 100) -> list[AuditEntry]:
                     record = json.loads(line)
                     if not isinstance(record, dict):
                         continue
+
+                    cam_id = record.get("camera_id") or fallback_camera
+                    sess_id = record.get("session_id") or fallback_session
+                    ev_id = record.get("event_id")
+                    action = str(record.get("action", "UNKNOWN"))
+                    ts = record.get("audit_timestamp_utc")
+
+                    dedup_key = (ts, cam_id, sess_id, ev_id, action)
+                    if dedup_key in seen:
+                        continue
+                    seen.add(dedup_key)
+
                     entries.append(
                         AuditEntry(
-                            event_id=record.get("event_id"),
-                            camera_id=record.get("camera_id"),
-                            session_id=record.get("session_id"),
+                            event_id=ev_id,
+                            camera_id=cam_id,
+                            session_id=sess_id,
                             module_id=record.get("module_id"),
-                            action=str(record.get("action", "UNKNOWN")),
-                            audit_timestamp_utc=record.get("audit_timestamp_utc"),
+                            action=action,
+                            audit_timestamp_utc=ts,
                             details=record.get("details", {}) if isinstance(record.get("details"), dict) else {},
                         )
                     )

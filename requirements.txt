@@ -3,3 +3,4 @@ lap==0.5.13
 opencv-python
 python-dotenv
 pyyaml
+streamlit==1.63.0

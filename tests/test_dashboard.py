@@ -481,6 +481,57 @@ class DashboardDataTests(unittest.TestCase):
         self.assertEqual(cams["live_cam_1"].zone_count, 0)
         self.assertEqual(cams["live_cam_1"].zone_names, [])
 
+    # 29. audit deduplication across multiple files and sessions
+    def test_audit_deduplication_and_multi_session_discovery(self):
+        ev1 = self.base / "evidence" / "cam1" / "sess1"
+        ev2 = self.base / "evidence" / "cam2" / "sess2"
+        ev1.mkdir(parents=True)
+        ev2.mkdir(parents=True)
+
+        record1 = {"event_id": "e1", "camera_id": "cam1", "session_id": "sess1", "action": "EVENT_CREATED", "audit_timestamp_utc": "2026-09-11T10:00:00Z"}
+        record2 = {"event_id": "e2", "camera_id": "cam2", "session_id": "sess2", "action": "EVENT_CREATED", "audit_timestamp_utc": "2026-09-11T10:05:00Z"}
+
+        (ev1 / "audit.jsonl").write_text(
+            json.dumps(record1) + "\n" + json.dumps(record1) + "\n",  # duplicate line
+            encoding="utf-8",
+        )
+        (ev2 / "audit.jsonl").write_text(
+            json.dumps(record2) + "\n",
+            encoding="utf-8",
+        )
+
+        entries = load_audit_log(self.base / "evidence")
+        self.assertEqual(len(entries), 2)  # duplicates filtered out
+        self.assertEqual(entries[0].event_id, "e2")  # newest first
+        self.assertEqual(entries[1].event_id, "e1")
+
+    # 30. audit preserves context derived from path when omitted from record
+    def test_audit_preserves_path_derived_camera_and_session(self):
+        sess_dir = self.base / "evidence" / "camera_alpha" / "session_beta"
+        sess_dir.mkdir(parents=True)
+        # Record missing camera_id and session_id keys
+        (sess_dir / "audit.jsonl").write_text(
+            json.dumps({"event_id": "e1", "action": "EVENT_CREATED", "audit_timestamp_utc": "2026-09-11T10:00:00Z"}) + "\n",
+            encoding="utf-8",
+        )
+        entries = load_audit_log(self.base / "evidence")
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(entries[0].camera_id, "camera_alpha")
+        self.assertEqual(entries[0].session_id, "session_beta")
+
+    # 31. audit direct file loading
+    def test_audit_direct_file_loading(self):
+        sess_dir = self.base / "evidence" / "cam1" / "s1"
+        sess_dir.mkdir(parents=True)
+        audit_file = sess_dir / "audit.jsonl"
+        audit_file.write_text(
+            json.dumps({"event_id": "e1", "action": "EVENT_CREATED", "audit_timestamp_utc": "2026-09-11T10:00:00Z"}) + "\n",
+            encoding="utf-8",
+        )
+        entries = load_audit_log(audit_file)
+        self.assertEqual(len(entries), 1)
+        self.assertEqual(entries[0].event_id, "e1")
+
 
 class SystemStatusTests(unittest.TestCase):
     def test_system_status_reports_milestone_and_device(self):

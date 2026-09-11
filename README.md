@@ -243,14 +243,19 @@ It operates with a strictly safe design:
   SafetyShield modules based on `config/dashboard_controls.yaml`. Toggles
   strictly enforce system hierarchy:
   - Person Tracking requires Person Detection.
-  - BAR-001, IDT-004, EXC-002, and ERG-006 require Person Detection, Person
-    Tracking, and a validated camera zone.
+  - BAR-001, IDT-004, and EXC-002 require Person Detection, Person Tracking,
+    and a valid camera-specific zone.
+  - ERG-006 requires Person Detection and Person Tracking (does not require a zone).
   - Distinguishes "Global Enabled" status from "Camera Available".
   - Because `live_cam_1` has no validated polygon (the `cam_good_test` zone
-    must not be reused), zone-dependent modules are explicitly shown as
-    camera-unavailable for `live_cam_1`.
+    must not be reused), zone-dependent modules (BAR-001, IDT-004, EXC-002) are
+    explicitly shown as camera-unavailable for `live_cam_1`, while ERG-006
+    remains camera-available when detection and tracking are enabled.
 - **Recent events & evidence explorer**: Discovers and visualizes event packages
   from `evidence/`, displaying un-annotated native snapshots, annotated snapshots,
   video clips, and full metadata JSON.
-- **Prototype audit log**: Displays recent entries from `evidence/audit.jsonl`
-  (prototype development log; not immutable or forensically certified).
+- **Prototype audit log**: Recursively discovers `audit.jsonl` files across the
+  evidence hierarchy (`evidence/<camera_id>/<session_id>/audit.jsonl`),
+  deduplicates entries, preserves camera/session context, and renders a
+  structured table (prototype development log; not immutable or forensically
+  certified).
