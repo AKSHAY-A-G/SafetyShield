@@ -50,6 +50,7 @@ class LiveRunResult:
     clean_shutdown: bool
     reference_frame: Path | None
     review_output: Path | None
+    review_fps: float | None = None
 
 
 def save_reference_frame(path: Path, frame) -> Path:
@@ -89,15 +90,26 @@ def run_live_pipeline(
     output: Path | None,
     reference_path: Path | None,
     display: bool,
+    output_fps: float | None = None,
     reader_factory: Callable[..., Any] = RTSPReader,
     detector_factory: Callable[..., Any] = PersonDetector,
     tracker_factory: Callable[..., Any] = PersonTracker,
     clock: Callable[[], float] = time.monotonic,
     initial_frame_timeout_seconds: float = 45.0,
 ) -> LiveRunResult:
-    """Run a finite live session; injectable factories keep unit tests offline."""
+    """Run a finite live session; injectable factories keep unit tests offline.
+
+    Authoritative live session elapsed time uses the monotonic clock. The
+    optional review video records only processed latest frames. Its writer
+    FPS defaults to a prototype cap at 10 FPS (min(source_fps, 10.0)),
+    which approximately matches the current GTX 1650 processing rate rather
+    than performing exact live-time reconstruction. Real live event time
+    must not be derived from review video frame numbers.
+    """
     if duration_seconds <= 0 or initial_frame_timeout_seconds <= 0:
         raise ValueError("duration and initial-frame timeout must be positive")
+    if output_fps is not None and output_fps <= 0:
+        raise ValueError("output_fps must be positive")
     reader = reader_factory(camera_id, session_id, source)
     writer = None
     clean_shutdown = False
@@ -136,8 +148,16 @@ def run_live_pipeline(
         if reference_path is not None:
             reference_saved = save_reference_frame(reference_path, first.frame)
         source_fps = reader.metrics().reported_source_fps
+        writer_fps: float | None = None
         if output is not None:
-            writer_fps = min(source_fps, 30.0) if source_fps is not None else 20.0
+            if output_fps is not None:
+                writer_fps = float(output_fps)
+            else:
+                # Prototype default: cap review playback at 10.0 FPS. This approximately
+                # matches the current GTX 1650 processing rate (~10 FPS), providing
+                # playback closer to real session duration without claiming exact
+                # live-time reconstruction.
+                writer_fps = min(source_fps, 10.0) if source_fps is not None else 10.0
             writer = create_output_writer(output, raw_width, raw_height, writer_fps)
             output_saved = output
 
@@ -194,6 +214,7 @@ def run_live_pipeline(
             clean_shutdown=False,
             reference_frame=reference_saved,
             review_output=output_saved,
+            review_fps=writer_fps,
         )
     finally:
         if writer is not None:
@@ -215,6 +236,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--duration-seconds", type=float, default=120.0)
     parser.add_argument("--cameras-config", type=Path, default=DEFAULT_CAMERAS)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument(
+        "--output-fps",
+        type=float,
+        default=None,
+        help="Playback FPS for optional review video (default: min(source_fps, 10.0), approximately matching current GTX 1650 processing rate)",
+    )
     parser.add_argument("--no-output", action="store_true")
     parser.add_argument("--save-reference-frame", type=Path, default=DEFAULT_REFERENCE)
     display_group = parser.add_mutually_exclusive_group()
@@ -260,6 +287,10 @@ def _print_results(result: LiveRunResult, clean_shutdown: bool) -> None:
     print("Live evidence: deferred; no live pre/post buffer")
     print(f"Reference frame: {result.reference_frame}")
     print(f"Review material: {result.review_output}")
+    if result.review_fps is not None:
+        print(f"Review recording FPS: {result.review_fps:.2f}")
+    else:
+        print("Review recording FPS: disabled")
     print(f"Clean shutdown: {'YES' if clean_shutdown else 'NO'}")
 
 
@@ -282,6 +313,7 @@ def main(argv: list[str] | None = None) -> int:
             output=None if args.no_output else args.output,
             reference_path=args.save_reference_frame,
             display=args.display,
+            output_fps=args.output_fps,
         )
         _print_results(result, result.clean_shutdown)
         return 0 if result.clean_shutdown else 1

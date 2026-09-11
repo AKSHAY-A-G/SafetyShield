@@ -1101,10 +1101,16 @@ credential disclosure. Session ID was `live_acf176649da2`.
 | Live evidence | Deferred; no live pre/post buffer or event evidence |
 | Shutdown | Clean; capture released and reader thread joined |
 | Raw reference | `outputs/live_cam_1_reference.jpg`; readable 2560x1440 |
-| Annotated review | `outputs/live_cam_1_rtsp_test.mp4`; readable 1,229 frames, 2560x1440, 20 FPS |
-| Unit/regression tests | PASS: 107/107, including 18 offline RTSP tests |
+| Annotated review | `outputs/live_cam_1_rtsp_test.mp4`; readable 1,229 frames, 2560x1440, 20 FPS (61.45s playback timeline) |
+| Unit/regression tests | PASS: 110/110, including 21 offline RTSP tests |
 | Dependency check | PASS: no broken requirements |
 | Environment check | PASS, exit 0; CUDA calculation on GTX 1650 |
+
+Timing semantics note:
+Authoritative live session elapsed time is measured strictly via `time.monotonic()` (120.029 seconds).
+The existing previously generated review recording `outputs/live_cam_1_rtsp_test.mp4` contains 1,229 processed frames encoded at the source camera rate of 20.0 FPS, resulting in an encoded playback duration of 61.45 seconds (~2x time-compressed); this existing file remains time-compressed and is not rewritten.
+Any timestamps derived from `output_video_frame / output_fps` represent only the review-video timeline, not live monotonic session elapsed time.
+To address this for future recordings, `scripts/run_rtsp_pipeline.py` adds a configurable `--output-fps` parameter that defaults to a cap of 10 FPS (`min(source_fps, 10.0)`). This is a prototype playback choice that approximately matches the current GTX 1650 processing rate (~10.24 FPS), rather than an exact live-time reconstruction. Future recordings using this default will have playback timing closer to real session duration, but timing is not guaranteed exact. Latest-frame dropping remains unchanged and no artificial frames are duplicated.
 
 The live rate includes transport, decode, inference, tracking, and deliberate
 stale-frame replacement and is not directly comparable to recorded-video FPS.

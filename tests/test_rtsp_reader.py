@@ -130,6 +130,12 @@ class CameraConfigTests(unittest.TestCase):
         with redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
             parse_args(["--url", SECRET])
 
+    def test_cli_output_fps_option(self):
+        args_default = parse_args([])
+        self.assertIsNone(args_default.output_fps)
+        args_custom = parse_args(["--output-fps", "10.0"])
+        self.assertEqual(args_custom.output_fps, 10.0)
+
 
 class RTSPReaderTests(unittest.TestCase):
     def make_reader(self, captures, logs=None, **kwargs):
@@ -380,6 +386,119 @@ class DurationRunnerTests(unittest.TestCase):
         self.assertTrue(result.clean_shutdown)
         self.assertGreaterEqual(result.acceptance_seconds, 0.10)
         self.assertGreater(result.metrics.frames_processed, 0)
+
+    def test_run_live_pipeline_rejects_non_positive_output_fps(self):
+        with self.assertRaisesRegex(ValueError, "output_fps must be positive"):
+            run_live_pipeline(
+                camera_id="live_cam_1", session_id="test", source=SECRET,
+                duration_seconds=1.0, output=None, reference_path=None,
+                display=False, output_fps=0.0,
+            )
+        with self.assertRaisesRegex(ValueError, "output_fps must be positive"):
+            run_live_pipeline(
+                camera_id="live_cam_1", session_id="test", source=SECRET,
+                duration_seconds=1.0, output=None, reference_path=None,
+                display=False, output_fps=-1.0,
+            )
+
+    def test_run_live_pipeline_review_writer_fps_defaults_and_explicit(self):
+        class StepClock:
+            def __init__(self):
+                self.value = 0.0
+
+            def __call__(self):
+                self.value += 0.02
+                return self.value
+
+        class FakeReader:
+            terminal_failure = False
+
+            def __init__(self, camera_id, session_id, _source):
+                self.camera_id = camera_id
+                self.session_id = session_id
+                self.received = 0
+                self.processed = 0
+
+            def start(self):
+                return None
+
+            def read_latest(self, timeout=0.0):
+                self.received += 1
+                return LatestFrame(self.received, 0.0, frame())
+
+            def mark_processed(self, _sequence):
+                self.processed += 1
+
+            def stop(self):
+                return True
+
+            def metrics(self):
+                return RTSPMetrics(
+                    self.camera_id, self.session_id, 1, 1, 0, self.received,
+                    self.processed, 0, 0, 0, 0.01, 0.2, 12, 8, 25.0, 0,
+                    True, 0.0,
+                )
+
+        class FakeDetector:
+            def __init__(self, **_kwargs):
+                pass
+
+            def detect(self, _frame):
+                return []
+
+        class FakeTracker:
+            unique_track_count = 0
+
+            def __init__(self, *_args):
+                pass
+
+            def update(self, *_args, **_kwargs):
+                return []
+
+        class FakeWriter:
+            def __init__(self):
+                self.written = 0
+                self.released = False
+
+            def write(self, _frame):
+                self.written += 1
+
+            def release(self):
+                self.released = True
+
+        fake_writer = FakeWriter()
+        with (
+            patch("scripts.run_rtsp_pipeline.torch.cuda.reset_peak_memory_stats"),
+            patch("scripts.run_rtsp_pipeline.torch.cuda.synchronize"),
+            patch("scripts.run_rtsp_pipeline.torch.cuda.max_memory_allocated", return_value=0),
+            patch("scripts.run_rtsp_pipeline.create_output_writer", return_value=fake_writer) as mock_create,
+        ):
+            result = run_live_pipeline(
+                camera_id="live_cam_1", session_id="test-session", source=SECRET,
+                duration_seconds=0.05, output=Path("outputs/test.mp4"), reference_path=None,
+                display=False, reader_factory=FakeReader,
+                detector_factory=FakeDetector, tracker_factory=FakeTracker,
+                clock=StepClock(), output_fps=None,
+            )
+            mock_create.assert_called_once_with(Path("outputs/test.mp4"), 12, 8, 10.0)
+            self.assertEqual(result.review_fps, 10.0)
+
+        fake_writer2 = FakeWriter()
+        with (
+            patch("scripts.run_rtsp_pipeline.torch.cuda.reset_peak_memory_stats"),
+            patch("scripts.run_rtsp_pipeline.torch.cuda.synchronize"),
+            patch("scripts.run_rtsp_pipeline.torch.cuda.max_memory_allocated", return_value=0),
+            patch("scripts.run_rtsp_pipeline.create_output_writer", return_value=fake_writer2) as mock_create2,
+        ):
+            result2 = run_live_pipeline(
+                camera_id="live_cam_1", session_id="test-session", source=SECRET,
+                duration_seconds=0.05, output=Path("outputs/test.mp4"), reference_path=None,
+                display=False, reader_factory=FakeReader,
+                detector_factory=FakeDetector, tracker_factory=FakeTracker,
+                clock=StepClock(), output_fps=15.0,
+            )
+            mock_create2.assert_called_once_with(Path("outputs/test.mp4"), 12, 8, 15.0)
+            self.assertEqual(result2.review_fps, 15.0)
 
 
 if __name__ == "__main__":
