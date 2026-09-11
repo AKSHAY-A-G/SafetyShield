@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import dataclass, replace
+from datetime import datetime, timezone
+import json
 from pathlib import Path
 import sys
 import time
@@ -18,6 +20,8 @@ import torch
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
+
+DEFAULT_STATUS_DIR = PROJECT_ROOT / "outputs" / "runtime"
 
 from scripts.run_person_detection import create_output_writer  # noqa: E402
 from scripts.run_person_tracking import draw_track  # noqa: E402
@@ -81,6 +85,43 @@ def draw_live_status(frame, camera_id: str, fps: float, zone_status: str) -> Non
         )
 
 
+def write_runtime_status(
+    status_path: Path,
+    *,
+    camera_id: str,
+    session_id: str,
+    state: str,
+    metrics: RTSPMetrics,
+    processing_fps: float,
+    temporary_track_count: int,
+    zones_enabled: bool,
+    schema_version: str = "1.0",
+) -> None:
+    """Safely write runtime status JSON with atomic replacement, never storing secrets."""
+    status_path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "schema_version": schema_version,
+        "camera_id": camera_id,
+        "session_id": session_id,
+        "state": state,
+        "updated_at_utc": datetime.now(timezone.utc).isoformat(),
+        "decoded_width": metrics.decoded_width,
+        "decoded_height": metrics.decoded_height,
+        "source_fps": metrics.reported_source_fps,
+        "frames_received": metrics.frames_received,
+        "frames_processed": metrics.frames_processed,
+        "frames_dropped": metrics.frames_overwritten_or_dropped,
+        "failed_reads": metrics.failed_reads,
+        "reconnect_count": metrics.reconnect_count,
+        "processing_fps": round(processing_fps, 3),
+        "temporary_track_count": temporary_track_count,
+        "zones_enabled": zones_enabled,
+    }
+    tmp_path = status_path.with_suffix(".json.tmp")
+    tmp_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    tmp_path.replace(status_path)
+
+
 def run_live_pipeline(
     *,
     camera_id: str,
@@ -91,6 +132,7 @@ def run_live_pipeline(
     reference_path: Path | None,
     display: bool,
     output_fps: float | None = None,
+    runtime_status_path: Path | None = None,
     reader_factory: Callable[..., Any] = RTSPReader,
     detector_factory: Callable[..., Any] = PersonDetector,
     tracker_factory: Callable[..., Any] = PersonTracker,
@@ -161,6 +203,18 @@ def run_live_pipeline(
             writer = create_output_writer(output, raw_width, raw_height, writer_fps)
             output_saved = output
 
+        if runtime_status_path is not None:
+            write_runtime_status(
+                runtime_status_path,
+                camera_id=camera_id,
+                session_id=session_id,
+                state="running",
+                metrics=reader.metrics(),
+                processing_fps=0.0,
+                temporary_track_count=0,
+                zones_enabled=zone_configured,
+            )
+
         processing_started = clock()
         pending = first
         while clock() - processing_started < duration_seconds:
@@ -194,6 +248,17 @@ def run_live_pipeline(
             reader.mark_processed(latest.sequence)
             fps = processed / max(clock() - processing_started, 1e-9)
             draw_live_status(annotated, camera_id, fps, zone_status)
+            if runtime_status_path is not None and processed % 50 == 0:
+                write_runtime_status(
+                    runtime_status_path,
+                    camera_id=camera_id,
+                    session_id=session_id,
+                    state="running",
+                    metrics=reader.metrics(),
+                    processing_fps=fps,
+                    temporary_track_count=tracker.unique_track_count if tracker else 0,
+                    zones_enabled=zone_configured,
+                )
             if writer is not None:
                 writer.write(annotated)
             if display:
@@ -222,6 +287,20 @@ def run_live_pipeline(
         if display:
             cv2.destroyAllWindows()
         clean_shutdown = reader.stop()
+        if runtime_status_path is not None:
+            try:
+                write_runtime_status(
+                    runtime_status_path,
+                    camera_id=camera_id,
+                    session_id=session_id,
+                    state="stopped",
+                    metrics=reader.metrics(),
+                    processing_fps=result.processing_fps if result else 0.0,
+                    temporary_track_count=tracker.unique_track_count if tracker else 0,
+                    zones_enabled=zone_configured,
+                )
+            except Exception:
+                pass
     if result is None:
         raise RuntimeError(f"Live pipeline did not produce results for camera {camera_id}")
     return replace(
@@ -244,6 +323,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument("--no-output", action="store_true")
     parser.add_argument("--save-reference-frame", type=Path, default=DEFAULT_REFERENCE)
+    parser.add_argument(
+        "--runtime-status",
+        type=Path,
+        default=None,
+        help="Optional path to write runtime status JSON (default: outputs/runtime/<camera_id>_status.json)",
+    )
     display_group = parser.add_mutually_exclusive_group()
     display_group.add_argument("--display", action="store_true")
     display_group.add_argument("--no-display", action="store_false", dest="display")
@@ -305,6 +390,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"RTSP secret configured: YES ({config.rtsp_env_var})")
         if hasattr(cv2, "setLogLevel"):
             cv2.setLogLevel(0)
+        status_path = args.runtime_status or (DEFAULT_STATUS_DIR / f"{config.camera_id}_status.json")
         result = run_live_pipeline(
             camera_id=config.camera_id,
             session_id=session_id,
@@ -314,6 +400,7 @@ def main(argv: list[str] | None = None) -> int:
             reference_path=args.save_reference_frame,
             display=args.display,
             output_fps=args.output_fps,
+            runtime_status_path=status_path,
         )
         _print_results(result, result.clean_shutdown)
         return 0 if result.clean_shutdown else 1

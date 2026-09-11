@@ -2,8 +2,9 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 6 COMPLETE. Milestones 0-6 are complete.
-Milestone 7 has not started and requires separate authorization.
+Current stage: Milestone 7 basic dashboard and module controls implemented.
+Visual acceptance is PENDING USER REVIEW. Milestone 8 has not started and
+requires separate authorization.
 
 The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
 torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,
@@ -217,3 +218,39 @@ not the secret value. A missing `SAFETYSHIELD_RTSP_LIVE_CAM_1`, malformed camera
 YAML, unavailable stream, writer failure, or reference-image failure exits
 clearly. Native OpenCV/FFmpeg diagnostics should be handled cautiously because
 third-party builds may independently include connection details.
+
+Run the authorized Milestone 7 local dashboard from the project root:
+
+```powershell
+.\venv\Scripts\python.exe -B -m streamlit run scripts\run_dashboard.py --server.address 127.0.0.1
+```
+
+The operator-facing prototype dashboard binds locally to `http://127.0.0.1:8501`.
+It operates with a strictly safe design:
+- **Zero background inference on rerender**: The dashboard never spawns OpenCV
+  RTSP readers, triggers YOLOv26 inference, or invokes PyTorch CUDA calculations
+  on page refresh.
+- **System status**: Reports Python 3.14.5, PyTorch 2.14.0+cu130, torchvision
+  0.29.0+cu130, CUDA readiness on the GTX 1650, and project structure status.
+- **Configured cameras**: Displays metadata from `config/cameras.yaml` without
+  revealing secrets. Checks presence of `SAFETYSHIELD_RTSP_LIVE_CAM_1` as a
+  safe boolean indicator.
+- **Live camera status**: Safely reads telemetry from
+  `outputs/runtime/live_cam_1_status.json` with a 30-second freshness guard
+  (running, stopped, stale, or offline), and displays the native reference frame
+  if present.
+- **Module controls & architectural dependencies**: Provides toggles for
+  SafetyShield modules based on `config/dashboard_controls.yaml`. Toggles
+  strictly enforce system hierarchy:
+  - Person Tracking requires Person Detection.
+  - BAR-001, IDT-004, EXC-002, and ERG-006 require Person Detection, Person
+    Tracking, and a validated camera zone.
+  - Distinguishes "Global Enabled" status from "Camera Available".
+  - Because `live_cam_1` has no validated polygon (the `cam_good_test` zone
+    must not be reused), zone-dependent modules are explicitly shown as
+    camera-unavailable for `live_cam_1`.
+- **Recent events & evidence explorer**: Discovers and visualizes event packages
+  from `evidence/`, displaying un-annotated native snapshots, annotated snapshots,
+  video clips, and full metadata JSON.
+- **Prototype audit log**: Displays recent entries from `evidence/audit.jsonl`
+  (prototype development log; not immutable or forensically certified).

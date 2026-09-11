@@ -1,0 +1,36 @@
+# SafetyShield prototype module controls
+# Changes apply on next pipeline restart
+schema_version: "1.0"
+modules:
+  person_detection:
+    enabled: true
+    label: "Person Detection"
+    description: "YOLO nano person detector on GPU"
+  person_tracking:
+    enabled: true
+    label: "Person Tracking"
+    description: "Camera/session-local ByteTrack"
+  bar_001:
+    enabled: true
+    label: "BAR-001 Restricted Zone Entry"
+    description: "Zone boundary entry alert"
+  idt_004:
+    enabled: true
+    label: "IDT-004 Zone Occupancy"
+    description: "Restricted zone occupancy counter"
+  exc_002:
+    enabled: true
+    label: "EXC-002 Buddy-Required Single Occupancy"
+    description: "Single-worker entry alarm in buddy zone"
+  erg_006:
+    enabled: true
+    label: "ERG-006 Prolonged Low Movement"
+    description: "Stationary worker alert"
+  evidence:
+    enabled: true
+    label: "Evidence Capture"
+    description: "Snapshots and MP4 clips for safety events"
+  rtsp:
+    enabled: true
+    label: "Live RTSP Ingestion"
+    description: "Single-camera low-latency latest-frame reader"

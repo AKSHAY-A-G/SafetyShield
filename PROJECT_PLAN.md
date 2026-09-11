@@ -226,16 +226,12 @@ Unresolved gates must be reported honestly.
 | 0 - Audit/environment | Source mapping, this plan, AGENTS instructions and diagnostic script; authorized CUDA package replacement | COMPLETE: existing venv retained; only torch/torchvision replaced; actual CUDA matrix computation passes; checker exit 0, all 11 tests, pip check and Ultralytics import pass |
 | 1 - Recorded video/person detection | OpenCV reader, one nano detector, person boxes/confidence/FPS and saved output | **COMPLETE:** supplied MP4 processed on CUDA; output reopened with matching dimensions/frame count; throughput measured; controlled 640/0.25 versus 960/0.20 comparison manually accepted for the prototype. Formal labelled accuracy evaluation remains in Milestone 12. No PPE/RTSP/tracking/database/dashboard |
 | 2 - Tracking | ByteTrack and temporary ID overlay | **COMPLETE:** Candidate B completed the full clip and was manually accepted from matched A/B contact sheets. This is prototype visual acceptance, not labelled tracking evaluation; no employee/cross-camera identity claim |
-| 3 - PPE training workspace | Interval extraction, dataset/PPE YAML, train/validate/predict utilities | Verify extraction times, group-disjoint splits and labels; complete a small authorized training/validation run with a loadable checkpoint and recorded memory use |
-| 4 - PPE inference | Original-resolution crops, person size, helmet/vest observations and three states | Inspect labelled near/medium/far crops and overlays; verify PRESENT/UNKNOWN and evidence-supported MISSING; small/occluded observations must become UNKNOWN |
-| 5 - Temporal state/events | Recent per-track history, configurable voting and suspected PPE events | Replay present/present/unknown/present and get no violation; sustained valid missing evidence yields one event per episode; verify expiry and independent tracks |
-| 6 - One RTSP feed | Env-based URL lookup, timeout/reconnect and online/offline state | Connect one authorized camera, disconnect/recover and verify no unbounded retry/memory growth or secrets in output; moving-camera geometry guard is enforced |
-| 7 - Restricted zones | YAML polygon, bottom-centre containment and zone counts | A tracked crossing generates exactly one BAR-001 episode event; exit/re-entry creates a new one; boundary and moving-camera cases are tested |
-| 8 - Vehicle risk | Supported vehicle labels, tracks and image-space SAFE/WARNING/DANGER | Replay annotated risk examples; confirm configurable transitions and labels, with no uncalibrated metre/speed claims |
-| 9 - Evidence | Snapshot, bounded pre/post video and metadata | Reopen saved images/video; verify event timestamp, available pre/post coverage, bounded memory and disk/disconnect failure handling |
-| 10 - SQLite | Events/evidence references and acknowledgement history | Insert/read an event, persist across restart, acknowledge with actor/time/remarks and verify audit history and duplicate handling |
-| 11 - Streamlit | Selected camera, observed counts, recent events, evidence and acknowledge controls | A reviewer finds an event, opens its evidence and records an acknowledgement visible after restart; only selected feeds are processed |
-| 12 - Evaluation/optimisation | Site-specific report and operational checks | Publish measured per-size PPE results, false/missed events, FPS, RAM/VRAM and failure recovery on held-out clips; record reproducible settings and remaining limits |
+| 3 - Restricted zones | YAML polygon, bottom-centre containment and zone counts | **COMPLETE:** BAR-001 entry event and IDT-004 occupancy validated on `cam_good_test.mp4`; manual visual review accepted |
+| 4 - Temporal safety rules | EXC-002 buddy zone and ERG-006 low-movement rules | **COMPLETE:** EXC-002 single-occupancy event and ERG-006 low-movement timing validated; manual visual review accepted |
+| 5 - Event evidence | Raw/annotated snapshots, bounded clips, metadata, audit log | **COMPLETE:** 1612x904 snapshots, 10s clipped MP4, JSON metadata, and JSONL audit logging validated; manual visual review accepted |
+| 6 - One RTSP feed | Env-based URL lookup, timeout/reconnect, latest-frame slot | **COMPLETE:** 120s live acceptance run on `live_cam_1` (2560x1440, ~10.2 FPS) passed; clean shutdown; manual visual review accepted |
+| 7 - Basic dashboard and module controls | Streamlit dashboard, system status, module toggles, telemetry, evidence explorer | **IMPLEMENTED:** Offline tests passed (139/139); local Streamlit server verified; visual acceptance PENDING USER REVIEW |
+| 8 - Next milestone | To be determined upon user authorization | NOT STARTED / requires separate authorization |
 
 Prototype completion requires a reproducible selected-camera pipeline through
 events/evidence/storage/dashboard, verified failure handling and measured
@@ -1158,7 +1154,108 @@ Pre-existing Antigravity/Pyrefly diagnostics remain in the Milestone 0 environme
 
 **MILESTONE 6 STATUS: COMPLETE.**
 
-Next milestone: Milestone 7 - basic dashboard / module controls (NOT STARTED / requires separate authorization).
+## Milestone 7 basic dashboard and module controls
+
+Automated acceptance run date: 2026-09-11. The user explicitly authorized
+Streamlit installation and implementation of Milestone 7 basic dashboard and
+module controls. No upgrade of Python, PyTorch, torchvision, CUDA, Ultralytics,
+or OpenCV was performed. Milestone 8 was not started.
+
+### Scope and architectural design
+
+Milestone 7 provides an operator-facing prototype dashboard on localhost
+`127.0.0.1:8501`. It is designed strictly for local development and review:
+
+1. **Decoupled execution / zero inference on rerender**:
+   - The dashboard does not run OpenCV RTSP readers, trigger YOLOv26 inference,
+     or run PyTorch GPU operations on page load or widget interactions.
+   - It reads configuration files (`config/cameras.yaml`, `config/zones.yaml`,
+     `config/dashboard_controls.yaml`), runtime status telemetry JSON files
+     under `outputs/runtime/`, and saved evidence packages under `evidence/`.
+   - The dashboard is completely non-intrusive and cannot cause memory leaks or
+     inference lockups.
+
+2. **System status panel**:
+   - Displays Python 3.14.5, platform details, virtual environment path,
+     PyTorch 2.14.0+cu130, torchvision 0.29.0+cu130, and CUDA readiness on the
+     NVIDIA GeForce GTX 1650 (4.0 GiB VRAM).
+   - Verifies project repository structure.
+
+3. **Configured cameras overview**:
+   - Reads `config/cameras.yaml` to display registered cameras (`cam_good_test`,
+     `live_cam_1`).
+   - Secret-safe presence check: Evaluates whether `SAFETYSHIELD_RTSP_LIVE_CAM_1`
+     is configured in the environment and displays a boolean indicator without
+     ever logging or revealing the credential value.
+
+4. **Live camera status & telemetry**:
+   - `scripts/run_rtsp_pipeline.py` supports writing atomic runtime status to
+     `outputs/runtime/<camera_id>_status.json`.
+   - The dashboard monitors this telemetry with a 30-second freshness threshold.
+     Status is classified as `running` (fresh), `stale` (no updates for >30s),
+     `stopped` (cleanly terminated), or `offline` (no status file).
+   - Metrics displayed: native decoded resolution, source FPS, processed FPS,
+     frames received/processed/dropped, failed reads, reconnects, and temporary
+     tracks.
+   - If present, the clean native reference frame (`outputs/live_cam_1_reference.jpg`)
+     is rendered.
+
+5. **Module toggles & architectural dependency validation**:
+   - Configured via `config/dashboard_controls.yaml` (schema 1.0).
+   - Strictly enforces module hierarchy:
+     - Person Detection is the root vision module.
+     - Person Tracking depends on Person Detection.
+     - BAR-001 (Restricted Zone Entry), IDT-004 (Zone Worker Count), EXC-002
+       (Buddy-Required Zone), and ERG-006 (Prolonged Low Movement) depend on
+       Person Detection, Person Tracking, and a validated camera zone.
+   - Explicitly distinguishes "Global Enabled" toggle state from "Camera Available".
+   - **Zone guard**: `live_cam_1` has no validated zone polygon (`cam_good_test`
+     zone 1612x904 must not be reused for 2560x1440 live stream). Therefore, the
+     dashboard marks all zone-dependent modules as camera-unavailable for
+     `live_cam_1` with clear explanatory guidance.
+
+6. **Recent events & evidence explorer**:
+   - Discovers structured event packages across `evidence/<camera_id>/<session_id>/`.
+   - For any selected event, displays event ID, rule ID, timestamp, temporary
+     Track ID, un-annotated raw snapshot, annotated snapshot with bounding boxes
+     and banners, playable evidence video clip, and full metadata JSON.
+
+7. **Prototype audit log viewer**:
+   - Parses `evidence/audit.jsonl` into a readable tabular log showing UTC
+     timestamp, action, module ID, event ID, camera ID, and details.
+   - Clearly noted as an internal prototype development log (not immutable or
+     forensically certified).
+
+| Check | Actual observed result |
+| --- | --- |
+| Streamlit installation | `streamlit==1.63.0` installed in existing venv; no core packages altered |
+| Dependency check | PASS: `pip check` found no broken requirements |
+| Environment check | PASS, exit 0: torch 2.14.0+cu130, torchvision 0.29.0+cu130, CUDA on GTX 1650 |
+| Unit tests | PASS: 139/139 tests passed, including 29 new tests in `tests/test_dashboard.py` |
+| Local server launch | Tested on `http://127.0.0.1:8501`; returns HTTP 200 and `/stcore/health` returns 200 ok |
+| AppTest automated run | PASS: `AppTest.from_file("scripts/run_dashboard.py").run()` executes cleanly |
+| Secret safety | PASS: no secrets in code, logs, telemetry JSON, or UI |
+
+### Milestone 7 visual review result
+
+DASHBOARD VISUAL ACCEPTANCE: PENDING USER REVIEW.
+
+| File | Purpose, input and output |
+| --- | --- |
+| `config/dashboard_controls.yaml` | Module toggle configuration schema and default enabled states |
+| `src/dashboard/models.py` | Typed dataclasses for system status, camera info, telemetry, controls, events, and audit |
+| `src/dashboard/data.py` | Secret-safe data loading, dependency logic, telemetry parser, evidence explorer, and audit loader |
+| `scripts/run_dashboard.py` | Streamlit operator-facing dashboard script with layout, metrics, controls, and media |
+| `tests/test_dashboard.py` | 29 offline unit tests verifying status, controls, dependencies, telemetry, evidence, and safety |
+| `scripts/run_rtsp_pipeline.py` | Updated with `--runtime-status` atomic JSON status writer for live telemetry |
+
+**MILESTONE 7 AUTOMATED STATUS: PASS.**
+
+**DASHBOARD VISUAL ACCEPTANCE: PENDING USER REVIEW.**
+
+**MILESTONE 7 STATUS: IMPLEMENTED.**
+
+Next milestone: Milestone 8 (NOT STARTED / requires separate authorization).
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)
