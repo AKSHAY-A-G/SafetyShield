@@ -1,1 +1,23 @@
-# Camera monitoring zones will be configured here later.
+cameras:
+  cam_good_test:
+    expected_resolution:
+    - 1612
+    - 904
+    fixed_camera: true
+    zones:
+    - zone_id: restricted_zone_1
+      zone_name: Restricted Zone 1
+      zone_type: restricted
+      enabled: true
+      polygon:
+      - - 471
+        - 463
+      - - 653
+        - 403
+      - - 619
+        - 549
+      - - 439
+        - 581
+      confirm_inside_seconds: 0.2
+      confirm_outside_seconds: 0.2
+      state_ttl_seconds: 2.0

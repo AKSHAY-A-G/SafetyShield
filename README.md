@@ -2,8 +2,8 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 2 complete after manual prototype visual acceptance.
-Milestone 3 has not started.
+Current stage: Milestone 3 automated fixed-camera zone/rule acceptance complete.
+Zone/rule visual acceptance is pending user review; Milestone 4 has not started.
 
 The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
 torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,
@@ -99,5 +99,22 @@ regression in those samples. The selected configurable ByteTrack defaults are
 high 0.20, low 0.10, new 0.20, buffer 45, match 0.80 and score fusion enabled.
 A temporary Track ID count is not a unique-person count. This review is not
 labelled ground truth and establishes no formal tracking metric.
+
+Run the authorized Milestone 3 fixed-camera zone rules from the project root:
+
+```powershell
+.\venv\Scripts\python.exe -B scripts\run_zone_rules.py `
+  --input data\raw_videos\cam_good_test.mp4 `
+  --output outputs\cam_good_test_zones.mp4
+```
+
+The runner validates `config\zones.yaml` against the input resolution, reuses
+the selected Milestone 1 detector and Milestone 2 ByteTrack settings, and uses
+each temporary track's bottom-centre point for polygon membership. It overlays
+the saved zone, current camera-local occupancy, tracks, bottom-centre markers,
+inside state and BAR-001 entry banners. An entry requires confirmed OUTSIDE
+followed by confirmed INSIDE; a track first appearing inside is counted after
+confirmation but does not create an entry event. Generated videos and review
+images remain ignored by Git. Visual acceptance is still required.
 
 Do not recreate `venv`. Package changes require explicit authorization.

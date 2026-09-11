@@ -6,7 +6,8 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 2 COMPLETE after manual prototype visual acceptance.**
+Current stage: **Milestone 3 automated zone/rule acceptance complete; zone/rule
+visual acceptance is PENDING USER REVIEW.** Milestones 0-2 remain complete.
 The selected configurable person detector remains `yolo26n.pt`, `imgsz=960`,
 confidence 0.20 on CUDA device 0. Selected configurable ByteTrack defaults are
 high 0.20, low 0.10, new 0.20, buffer 45, match 0.80 and score fusion enabled.
@@ -692,6 +693,66 @@ checker returned 0 and reconfirmed CUDA execution on the GTX 1650 with torch
 
 **MILESTONE 2 STATUS: COMPLETE.** Do not start Milestone 3 until it is explicitly
 authorized.
+
+## Milestone 3 fixed-camera restricted-zone rules
+
+Automated acceptance run date: 2026-09-11. The user explicitly authorized this
+zone/rule milestone after accepting Milestone 2 and manually saved the prototype
+polygon with `scripts/draw_zone.py`. This scoped authorization supersedes the
+earlier roadmap ordering for this checkpoint only; no PPE or later module was
+started.
+
+The sole configured zone is camera `cam_good_test`, zone
+`restricted_zone_1` / `Restricted Zone 1`, type `restricted`, enabled, at the
+expected fixed-camera resolution 1612x904. The polygon is exactly
+`[(471, 463), (653, 403), (619, 549), (439, 581)]`. There are no additional
+fabricated zones. Inside confirmation is 0.20 seconds, outside confirmation is
+0.20 seconds and per-track zone state expires after 2.0 seconds without an
+observation. Polygon boundaries count as inside.
+
+Each tracked person's bottom-centre point `((x1 + x2) // 2, y2)` determines
+zone membership. IDT-004 is the count of currently active, confirmed-inside
+temporary tracks for this camera and session only. It is not a unique-person,
+employee, attendance or site-wide worker count.
+
+BAR-001 requires a confirmed OUTSIDE state followed by a confirmed INSIDE
+state. A track first observed inside can contribute to occupancy after inside
+confirmation but does not generate an entry event. Remaining inside does not
+repeat the event. A confirmed exit followed by confirmed re-entry can generate
+another event. Both initial outside qualification and subsequent exits use the
+configured outside debounce. Track fragmentation can affect event totals, and
+temporary ByteTrack IDs do not establish identity.
+
+The full-video run preserved the selected detector (`yolo26n.pt`, `imgsz=960`,
+confidence 0.20, person class only, CUDA device 0) and selected ByteTrack values
+(high 0.20, low 0.10, new 0.20, buffer 45, match 0.80, score fusion enabled).
+
+| Check | Actual observed result |
+| --- | --- |
+| Input | `data/raw_videos/cam_good_test.mp4`; 1612x904; 30 FPS; 2,965 frames |
+| Processing | 2,965 frames in 154.998 seconds; 19.129 average end-to-end FPS |
+| BAR-001 events | 1 entry event: Track 9 at 38.200 seconds / frame 1,146; not a unique-person count |
+| Maximum IDT-004 occupancy | 1 active confirmed-inside temporary track |
+| GPU allocation | 98.711 MiB peak allocated according to `torch.cuda.max_memory_allocated()`; not total system GPU use |
+| Output | `outputs/cam_good_test_zones.mp4`; generated artifact remains ignored by Git |
+| Output reopen | PASS: readable frame, 1612x904, 30 FPS, 2,965 frames, dimensions matched |
+| Review material | Default frames in `outputs/zone_samples/`; event-focused frames at 35.0, 37.5, 38.2, 38.7, 40.0, 42.0 and 45.0 seconds in `outputs/zone_event_review/`; ignored by Git |
+| Unit tests | PASS: all 47 tests; synthetic/mocked tests do not prove real CV quality |
+| Dependency check | PASS: `pip check` found no broken requirements |
+| Environment check | PASS, exit 0: torch 2.14.0+cu130, torchvision 0.29.0+cu130, CUDA calculation on NVIDIA GeForce GTX 1650 |
+
+The annotated output overlays the polygon and name, current occupancy, person
+boxes, temporary Track IDs, bottom-centre markers, green inside boxes and a
+one-second BAR-001 entry banner. Inspected samples show Track 9 outside at 35.0
+seconds, approaching/crossing at 37.5 seconds, confirmed inside with the event
+banner and occupancy 1 at 38.2 seconds, still inside through 42.0 seconds, and
+outside with occupancy 0 by 45.0 seconds. These are review aids rather than a
+labelled accuracy or tracking benchmark.
+
+**MILESTONE 3 AUTOMATED STATUS: COMPLETE.**
+
+**ZONE/RULE VISUAL ACCEPTANCE: PENDING USER REVIEW.** Do not start Milestone 4
+until the user completes visual review and explicitly authorizes it.
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)
