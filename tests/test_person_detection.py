@@ -14,12 +14,16 @@ from src.detection.person_detector import PersonDetection
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "run_person_detection.py"
 PROJECT_ROOT = SCRIPT.parents[1]
 SPEC = importlib.util.spec_from_file_location("run_person_detection", SCRIPT)
+if SPEC is None or SPEC.loader is None:
+    raise RuntimeError("Unable to create module spec for test")
 run = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(run)
 COMPARISON_SCRIPT = PROJECT_ROOT / "scripts" / "extract_detection_comparisons.py"
 COMPARISON_SPEC = importlib.util.spec_from_file_location(
     "extract_detection_comparisons", COMPARISON_SCRIPT
 )
+if COMPARISON_SPEC is None or COMPARISON_SPEC.loader is None:
+    raise RuntimeError("Unable to create module spec for test")
 comparison = importlib.util.module_from_spec(COMPARISON_SPEC)
 COMPARISON_SPEC.loader.exec_module(comparison)
 

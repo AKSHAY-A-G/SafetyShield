@@ -106,7 +106,7 @@ def verify_output(
             "height": height,
             "fps": fps,
             "frame_count": frame_count,
-            "readable_frame": bool(readable and frame is not None),
+            "readable_frame": readable and frame is not None,
             "dimensions_match": width == expected_width and height == expected_height,
         }
     finally:
@@ -128,7 +128,7 @@ def main() -> int:
     args = parse_args()
     total_detections = 0
     inference_ms_total = 0.0
-    inference_samples = 0
+    inference_samples: int = 0
 
     try:
         with VideoReader(args.input) as reader:
