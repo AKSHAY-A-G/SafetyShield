@@ -6,9 +6,9 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 4 COMPLETE after manual prototype visual
-acceptance.** Milestones 0-3 remain complete. Milestone 5 has not started and
-requires separate authorization.
+Current stage: **Milestone 5 complete (automated pipeline and evidence capture);
+EVIDENCE VISUAL ACCEPTANCE is PENDING USER REVIEW.** Milestones 0-4 remain
+complete. Milestone 6 has not started and requires separate authorization.
 The selected configurable person detector remains `yolo26n.pt`, `imgsz=960`,
 confidence 0.20 on CUDA device 0. Selected configurable ByteTrack defaults are
 high 0.20, low 0.10, new 0.20, buffer 45, match 0.80 and score fusion enabled.
@@ -879,8 +879,135 @@ events. Formal labelled evaluation remains future work.
 **MILESTONE 4 STATUS: COMPLETE.**
 
 **TEMPORAL RULE VISUAL ACCEPTANCE: PASS (manual prototype review).** This is not
-formal accuracy evaluation. Do not start Milestone 5 until the user explicitly
-authorizes it.
+formal accuracy evaluation.
+
+## Milestone 5: Event records, evidence capture, and prototype audit trail
+
+Milestone 5 converts transient in-memory safety rule events into structured,
+persistent evidence records and an append-only software audit log. It addresses
+source requirements `EVD-001` (evidence capture) and `EVD-011` (prototype audit
+trail). No new AI model or dataset training was required; all existing detector,
+tracker, zone, and temporal rule parameters remain locked.
+
+### Common event representation and schema
+
+Safety events emitted by the rule engines are standardized into a common
+`SafetyEvent` record (`src/events/models.py`), decoupled from computer vision
+inference:
+
+- `event_id`: Unique string identifier generated per event using a safe
+  collision-resistant prefix + random hex (`evt_<prefix>_<uuid_hex>`). It is
+  completely independent of employee identity, credentials, or session IDs.
+- `schema_version`: `"1.0"`.
+- `camera_id`, `session_id`, `track_id`: Preserve camera-local context and
+  temporary track identity.
+- `module_id`, `event_type`: Identify rule origin (e.g. `BAR-001` /
+  `restricted_zone_entry`, `EXC-002` / `buddy_required_single_person`, `ERG-006` /
+  `prolonged_low_movement`).
+- `source_timestamp_seconds`: Explicit source-video position in seconds.
+- `frame_number`: Explicit source frame index.
+- `zone_id`, `zone_name`: Applicable zone geometry metadata when relevant.
+- `severity`: Standard prototype value `"unclassified"`. Milestone 5 does not
+  implement automated severity classification (`EVD-003` is deferred).
+- `status`: Standard initial value `"new"`. No acknowledgement workflow is
+  implemented yet.
+- `detection_confidence`, `stationary_duration_seconds`, `zone_occupancy`:
+  Optional rule-specific indicators.
+- `created_at_utc`, `processed_at_utc`: Distinct ISO 8601 UTC wall-clock
+  timestamps, strictly separated from recorded-video `source_timestamp_seconds`.
+
+### Evidence directory structure
+
+All generated evidence is saved under the Git-ignored `evidence/` directory:
+
+```text
+evidence/
+  <camera_id>/
+    <session_id>/
+      audit.jsonl
+      event_<event_id>/
+        snapshot_raw.jpg
+        snapshot_annotated.jpg
+        event_clip.mp4
+        metadata.json
+```
+
+1. `snapshot_raw.jpg`: The original CCTV frame before SafetyShield overlays,
+   retaining the native source resolution (1612x904).
+2. `snapshot_annotated.jpg`: The same event frame containing bounding boxes,
+   Track ID, zone polygon, and event banner at 1612x904.
+3. `event_clip.mp4`: Short event-centered evidence clip extracted directly from
+   the original recorded source MP4, avoiding in-memory ring buffers.
+   Configurable prototype defaults are `pre_event_seconds = 5.0` and
+   `post_event_seconds = 5.0` (~10.0-second total window). Clips are safely
+   clamped to source video bounds `[0.0, duration]`. Every written clip is
+   reopened and verified (file exists, readable frame, dimensions match, valid
+   FPS, frame count > 0).
+4. `metadata.json`: Contains complete event attributes and relative artifact
+   paths (`raw_snapshot`, `annotated_snapshot`, `video_clip`), requested vs
+   actual clip coverage (`requested_pre_seconds`, `requested_post_seconds`,
+   `actual_clip_start_seconds`, `actual_clip_end_seconds`, `actual_pre_seconds`,
+   `actual_post_seconds`, `clip_frame_count`), and resolution without exposing
+   credentials or machine-specific absolute paths.
+5. Attempting to save evidence to an existing event directory raises
+   `FileExistsError` to prevent silent overwriting.
+
+### Prototype audit trail (EVD-011)
+
+An append-only software audit log is written to `audit.jsonl` using JSON Lines
+(`src/events/audit.py`). Each line is an independent JSON object recording
+lifecycle actions:
+- `EVENT_CREATED`: Logged when a safety rule fires and an event record is formed.
+- `EVIDENCE_SAVED`: Logged when snapshots, clip extraction, and metadata are
+  successfully committed.
+- `EVIDENCE_ERROR`: Logged if an evidence extraction or filesystem error occurs.
+
+**Audit limitations**: This is a prototype software log for local traceability.
+It is NOT tamper-proof, immutable, forensically certified, or
+regulatory-compliant. Anyone with filesystem access can alter the file.
+
+### Milestone 5 automated execution results
+
+The full factory video `data/raw_videos/cam_good_test.mp4` (2,965 frames,
+1612x904, 30 FPS, 98.833 s) was processed end-to-end via
+`scripts/run_evidence_pipeline.py` with session ID `milestone5_test`.
+
+| Check | Actual observed result |
+| --- | --- |
+| Input | `data/raw_videos/cam_good_test.mp4`; 1612x904; 30 FPS; 2,965 frames (98.833 s) |
+| Locked pipeline | `yolo26n.pt`; `imgsz=960`; conf 0.20; CUDA 0; ByteTrack defaults; zones and temporal configs unchanged |
+| Main pipeline processing | 2,965 frames in 113.645 seconds; 26.090 average FPS |
+| Evidence generation time | 11.735 seconds for 2 complete evidence packages |
+| Peak PyTorch GPU memory | 81.931 MiB allocated |
+| BAR-001 event | 1 event: `bar_9_c3da8e260ac14b6a` at 38.200 s (frame 1,146, Track 9) |
+| EXC-002 event | 1 event: `exc_002_9_16009694b29049b5` at 41.200 s (frame 1,236, Track 9) |
+| ERG-006 events | 0 events (consistent with 600 s threshold on 98.8 s video; no fabricated evidence) |
+| Maximum observed occupancy | 1 person in `restricted_zone_1` (IDT-004 regression PASS) |
+| Raw snapshots saved | 2 images (1612x904x3) verified readable |
+| Annotated snapshots saved | 2 images (1612x904x3) verified readable |
+| Evidence clips saved | 2 MP4 clips (1612x904, 30 FPS, 301 frames each, 10.0 s duration) |
+| Clip coverage (BAR-001) | Bounds [33.20s -> 43.20s]; actual pre=5.00s / post=5.00s (301 frames) |
+| Clip coverage (EXC-002) | Bounds [36.20s -> 46.20s]; actual pre=5.00s / post=5.00s (301 frames) |
+| Clip reopen verification | PASS: both clips reopened, readable first frames, dimensions and FPS verified |
+| Metadata JSON files | 2 files verified valid JSON with required relative paths and timing |
+| Audit log | `evidence/cam_good_test/milestone5_test/audit.jsonl` (4 valid JSON Lines: 2 `EVENT_CREATED`, 2 `EVIDENCE_SAVED`) |
+| Unit tests | PASS: 89/89 tests (including 22 dedicated evidence tests and all prior regressions) |
+| Dependency check | PASS: `pip check` found no broken requirements |
+| Environment check | PASS, exit 0: PyTorch CUDA on GeForce GTX 1650 |
+
+| File | Purpose, input and output |
+| --- | --- |
+| `src/events/models.py` | Common `SafetyEvent` schema, ID generator, and adapters for BAR/temporal events |
+| `src/events/audit.py` | Append-only `AuditLogger` writing JSON Lines audit records |
+| `src/events/evidence.py` | `EvidenceWriter` capturing raw/annotated snapshots, clamping video clips, and saving metadata |
+| `src/events/__init__.py` | Package symbols export |
+| `scripts/run_evidence_pipeline.py` | Recorded video evidence runner combining detector, tracker, rules, and evidence capture |
+| `tests/test_evidence.py` | 22 comprehensive unit tests covering all 25 Milestone 5 requirements |
+
+**MILESTONE 5 AUTOMATED STATUS: COMPLETE.**
+
+**EVIDENCE VISUAL ACCEPTANCE: PENDING USER REVIEW.** Do not start Milestone 6
+until the user completes visual review and explicitly authorizes it.
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)

@@ -2,8 +2,8 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 4 complete after manual prototype visual acceptance.
-Milestone 5 has not started and requires separate authorization.
+Current stage: Milestone 5 complete (automated pipeline and evidence capture).
+Evidence visual acceptance is pending user review; Milestone 6 has not started.
 
 The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
 torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,
@@ -143,5 +143,38 @@ state. It also confirmed that low-movement time remained short or reset while
 Track 9 moved. No ERG-006 event was expected or generated in the approximately
 99-second clip under the unchanged 600-second requirement. This is prototype
 visual acceptance, not formal safety accuracy evaluation.
+
+Run the authorized Milestone 5 evidence pipeline from the project root:
+
+```powershell
+.\venv\Scripts\python.exe -B scripts\run_evidence_pipeline.py `
+  --input data\raw_videos\cam_good_test.mp4 `
+  --session-id milestone5_test
+```
+
+This runs detection, ByteTrack, zone rules, and temporal rules, converts emitted
+rule events into common `SafetyEvent` records, and saves structured evidence
+packages under the Git-ignored `evidence/` directory:
+
+```text
+evidence/
+  cam_good_test/
+    milestone5_test/
+      audit.jsonl
+      event_<event_id>/
+        snapshot_raw.jpg
+        snapshot_annotated.jpg
+        event_clip.mp4
+        metadata.json
+```
+
+For each event, `snapshot_raw.jpg` captures the un-annotated frame at 1612x904;
+`snapshot_annotated.jpg` contains bounding box, track ID, zone, and banner
+overlays at 1612x904; `event_clip.mp4` extracts the bounded source video window
+(clamped to video bounds with configurable pre/post durations); and
+`metadata.json` records portable event and coverage details. `audit.jsonl`
+provides an append-only JSON Lines record of event creation and evidence
+storage. This is a prototype software audit log for local development, not a
+tamper-proof or forensically certified audit system.
 
 Do not recreate `venv`. Package changes require explicit authorization.
