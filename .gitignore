@@ -4,8 +4,11 @@ venv/
 __pycache__/
 *.pyc
 data/raw_videos/
+data/dataset/
+data/frames/
 outputs/
 evidence/
+runs/
 models/
 models/*.pt
 *.pt

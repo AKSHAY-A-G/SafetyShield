@@ -15,7 +15,8 @@
   - Milestone 5 COMPLETE
   - Milestone 6 COMPLETE
   - Milestone 7 COMPLETE
-  Milestone 8 NOT STARTED / requires separate authorization.
+  - Milestone 8 PREPARATION COMPLETE (manual annotation required; training not started)
+  Milestone 9 NOT STARTED / requires separate authorization.
   The selected detector is `yolo26n.pt`, `imgsz=960`, `conf=0.20`; selected
   prototype ByteTrack defaults are `high=0.20`, `low=0.10`, `new=0.20`, buffer 45,
   match 0.80 and score fusion enabled. These remain configurable and require

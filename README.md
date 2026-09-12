@@ -2,8 +2,9 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 7 basic dashboard and module controls COMPLETE.
-Milestone 8 has not started and requires separate authorization.
+Current stage: Milestone 8 PPE dataset and training preparation COMPLETE.
+Manual annotation in Roboflow is required before custom model training.
+Milestone 9 has not started and requires separate authorization.
 
 The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
 torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,
@@ -258,3 +259,42 @@ It operates with a strictly safe design:
   deduplicates entries, preserves camera/session context, and renders a
   structured table (prototype development log; not immutable or forensically
   certified).
+
+Run Milestone 8 PPE dataset preparation from the project root:
+
+1. Extract native-resolution video frames at configurable intervals:
+```powershell
+.\venv\Scripts\python.exe -B scripts\extract_ppe_frames.py `
+  --input data\raw_videos\cam_good_test.mp4 `
+  --camera-id cam_good_test `
+  --interval-seconds 2.0
+```
+
+2. Generate padded person crops from native frames with leakage-free splits:
+```powershell
+.\venv\Scripts\python.exe -B scripts\create_ppe_person_crops.py `
+  --frames-dir data\dataset\ppe\source_frames `
+  --split-manifest data\dataset\ppe\manifests\split_manifest.csv `
+  --output-dir data\dataset\ppe\crops
+```
+
+3. Annotate the first 30-50 representative crops in Roboflow following [docs/PPE_ANNOTATION_GUIDE.md](docs/PPE_ANNOTATION_GUIDE.md) using the 4 exact classes (`helmet`, `no_helmet`, `vest`, `no_vest`).
+
+4. Validate exported YOLO dataset and check for source-group leakage:
+```powershell
+.\venv\Scripts\python.exe -B scripts\validate_ppe_dataset.py `
+  --data config\ppe_dataset.yaml `
+  --manifest data\dataset\ppe\manifests\split_manifest.csv
+```
+
+5. Render annotation overlays for visual QA:
+```powershell
+.\venv\Scripts\python.exe -B scripts\render_ppe_annotations.py `
+  --dataset-dir data\dataset\ppe\roboflow_export `
+  --output-dir data\dataset\ppe\reports\review_samples
+```
+
+6. Check pre-training gate:
+```powershell
+.\venv\Scripts\python.exe -B scripts\train_ppe.py --data config\ppe_dataset.yaml --gate-only
+```

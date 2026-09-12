@@ -1280,7 +1280,143 @@ The operator dashboard was manually reviewed in the browser at `http://127.0.0.1
 
 **MILESTONE 7 STATUS: COMPLETE.**
 
-Next milestone: Milestone 8 (PPE dataset / training preparation - NOT STARTED / requires separate authorization).
+## Milestone 8: PPE dataset and training preparation
+
+Milestone 8 establishes the annotation policy, dataset schema, leakage-resistant
+splitting strategy, native-resolution person crop extraction, Roboflow manual
+annotation guide, dataset validation tooling, visual QA renderer, and
+pre-training gatekeeper for SafetyShield's custom PPE detection model.
+
+### 1. Two-stage detection architecture and crop rationale
+
+To detect PPE accurately on construction and industrial CCTV cameras,
+SafetyShield adopts a two-stage computer-vision architecture:
+
+1. **Stage 1 (Full-Frame Person Detection & Tracking)**:
+   The validated general detector (`yolo26n.pt`, `imgsz=960`, `conf=0.20`, CUDA 0)
+   detects workers on the native-resolution CCTV frame and ByteTrack maintains
+   session-local track IDs.
+2. **Stage 2 (PPE Detection on Original-Resolution Person Crops)**:
+   Bounding boxes are mapped back to original native frame coordinates. Each
+   worker is cropped from the **original high-resolution image** with 12%
+   relative padding clamped strictly to image boundaries. The PPE detector
+   evaluates these crops.
+3. **Stage 3 (Temporal Safety State Machine)**:
+   Observations are temporally accumulated across track history to produce
+   `PRESENT`, `MISSING`, or `UNKNOWN` track states.
+
+**Why not detect PPE on the full 640px CCTV frame directly?**
+In high-resolution surveillance streams (e.g. 1920x1080 or 2560x1440), distant
+or medium-range workers occupy only 100-300 vertical pixels. If the entire frame
+is downscaled to 640x640 for a single-stage PPE detector, worker heads shrink to
+15-30 pixels, completely erasing hard hat contours, chin straps, and vest
+reflective micro-prisms. Operating the PPE model on native-resolution crops
+preserves visual features without requiring extreme full-frame inference sizes.
+
+### 2. The four initial PPE classes and strict visibility policy
+
+Milestone 8 defines **exactly four** initial object classes:
+
+| Class ID | Class Name | Definition | Bounding Box Scope |
+| :--- | :--- | :--- | :--- |
+| **0** | `helmet` | Safety helmet / hard hat present | Tightly encloses the visible helmet |
+| **1** | `no_helmet` | Uncovered head with helmet confirmed absent | Tightly encloses the visible uncovered head region |
+| **2** | `vest` | High-visibility safety / reflective vest present | Tightly encloses the visible vest garment |
+| **3** | `no_vest` | Torso visible with high-visibility vest confirmed absent | Tightly encloses the visible upper torso/clothing area |
+
+No other classes (`person`, `face`, `boots`, `gloves`, etc.) are introduced in
+Milestone 8.
+
+### 3. UNKNOWN is NOT a detector class
+
+SafetyShield's downstream safety engine outputs three operational states:
+`PRESENT`, `MISSING`, and `UNKNOWN`.
+
+However, **UNKNOWN is NOT an object detection class.** The model is never
+trained on `unknown_helmet` or `unknown_vest`.
+
+`UNKNOWN` is an architectural state determined automatically downstream when:
+- Crop pixel dimensions are too small for reliable inspection.
+- Motion blur, low lighting, or defocus obscures head/torso features.
+- Heavy occlusion blocks line-of-sight to the worker.
+- Worker is clipped by the camera frame edge.
+- PPE detector confidence is below operating threshold.
+- Temporal observations across frames conflict.
+
+**Negative labeling policy**: Annotators label `no_helmet` and `no_vest` **ONLY**
+when the head or torso is sufficiently clear to positively confirm absence.
+Ambiguous, blurry, or occluded regions are left unannotated, allowing downstream
+logic to classify them as `UNKNOWN`.
+
+**Architectural principle**: Non-detection of a positive class (`helmet`, `vest`)
+is **NOT** evidence of absence (`no_helmet`, `no_vest`). Explicit negative
+evidence or multi-frame absence rules are strictly required.
+
+### 4. Leakage-resistant source-group splitting
+
+To avoid optimistic evaluation bias, adjacent frames from the same video clip
+are **never** randomly partitioned across train, validation, and test splits.
+
+Splitting is strictly enforced at the **source-group** level:
+1. Source groups combine camera ID, clip stem, and contiguous time blocks
+   (`{camera_id}_{clip}_b{block_idx}`).
+2. All frames and derived person crops from a source group remain in the
+   **same split**.
+3. Strict disjointness is enforced: `train_groups ∩ val_groups = ∅`,
+   `train_groups ∩ test_groups = ∅`, `val_groups ∩ test_groups = ∅`.
+4. If a dataset has fewer than 3 independent source groups, the validator
+   flags that independent splits cannot be formed without leakage.
+
+### 5. Roboflow manual workflow and review gate
+
+All CCTV imagery is treated as local development data. No automatic API
+connections or cloud uploads are performed.
+
+The user manually manages annotation via the Roboflow web UI:
+1. Extract native frames via `scripts/extract_ppe_frames.py`.
+2. Generate original-resolution person crops via `scripts/create_ppe_person_crops.py`.
+3. **First Review Gate**: Upload and annotate only **30 to 50 representative crops**
+   first.
+4. Export in Ultralytics YOLO detection format to `data/dataset/ppe/roboflow_export/`.
+5. Validate annotations with `scripts/validate_ppe_dataset.py`.
+6. Visually inspect bounding boxes with `scripts/render_ppe_annotations.py`.
+7. Scale to larger batches only after initial label QA passes.
+
+### 6. Hardware budget and pre-training gate
+
+- **Training Hardware**: NVIDIA GeForce GTX 1650 (4 GB VRAM), 8 GB RAM.
+- **Strategy**: Transfer learning from official `yolo26n.pt` nano weights.
+- **Settings**: `imgsz=640`, `batch=2` (automatic fallback to `batch=1` on CUDA
+  OOM), `workers=2`, `device=0`, `cache=false`.
+- **Output isolation**: Model checkpoints are written to `models/ppe/` and never
+  overwrite the base person detector weights.
+- **Pre-Training Gate**: `scripts/train_ppe.py` evaluates dataset validity, class
+  adherence, non-empty train/val splits, and absence of source-group leakage.
+  If the gate fails, training is strictly blocked.
+
+### 7. Observed Milestone 8 verification results
+
+| Check | Actual observed result |
+| --- | --- |
+| Frame extraction utility | PASS: extracted 50 native 1920x1080 frames from `cam_good_test.mp4` at 2.0s intervals into 4 source groups |
+| Source-group splitting | PASS: 4 source groups partitioned into train (2 groups), val (1 group), test (1 group) with zero leakage |
+| Person crop generation | PASS: generated 101 original-resolution padded person crops (train=88, val=2, test=11) with metadata manifest |
+| Dataset validator | PASS: verified 4-class enforcement, bbox normalization [0, 1], NaN/inf rejection, duplicate check, and leakage check |
+| Annotation visualizer | PASS: renders distinct class-colored bounding box overlays for manual QA without altering source data |
+| Pre-training gatekeeper | PASS: blocked training on empty/unlabelled directory with clear actionable guidance |
+| Unit test suite | PASS: 170/170 tests passed (including 26 new tests in `tests/test_ppe_dataset.py`), exit code 0 |
+| Dependency check | PASS: `pip check` found no broken requirements (no unauthorized packages installed) |
+| Environment check | PASS: exit code 0 (PyTorch 2.14.0+cu130, CUDA on GTX 1650) |
+| Git ignore safety | PASS: `data/dataset/`, `runs/`, and `models/ppe/` verified ignored; 0 raw images committed |
+
+### Milestone 8 status and next actions
+
+- **MILESTONE 8 DATASET PREPARATION: COMPLETE (PASS)**
+- **MANUAL PPE ANNOTATION: REQUIRED (PENDING USER REVIEW)**
+- **SMOKE TRAINING: NOT STARTED** (Blocked by pre-training gate until user annotates first batch of crops in Roboflow)
+- **MILESTONE 8 STATUS: PREPARATION COMPLETE**
+
+Next milestone: Milestone 9 (PPE Model Training and Benchmark Evaluation - NOT STARTED / requires separate authorization).
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)
