@@ -2,9 +2,8 @@
 
 Construction/factory computer vision safety monitoring prototype
 
-Current stage: Milestone 7 basic dashboard and module controls implemented.
-Visual acceptance is PENDING USER REVIEW. Milestone 8 has not started and
-requires separate authorization.
+Current stage: Milestone 7 basic dashboard and module controls COMPLETE.
+Milestone 8 has not started and requires separate authorization.
 
 The existing Python 3.14.5 environment now uses torch 2.14.0+cu130 and
 torchvision 0.29.0+cu130. A real CUDA matrix calculation passed on the GTX 1650,

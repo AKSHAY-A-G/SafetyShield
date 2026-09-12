@@ -1235,17 +1235,35 @@ Milestone 7 provides an operator-facing prototype dashboard on localhost
 
 | Check | Actual observed result |
 | --- | --- |
-| Streamlit installation | `streamlit==1.63.0` installed in existing venv; no core packages altered |
+| Streamlit installation | `streamlit==1.63.0` installed in existing venv; recorded in `requirements.txt`; no core packages altered |
 | Dependency check | PASS: `pip check` found no broken requirements |
 | Environment check | PASS, exit 0: torch 2.14.0+cu130, torchvision 0.29.0+cu130, CUDA on GTX 1650 |
-| Unit tests | PASS: 139/139 tests passed, including 29 new tests in `tests/test_dashboard.py` |
-| Local server launch | Tested on `http://127.0.0.1:8501`; returns HTTP 200 and `/stcore/health` returns 200 ok |
-| AppTest automated run | PASS: `AppTest.from_file("scripts/run_dashboard.py").run()` executes cleanly |
+| Unit tests | PASS: 144/144 tests passed, including 31 tests in `tests/test_dashboard.py` |
+| Local server launch | Tested on `http://127.0.0.1:8501` (`--server.address 127.0.0.1`); HTTP 200 and `/stcore/health` returns 200 ok |
+| AppTest automated run | PASS: `AppTest.from_file("scripts/run_dashboard.py").run(timeout=15)` executes cleanly with 0 exceptions |
 | Secret safety | PASS: no secrets in code, logs, telemetry JSON, or UI |
 
 ### Milestone 7 visual review result
 
-DASHBOARD VISUAL ACCEPTANCE: PENDING USER REVIEW.
+DASHBOARD VISUAL ACCEPTANCE: PASS.
+
+The operator dashboard was manually reviewed in the browser at `http://127.0.0.1:8501` and visually accepted:
+
+1. **Header & Warnings**: "🛡️ SafetyShield AI" header and Prototype / Development Mode warning render prominently.
+2. **System & Hardware Status**: Displays GTX 1650, CUDA available, Python 3.14.5, PyTorch 2.14.0+cu130, Streamlit 1.63.0, and milestone progression cards without text truncation.
+3. **Camera Configuration & Secret Safety**: Correctly displays `camera_id: live_cam_1`, `source: RTSP`, and `RTSP secret: YES (Configured)`. No RTSP URL or credential is exposed anywhere in the interface or logs.
+4. **Zone Guard**: `live_cam_1` displays `Zone Geometry: Not Configured`, explicitly stating that the recorded `cam_good_test` polygon is not reused for the live camera viewpoint.
+5. **Runtime Telemetry**: Displays pipeline state, session ID, native resolution, source/processing FPS, frame accounting (received, processed, dropped), reconnect count, temporary track count, and zone rules status. Stale telemetry (>30s) is clearly alerted with a warning badge and is not falsely represented as an active process.
+6. **Module Controls**: Clean toggle labels display `"Global Enable"` without internal widget identifiers (`##`).
+7. **Architectural Dependency Enforcements**:
+   - Person Detection: Operational for `live_cam_1`
+   - Person Tracking: Operational for `live_cam_1`
+   - BAR-001, IDT-004, EXC-002: Safely unavailable for `live_cam_1` due to missing camera zone polygon
+   - ERG-006: Operational for `live_cam_1` (correctly does not require a zone)
+   - Evidence Capture: Global capability enabled (`YES`); camera availability displays `⚠️ Live pre/post evidence deferred` (does not falsely imply live pre/post ring buffering is active)
+   - Live RTSP Ingestion: Operational for `live_cam_1`
+8. **Recorded Milestone 5 Evidence Explorer**: Verified browsing of EXC-002 event packages from `evidence/`, rendering temporary Track ID, source video metadata, annotated snapshot, raw native snapshot, playable video clip, and metadata JSON.
+9. **Prototype Audit Log**: Renders tabular audit entries (timestamp, action, camera ID, session ID, module, event ID, details) discovered recursively across session directories. Clearly qualified as internal prototype logging.
 
 | File | Purpose, input and output |
 | --- | --- |
@@ -1253,16 +1271,16 @@ DASHBOARD VISUAL ACCEPTANCE: PENDING USER REVIEW.
 | `src/dashboard/models.py` | Typed dataclasses for system status, camera info, telemetry, controls, events, and audit |
 | `src/dashboard/data.py` | Secret-safe data loading, dependency logic, telemetry parser, evidence explorer, and audit loader |
 | `scripts/run_dashboard.py` | Streamlit operator-facing dashboard script with layout, metrics, controls, and media |
-| `tests/test_dashboard.py` | 29 offline unit tests verifying status, controls, dependencies, telemetry, evidence, and safety |
+| `tests/test_dashboard.py` | 31 offline unit tests verifying status, controls, dependencies, telemetry, evidence, and safety |
 | `scripts/run_rtsp_pipeline.py` | Updated with `--runtime-status` atomic JSON status writer for live telemetry |
 
 **MILESTONE 7 AUTOMATED STATUS: PASS.**
 
-**DASHBOARD VISUAL ACCEPTANCE: PENDING USER REVIEW.**
+**DASHBOARD VISUAL ACCEPTANCE: PASS.**
 
-**MILESTONE 7 STATUS: IMPLEMENTED.**
+**MILESTONE 7 STATUS: COMPLETE.**
 
-Next milestone: Milestone 8 (NOT STARTED / requires separate authorization).
+Next milestone: Milestone 8 (PPE dataset / training preparation - NOT STARTED / requires separate authorization).
 
 Technical references consulted for the environment checks:
 [PyTorch local installation and verification](https://pytorch.org/get-started/locally/)
