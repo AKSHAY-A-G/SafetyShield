@@ -199,6 +199,35 @@ class DashboardDataTests(unittest.TestCase):
         # BAR-001 is globally enabled, but unavailable for this camera
         self.assertTrue(statuses["bar_001"].global_enabled)
         self.assertFalse(statuses["bar_001"].available)
+        # Evidence capture is globally enabled, but live pre/post evidence is deferred for live_cam_1
+        self.assertTrue(statuses["evidence"].global_enabled)
+        self.assertFalse(statuses["evidence"].available)
+        self.assertIn("Live pre/post evidence deferred", str(statuses["evidence"].unavailable_reason))
+
+    def test_recorded_camera_evidence_available_when_rules_enabled(self):
+        cam = CameraDashboardInfo(
+            camera_id="cam_good_test", source_type="video", enabled=True,
+            secret_configured=False, secret_env_var="", has_zone=True,
+            zone_count=1, zone_names=["zone1"],
+        )
+        mods = {k: {"enabled": True, "label": k, "description": ""} for k in DEFAULT_CONTROLS}
+        statuses = evaluate_module_availability(mods, cam)
+        self.assertTrue(statuses["evidence"].global_enabled)
+        self.assertTrue(statuses["evidence"].available)
+        self.assertIsNone(statuses["evidence"].unavailable_reason)
+
+    def test_evidence_unavailable_when_all_rules_disabled(self):
+        cam = CameraDashboardInfo(
+            camera_id="cam_good_test", source_type="video", enabled=True,
+            secret_configured=False, secret_env_var="", has_zone=True,
+            zone_count=1, zone_names=["zone1"],
+        )
+        mods = {k: {"enabled": True, "label": k, "description": ""} for k in DEFAULT_CONTROLS}
+        for r in ("bar_001", "idt_004", "exc_002", "erg_006"):
+            mods[r]["enabled"] = False
+        statuses = evaluate_module_availability(mods, cam)
+        self.assertFalse(statuses["evidence"].available)
+        self.assertIn("Requires at least one safety event rule enabled", str(statuses["evidence"].unavailable_reason))
 
     # 12. module control persistence works if implemented
     def test_module_control_persistence(self):

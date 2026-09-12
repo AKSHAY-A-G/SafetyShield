@@ -303,6 +303,9 @@ def evaluate_module_availability(
             if not rules_enabled:
                 available = False
                 unavailable_reason = "Requires at least one safety event rule enabled"
+            elif camera_info.source_type == "rtsp" or camera_info.camera_id == "live_cam_1":
+                available = False
+                unavailable_reason = "Live pre/post evidence deferred"
         elif mod_id == "rtsp":
             if camera_info.source_type == "rtsp" and not camera_info.secret_configured:
                 available = False

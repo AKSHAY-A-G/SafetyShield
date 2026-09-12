@@ -58,16 +58,33 @@ def main() -> None:
     st.markdown("#### 1. System & Hardware Status")
     sys_status = get_system_status()
 
-    col_h1, col_h2, col_h3, col_h4 = st.columns(4)
+    st.markdown(
+        """
+        <style>
+        div[data-testid="stMetricValue"] > div {
+            font-size: 1.15rem;
+            white-space: normal;
+            word-break: break-word;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    col_h1, col_h2, col_h3, col_h4 = st.columns([1.1, 0.9, 0.8, 1.2])
     with col_h1:
-        st.metric("Target GPU", sys_status.gpu_name)
+        st.metric("Target GPU", sys_status.gpu_name, help=sys_status.gpu_name)
     with col_h2:
         cuda_badge = "Available (GTX 1650)" if sys_status.cuda_available else "CPU Only"
         st.metric("PyTorch CUDA", cuda_badge)
     with col_h3:
         st.metric("Environment", f"Python {sys_status.python_version}")
     with col_h4:
-        st.metric("PyTorch / Streamlit", f"{sys_status.torch_version} / v{sys_status.streamlit_version}")
+        st.metric(
+            "PyTorch / Streamlit",
+            f"{sys_status.torch_version} / v{sys_status.streamlit_version}",
+            help=f"PyTorch {sys_status.torch_version} / Streamlit v{sys_status.streamlit_version}",
+        )
 
     # Milestone progression cards
     st.markdown("**Project Milestone Progression**")
@@ -190,7 +207,7 @@ def main() -> None:
                     st.caption(meta["description"])
                 with c_toggle:
                     is_enabled = st.toggle(
-                        f"Global Enable##{mod_id}",
+                        "Global Enable",
                         value=bool(cur.get("enabled", True)),
                         key=f"toggle_{mod_id}",
                     )
