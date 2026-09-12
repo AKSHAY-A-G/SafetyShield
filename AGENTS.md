@@ -23,7 +23,7 @@
   future labelled evaluation. PyTorch 2.14.0+cu130 and torchvision 0.29.0+cu130
   execute CUDA on the GTX 1650. Recheck current results rather than assuming this
   observation is permanent.
-- Do not start Milestone 8 until the user explicitly authorizes the next milestone.
+- Do not start Milestone 9 until the user explicitly authorizes the next milestone.
 - Every milestone needs a purpose, necessary files only, local verification,
   observable acceptance evidence and a Git commit before advancing. Report
   blocked checks; code running without errors is not evidence of CV quality.

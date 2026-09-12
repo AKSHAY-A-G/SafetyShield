@@ -6,18 +6,26 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestone 6 COMPLETE.** Milestones 0-6
-are complete. Milestone 7 has not started and requires separate authorization.
+Current stage: **Milestones 0-7 COMPLETE.**
+
+Milestone 8:
+- PPE dataset/training PREPARATION COMPLETE.
+- Manual PPE annotation required.
+- Training has NOT started.
+
+Milestone 9:
+- NOT STARTED / requires separate authorization.
+
 The selected configurable person detector remains `yolo26n.pt`, `imgsz=960`,
 confidence 0.20 on CUDA device 0. Selected configurable ByteTrack defaults are
 high 0.20, low 0.10, new 0.20, buffer 45, match 0.80 and score fusion enabled.
-The existing Python 3.14.5 environment now uses CUDA-enabled PyTorch and
-torchvision. Actual CUDA matrix computation, the environment checker (exit 0),
-all Milestone 0 unit tests, dependency consistency and Ultralytics import
-passed. Milestone 1 measured real CUDA person inference and recorded-video
-throughput, followed by manual prototype visual comparison. Formal labelled
-accuracy evaluation remains deferred to Milestone 12, and no model training has
-been performed.
+These remain configurable and require future labelled evaluation. PyTorch
+2.14.0+cu130 and torchvision 0.29.0+cu130 execute CUDA on the GTX 1650. Actual
+CUDA matrix computation, the environment checker (exit 0), all unit tests,
+dependency consistency and Ultralytics import passed. Milestone 1 measured
+real CUDA person inference and recorded-video throughput, followed by manual
+prototype visual comparison. Formal labelled accuracy evaluation remains
+deferred to Milestone 12, and no model training has been performed.
 
 ## Source requirements and authority
 
@@ -230,8 +238,9 @@ Unresolved gates must be reported honestly.
 | 4 - Temporal safety rules | EXC-002 buddy zone and ERG-006 low-movement rules | **COMPLETE:** EXC-002 single-occupancy event and ERG-006 low-movement timing validated; manual visual review accepted |
 | 5 - Event evidence | Raw/annotated snapshots, bounded clips, metadata, audit log | **COMPLETE:** 1612x904 snapshots, 10s clipped MP4, JSON metadata, and JSONL audit logging validated; manual visual review accepted |
 | 6 - One RTSP feed | Env-based URL lookup, timeout/reconnect, latest-frame slot | **COMPLETE:** 120s live acceptance run on `live_cam_1` (2560x1440, ~10.2 FPS) passed; clean shutdown; manual visual review accepted |
-| 7 - Basic dashboard and module controls | Streamlit dashboard, system status, module toggles, telemetry, evidence explorer | **IMPLEMENTED:** Offline tests passed (139/139); local Streamlit server verified; visual acceptance PENDING USER REVIEW |
-| 8 - Next milestone | To be determined upon user authorization | NOT STARTED / requires separate authorization |
+| 7 - Basic dashboard and module controls | Streamlit dashboard, system status, module toggles, telemetry, evidence explorer | COMPLETE - dashboard automated and manual visual acceptance PASS. |
+| 8 - PPE dataset and training preparation | Annotation policy, frame/crop extraction, group splitting, validation tooling, training gate | PREPARATION COMPLETE - PPE annotation/data tooling implemented, manual annotation required, no PPE training yet. |
+| 9 - PPE model training and benchmark evaluation | Transfer learning fine-tuning, benchmark evaluation, model artifacts | NOT STARTED / requires separate authorization. |
 
 Prototype completion requires a reproducible selected-camera pipeline through
 events/evidence/storage/dashboard, verified failure handling and measured
@@ -1398,12 +1407,20 @@ The user manually manages annotation via the Roboflow web UI:
 
 | Check | Actual observed result |
 | --- | --- |
-| Frame extraction utility | PASS: extracted 50 native 1920x1080 frames from `cam_good_test.mp4` at 2.0s intervals into 4 source groups |
-| Source-group splitting | PASS: 4 source groups partitioned into train (2 groups), val (1 group), test (1 group) with zero leakage |
-| Person crop generation | PASS: generated 101 original-resolution padded person crops (train=88, val=2, test=11) with metadata manifest |
-| Dataset validator | PASS: verified 4-class enforcement, bbox normalization [0, 1], NaN/inf rejection, duplicate check, and leakage check |
+| Source video resolution | VERIFIED via OpenCV: `cam_good_test.mp4` native dimensions are 1612x904 (FPS: 30.0, total frames: 2965, duration: 98.83s). Manifests (`source_frames_manifest.csv` and `crop_manifest.csv`) strictly record native 1612x904. Earlier mention of 1920x1080 in documentation was an erroneous copy from example text and is now corrected. |
+| Frame extraction utility | PASS: extracted 50 native 1612x904 frames from `cam_good_test.mp4` at 2.0s intervals into 4 source groups (b0=15, b1=15, b2=15, b3=5) |
+| Source-group splitting | PASS: 4 source groups partitioned into train (30 frames: b1=15, b2=15), val (5 frames: b3=5), test (15 frames: b0=15) with zero leakage |
+| Split quality review | PROTOTYPE PREPARATION SPLIT ONLY: 50 source frames (train=30, val=5, test=15) produced 101 person crops (train=88, val=2, test=11, total=101). The val split has 5 source frames and only 2 person crops because workers were largely inactive or off-camera during block b3 (t=90s to 98s). Source-group isolation is strictly preserved without moving adjacent crops to artificially balance counts. Final training split ready: NO (requires more independent source clips/groups and better crop-level coverage before full PPE training). |
+| Person crop generation | PASS: generated 101 original-resolution padded person crops (train=88, val=2, test=11, total=101) with metadata manifest |
+| PPE preparation tooling | PASS: frame extraction, leakage-free source-group splitting, original-frame person cropping, validation, and rendering tools implemented |
+| Validator unit tests | PASS: 26 focused unit tests in `tests/test_ppe_dataset.py` verifying 4-class enforcement, bbox normalization [0, 1], NaN/inf rejection, duplicate check, and leakage check |
+| Source-group leakage check | PASS: verified zero source-group leakage across splits via `split_manifest.csv` |
+| Labelled PPE dataset | NO (not present / pending manual annotation in Roboflow) |
+| Real labelled dataset validation | NOT STARTED / NOT APPLICABLE YET: no manually labelled PPE dataset export is present yet |
 | Annotation visualizer | PASS: renders distinct class-colored bounding box overlays for manual QA without altering source data |
-| Pre-training gatekeeper | PASS: blocked training on empty/unlabelled directory with clear actionable guidance |
+| Training gate implementation | PASS: pre-training gate in `src/ppe/trainer.py` verified; blocks training on empty/unlabelled directory with clear actionable guidance |
+| Training eligibility | BLOCKED: zero manually labelled data present |
+| Smoke training | NOT STARTED (Blocked by pre-training gate until user annotates first batch of crops in Roboflow) |
 | Unit test suite | PASS: 170/170 tests passed (including 26 new tests in `tests/test_ppe_dataset.py`), exit code 0 |
 | Dependency check | PASS: `pip check` found no broken requirements (no unauthorized packages installed) |
 | Environment check | PASS: exit code 0 (PyTorch 2.14.0+cu130, CUDA on GTX 1650) |
@@ -1411,10 +1428,16 @@ The user manually manages annotation via the Roboflow web UI:
 
 ### Milestone 8 status and next actions
 
-- **MILESTONE 8 DATASET PREPARATION: COMPLETE (PASS)**
-- **MANUAL PPE ANNOTATION: REQUIRED (PENDING USER REVIEW)**
-- **SMOKE TRAINING: NOT STARTED** (Blocked by pre-training gate until user annotates first batch of crops in Roboflow)
-- **MILESTONE 8 STATUS: PREPARATION COMPLETE**
+- **PPE PREPARATION TOOLING: PASS**
+- **VALIDATOR UNIT TESTS: PASS**
+- **SOURCE-GROUP LEAKAGE CHECK: PASS**
+- **FINAL TRAINING SPLIT READY: NO**
+- **LABELLED PPE DATASET: NO**
+- **REAL LABELLED DATASET VALIDATION: NOT STARTED**
+- **TRAINING GATE IMPLEMENTATION: PASS**
+- **TRAINING ELIGIBILITY: BLOCKED**
+- **SMOKE TRAINING: NOT STARTED**
+- **MILESTONE 8 STATUS: PREPARATION COMPLETE (MANUAL ANNOTATION REQUIRED)**
 
 Next milestone: Milestone 9 (PPE Model Training and Benchmark Evaluation - NOT STARTED / requires separate authorization).
 
