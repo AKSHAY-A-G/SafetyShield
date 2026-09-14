@@ -1,0 +1,4848 @@
+{
+  "schema_version": "1.0",
+  "dataset": {
+    "identity": "safetyshield-ppe-public-base",
+    "roboflow_version": 1,
+    "license": "CC BY 4.0",
+    "source_url": "https://universe.roboflow.com/akshay-a-g/safetyshield-ppe-public-base/dataset/1",
+    "dataset_root": "data/dataset/ppe/public_base/roboflow_export/ppe_public_base_v1_yolo26",
+    "class_order": [
+      "helmet",
+      "no_helmet",
+      "no_vest",
+      "vest"
+    ]
+  },
+  "method": {
+    "perceptual_hash": "64-bit DCT pHash over a 32x32 grayscale image",
+    "hamming_threshold": 3,
+    "warning": "Candidate status is automated evidence, not human provenance confirmation."
+  },
+  "summary": {
+    "images_scanned": 1800,
+    "candidate_pairs_within_splits": 52,
+    "candidate_pairs_across_splits": 54,
+    "candidate_groups_total": 32,
+    "cross_split_groups": 20,
+    "images_involved": 80
+  },
+  "groups": [
+    {
+      "group_id": "PUBLIC_DUP_0001",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "test",
+        "train"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "test/images/00273_jpg.rf.044f250e1cfa982cf29f43893d135c55.jpg",
+          "split": "test",
+          "original_stem": "00273_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 7,
+            "no_vest": 2,
+            "vest": 5
+          }
+        },
+        {
+          "path": "train/images/00273_jpg.rf.639bf635edada38cb8c5d1add9e3b729.jpg",
+          "split": "train",
+          "original_stem": "00273_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 7,
+            "no_vest": 2,
+            "vest": 5
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/00273_jpg.rf.639bf635edada38cb8c5d1add9e3b729.jpg",
+          "image_b": "test/images/00273_jpg.rf.044f250e1cfa982cf29f43893d135c55.jpg",
+          "split_a": "train",
+          "split_b": "test",
+          "original_stem_a": "00273_jpg",
+          "original_stem_b": "00273_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 7,
+            "no_vest": 2,
+            "vest": 5
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 7,
+            "no_vest": 2,
+            "vest": 5
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0002",
+      "review_status": "REVIEW_REQUIRED",
+      "original_splits": [
+        "test",
+        "train"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "test/images/images-3-_jpg.rf.eac6e29e4774a32c72872ea385f66308.jpg",
+          "split": "test",
+          "original_stem": "images-3-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 0
+          }
+        },
+        {
+          "path": "train/images/5DS_4416_JPG_jpg.rf.dcbd095521a9ce9808ca8a008e64d737.jpg",
+          "split": "train",
+          "original_stem": "5DS_4416_JPG_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 0
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/5DS_4416_JPG_jpg.rf.dcbd095521a9ce9808ca8a008e64d737.jpg",
+          "image_b": "test/images/images-3-_jpg.rf.eac6e29e4774a32c72872ea385f66308.jpg",
+          "split_a": "train",
+          "split_b": "test",
+          "original_stem_a": "5DS_4416_JPG_jpg",
+          "original_stem_b": "images-3-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 0
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 0
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0003",
+      "review_status": "REVIEW_REQUIRED",
+      "original_splits": [
+        "test",
+        "train"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "test/images/part2_000004_jpg.rf.5cd95b3b41fb4d8ce226ed2c51fe617d.jpg",
+          "split": "test",
+          "original_stem": "part2_000004_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "path": "train/images/part2_001797_jpg.rf.d0e513260bc9e035644fa3ca275243fa.jpg",
+          "split": "train",
+          "original_stem": "part2_001797_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/part2_001797_jpg.rf.d0e513260bc9e035644fa3ca275243fa.jpg",
+          "image_b": "test/images/part2_000004_jpg.rf.5cd95b3b41fb4d8ce226ed2c51fe617d.jpg",
+          "split_a": "train",
+          "split_b": "test",
+          "original_stem_a": "part2_001797_jpg",
+          "original_stem_b": "part2_000004_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0004",
+      "review_status": "REVIEW_REQUIRED",
+      "original_splits": [
+        "test",
+        "train",
+        "valid"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "test/images/ppe7_-6-_jpg.rf.96538b9503240dfc1a92d91c6dcf9ecc.jpg",
+          "split": "test",
+          "original_stem": "ppe7_-6-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 2,
+            "vest": 2
+          }
+        },
+        {
+          "path": "train/images/ppe7_-11-_jpg.rf.a56a0a8d297d4c9ee4884471d83b3069.jpg",
+          "split": "train",
+          "original_stem": "ppe7_-11-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "path": "train/images/ppe7_-13-_jpg.rf.11dda4fc2c122300e0c188b27021093d.jpg",
+          "split": "train",
+          "original_stem": "ppe7_-13-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 2
+          }
+        },
+        {
+          "path": "train/images/ppe7_-15-_jpg.rf.a432cba9e57974dc9ca9824c062ec43d.jpg",
+          "split": "train",
+          "original_stem": "ppe7_-15-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          }
+        },
+        {
+          "path": "train/images/ppe7_-16-_jpg.rf.8b2140eae2186fcd241cd35b2d2ce6a6.jpg",
+          "split": "train",
+          "original_stem": "ppe7_-16-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 2
+          }
+        },
+        {
+          "path": "train/images/ppe7_-17-_jpg.rf.a6e6041b5387b7631841a8672ef08a51.jpg",
+          "split": "train",
+          "original_stem": "ppe7_-17-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          }
+        },
+        {
+          "path": "train/images/ppe7_-18-_jpg.rf.02ec8c1a7b5edaf133a542169c971c54.jpg",
+          "split": "train",
+          "original_stem": "ppe7_-18-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 3,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "path": "train/images/ppe7_-19-_jpg.rf.151ee0e9b08b3869bf916b761c67a3ad.jpg",
+          "split": "train",
+          "original_stem": "ppe7_-19-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          }
+        },
+        {
+          "path": "train/images/ppe7_-21-_jpg.rf.eadef89b7aa540894cf5affe8950f162.jpg",
+          "split": "train",
+          "original_stem": "ppe7_-21-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 3,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "path": "train/images/ppe7_-3-_jpg.rf.6cc138e802b3e1553ba865cd9d18702e.jpg",
+          "split": "train",
+          "original_stem": "ppe7_-3-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "path": "train/images/ppe7_-5-_jpg.rf.ad1641c6b92a8d98de8019aeae806090.jpg",
+          "split": "train",
+          "original_stem": "ppe7_-5-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "path": "valid/images/ppe7_-12-_jpg.rf.6d5b5db725c00337e7f1d9f7b238873e.jpg",
+          "split": "valid",
+          "original_stem": "ppe7_-12-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "path": "valid/images/ppe7_-2-_jpg.rf.a989c7887ef6f74d987574a325f331d6.jpg",
+          "split": "valid",
+          "original_stem": "ppe7_-2-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "path": "valid/images/ppe7_-7-_jpg.rf.8be78256eab64d6b54c7e3aa2a114f0e.jpg",
+          "split": "valid",
+          "original_stem": "ppe7_-7-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/ppe7_-11-_jpg.rf.a56a0a8d297d4c9ee4884471d83b3069.jpg",
+          "image_b": "test/images/ppe7_-6-_jpg.rf.96538b9503240dfc1a92d91c6dcf9ecc.jpg",
+          "split_a": "train",
+          "split_b": "test",
+          "original_stem_a": "ppe7_-11-_jpg",
+          "original_stem_b": "ppe7_-6-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 2,
+            "vest": 2
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-11-_jpg.rf.a56a0a8d297d4c9ee4884471d83b3069.jpg",
+          "image_b": "train/images/ppe7_-13-_jpg.rf.11dda4fc2c122300e0c188b27021093d.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-11-_jpg",
+          "original_stem_b": "ppe7_-13-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 2
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-11-_jpg.rf.a56a0a8d297d4c9ee4884471d83b3069.jpg",
+          "image_b": "train/images/ppe7_-16-_jpg.rf.8b2140eae2186fcd241cd35b2d2ce6a6.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-11-_jpg",
+          "original_stem_b": "ppe7_-16-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 2
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-11-_jpg.rf.a56a0a8d297d4c9ee4884471d83b3069.jpg",
+          "image_b": "train/images/ppe7_-17-_jpg.rf.a6e6041b5387b7631841a8672ef08a51.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-11-_jpg",
+          "original_stem_b": "ppe7_-17-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-11-_jpg.rf.a56a0a8d297d4c9ee4884471d83b3069.jpg",
+          "image_b": "train/images/ppe7_-19-_jpg.rf.151ee0e9b08b3869bf916b761c67a3ad.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-11-_jpg",
+          "original_stem_b": "ppe7_-19-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-11-_jpg.rf.a56a0a8d297d4c9ee4884471d83b3069.jpg",
+          "image_b": "train/images/ppe7_-3-_jpg.rf.6cc138e802b3e1553ba865cd9d18702e.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-11-_jpg",
+          "original_stem_b": "ppe7_-3-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-11-_jpg.rf.a56a0a8d297d4c9ee4884471d83b3069.jpg",
+          "image_b": "train/images/ppe7_-5-_jpg.rf.ad1641c6b92a8d98de8019aeae806090.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-11-_jpg",
+          "original_stem_b": "ppe7_-5-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-11-_jpg.rf.a56a0a8d297d4c9ee4884471d83b3069.jpg",
+          "image_b": "valid/images/ppe7_-12-_jpg.rf.6d5b5db725c00337e7f1d9f7b238873e.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-11-_jpg",
+          "original_stem_b": "ppe7_-12-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-11-_jpg.rf.a56a0a8d297d4c9ee4884471d83b3069.jpg",
+          "image_b": "valid/images/ppe7_-2-_jpg.rf.a989c7887ef6f74d987574a325f331d6.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-11-_jpg",
+          "original_stem_b": "ppe7_-2-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-11-_jpg.rf.a56a0a8d297d4c9ee4884471d83b3069.jpg",
+          "image_b": "valid/images/ppe7_-7-_jpg.rf.8be78256eab64d6b54c7e3aa2a114f0e.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-11-_jpg",
+          "original_stem_b": "ppe7_-7-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-13-_jpg.rf.11dda4fc2c122300e0c188b27021093d.jpg",
+          "image_b": "test/images/ppe7_-6-_jpg.rf.96538b9503240dfc1a92d91c6dcf9ecc.jpg",
+          "split_a": "train",
+          "split_b": "test",
+          "original_stem_a": "ppe7_-13-_jpg",
+          "original_stem_b": "ppe7_-6-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 2,
+            "vest": 2
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-13-_jpg.rf.11dda4fc2c122300e0c188b27021093d.jpg",
+          "image_b": "train/images/ppe7_-16-_jpg.rf.8b2140eae2186fcd241cd35b2d2ce6a6.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-13-_jpg",
+          "original_stem_b": "ppe7_-16-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 2
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-13-_jpg.rf.11dda4fc2c122300e0c188b27021093d.jpg",
+          "image_b": "train/images/ppe7_-17-_jpg.rf.a6e6041b5387b7631841a8672ef08a51.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-13-_jpg",
+          "original_stem_b": "ppe7_-17-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-13-_jpg.rf.11dda4fc2c122300e0c188b27021093d.jpg",
+          "image_b": "train/images/ppe7_-19-_jpg.rf.151ee0e9b08b3869bf916b761c67a3ad.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-13-_jpg",
+          "original_stem_b": "ppe7_-19-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-13-_jpg.rf.11dda4fc2c122300e0c188b27021093d.jpg",
+          "image_b": "train/images/ppe7_-3-_jpg.rf.6cc138e802b3e1553ba865cd9d18702e.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-13-_jpg",
+          "original_stem_b": "ppe7_-3-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-13-_jpg.rf.11dda4fc2c122300e0c188b27021093d.jpg",
+          "image_b": "train/images/ppe7_-5-_jpg.rf.ad1641c6b92a8d98de8019aeae806090.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-13-_jpg",
+          "original_stem_b": "ppe7_-5-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-13-_jpg.rf.11dda4fc2c122300e0c188b27021093d.jpg",
+          "image_b": "valid/images/ppe7_-12-_jpg.rf.6d5b5db725c00337e7f1d9f7b238873e.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-13-_jpg",
+          "original_stem_b": "ppe7_-12-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-13-_jpg.rf.11dda4fc2c122300e0c188b27021093d.jpg",
+          "image_b": "valid/images/ppe7_-2-_jpg.rf.a989c7887ef6f74d987574a325f331d6.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-13-_jpg",
+          "original_stem_b": "ppe7_-2-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-13-_jpg.rf.11dda4fc2c122300e0c188b27021093d.jpg",
+          "image_b": "valid/images/ppe7_-7-_jpg.rf.8be78256eab64d6b54c7e3aa2a114f0e.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-13-_jpg",
+          "original_stem_b": "ppe7_-7-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-15-_jpg.rf.a432cba9e57974dc9ca9824c062ec43d.jpg",
+          "image_b": "train/images/ppe7_-16-_jpg.rf.8b2140eae2186fcd241cd35b2d2ce6a6.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-15-_jpg",
+          "original_stem_b": "ppe7_-16-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 2
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-15-_jpg.rf.a432cba9e57974dc9ca9824c062ec43d.jpg",
+          "image_b": "train/images/ppe7_-17-_jpg.rf.a6e6041b5387b7631841a8672ef08a51.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-15-_jpg",
+          "original_stem_b": "ppe7_-17-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-15-_jpg.rf.a432cba9e57974dc9ca9824c062ec43d.jpg",
+          "image_b": "train/images/ppe7_-19-_jpg.rf.151ee0e9b08b3869bf916b761c67a3ad.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-15-_jpg",
+          "original_stem_b": "ppe7_-19-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-15-_jpg.rf.a432cba9e57974dc9ca9824c062ec43d.jpg",
+          "image_b": "train/images/ppe7_-21-_jpg.rf.eadef89b7aa540894cf5affe8950f162.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-15-_jpg",
+          "original_stem_b": "ppe7_-21-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-16-_jpg.rf.8b2140eae2186fcd241cd35b2d2ce6a6.jpg",
+          "image_b": "test/images/ppe7_-6-_jpg.rf.96538b9503240dfc1a92d91c6dcf9ecc.jpg",
+          "split_a": "train",
+          "split_b": "test",
+          "original_stem_a": "ppe7_-16-_jpg",
+          "original_stem_b": "ppe7_-6-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 2,
+            "vest": 2
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-16-_jpg.rf.8b2140eae2186fcd241cd35b2d2ce6a6.jpg",
+          "image_b": "train/images/ppe7_-17-_jpg.rf.a6e6041b5387b7631841a8672ef08a51.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-16-_jpg",
+          "original_stem_b": "ppe7_-17-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-16-_jpg.rf.8b2140eae2186fcd241cd35b2d2ce6a6.jpg",
+          "image_b": "train/images/ppe7_-18-_jpg.rf.02ec8c1a7b5edaf133a542169c971c54.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-16-_jpg",
+          "original_stem_b": "ppe7_-18-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-16-_jpg.rf.8b2140eae2186fcd241cd35b2d2ce6a6.jpg",
+          "image_b": "train/images/ppe7_-19-_jpg.rf.151ee0e9b08b3869bf916b761c67a3ad.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-16-_jpg",
+          "original_stem_b": "ppe7_-19-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-16-_jpg.rf.8b2140eae2186fcd241cd35b2d2ce6a6.jpg",
+          "image_b": "train/images/ppe7_-21-_jpg.rf.eadef89b7aa540894cf5affe8950f162.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-16-_jpg",
+          "original_stem_b": "ppe7_-21-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-16-_jpg.rf.8b2140eae2186fcd241cd35b2d2ce6a6.jpg",
+          "image_b": "train/images/ppe7_-3-_jpg.rf.6cc138e802b3e1553ba865cd9d18702e.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-16-_jpg",
+          "original_stem_b": "ppe7_-3-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-16-_jpg.rf.8b2140eae2186fcd241cd35b2d2ce6a6.jpg",
+          "image_b": "train/images/ppe7_-5-_jpg.rf.ad1641c6b92a8d98de8019aeae806090.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-16-_jpg",
+          "original_stem_b": "ppe7_-5-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-16-_jpg.rf.8b2140eae2186fcd241cd35b2d2ce6a6.jpg",
+          "image_b": "valid/images/ppe7_-12-_jpg.rf.6d5b5db725c00337e7f1d9f7b238873e.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-16-_jpg",
+          "original_stem_b": "ppe7_-12-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-16-_jpg.rf.8b2140eae2186fcd241cd35b2d2ce6a6.jpg",
+          "image_b": "valid/images/ppe7_-2-_jpg.rf.a989c7887ef6f74d987574a325f331d6.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-16-_jpg",
+          "original_stem_b": "ppe7_-2-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-16-_jpg.rf.8b2140eae2186fcd241cd35b2d2ce6a6.jpg",
+          "image_b": "valid/images/ppe7_-7-_jpg.rf.8be78256eab64d6b54c7e3aa2a114f0e.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-16-_jpg",
+          "original_stem_b": "ppe7_-7-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-17-_jpg.rf.a6e6041b5387b7631841a8672ef08a51.jpg",
+          "image_b": "test/images/ppe7_-6-_jpg.rf.96538b9503240dfc1a92d91c6dcf9ecc.jpg",
+          "split_a": "train",
+          "split_b": "test",
+          "original_stem_a": "ppe7_-17-_jpg",
+          "original_stem_b": "ppe7_-6-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 2,
+            "vest": 2
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-17-_jpg.rf.a6e6041b5387b7631841a8672ef08a51.jpg",
+          "image_b": "train/images/ppe7_-18-_jpg.rf.02ec8c1a7b5edaf133a542169c971c54.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-17-_jpg",
+          "original_stem_b": "ppe7_-18-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-17-_jpg.rf.a6e6041b5387b7631841a8672ef08a51.jpg",
+          "image_b": "train/images/ppe7_-19-_jpg.rf.151ee0e9b08b3869bf916b761c67a3ad.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-17-_jpg",
+          "original_stem_b": "ppe7_-19-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-17-_jpg.rf.a6e6041b5387b7631841a8672ef08a51.jpg",
+          "image_b": "train/images/ppe7_-21-_jpg.rf.eadef89b7aa540894cf5affe8950f162.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-17-_jpg",
+          "original_stem_b": "ppe7_-21-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-17-_jpg.rf.a6e6041b5387b7631841a8672ef08a51.jpg",
+          "image_b": "train/images/ppe7_-3-_jpg.rf.6cc138e802b3e1553ba865cd9d18702e.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-17-_jpg",
+          "original_stem_b": "ppe7_-3-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-17-_jpg.rf.a6e6041b5387b7631841a8672ef08a51.jpg",
+          "image_b": "train/images/ppe7_-5-_jpg.rf.ad1641c6b92a8d98de8019aeae806090.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-17-_jpg",
+          "original_stem_b": "ppe7_-5-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-17-_jpg.rf.a6e6041b5387b7631841a8672ef08a51.jpg",
+          "image_b": "valid/images/ppe7_-12-_jpg.rf.6d5b5db725c00337e7f1d9f7b238873e.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-17-_jpg",
+          "original_stem_b": "ppe7_-12-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-17-_jpg.rf.a6e6041b5387b7631841a8672ef08a51.jpg",
+          "image_b": "valid/images/ppe7_-2-_jpg.rf.a989c7887ef6f74d987574a325f331d6.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-17-_jpg",
+          "original_stem_b": "ppe7_-2-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-17-_jpg.rf.a6e6041b5387b7631841a8672ef08a51.jpg",
+          "image_b": "valid/images/ppe7_-7-_jpg.rf.8be78256eab64d6b54c7e3aa2a114f0e.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-17-_jpg",
+          "original_stem_b": "ppe7_-7-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-18-_jpg.rf.02ec8c1a7b5edaf133a542169c971c54.jpg",
+          "image_b": "train/images/ppe7_-19-_jpg.rf.151ee0e9b08b3869bf916b761c67a3ad.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-18-_jpg",
+          "original_stem_b": "ppe7_-19-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 4
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-19-_jpg.rf.151ee0e9b08b3869bf916b761c67a3ad.jpg",
+          "image_b": "test/images/ppe7_-6-_jpg.rf.96538b9503240dfc1a92d91c6dcf9ecc.jpg",
+          "split_a": "train",
+          "split_b": "test",
+          "original_stem_a": "ppe7_-19-_jpg",
+          "original_stem_b": "ppe7_-6-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 2,
+            "vest": 2
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-19-_jpg.rf.151ee0e9b08b3869bf916b761c67a3ad.jpg",
+          "image_b": "train/images/ppe7_-21-_jpg.rf.eadef89b7aa540894cf5affe8950f162.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-19-_jpg",
+          "original_stem_b": "ppe7_-21-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 3,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-19-_jpg.rf.151ee0e9b08b3869bf916b761c67a3ad.jpg",
+          "image_b": "train/images/ppe7_-3-_jpg.rf.6cc138e802b3e1553ba865cd9d18702e.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-19-_jpg",
+          "original_stem_b": "ppe7_-3-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-19-_jpg.rf.151ee0e9b08b3869bf916b761c67a3ad.jpg",
+          "image_b": "train/images/ppe7_-5-_jpg.rf.ad1641c6b92a8d98de8019aeae806090.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-19-_jpg",
+          "original_stem_b": "ppe7_-5-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-19-_jpg.rf.151ee0e9b08b3869bf916b761c67a3ad.jpg",
+          "image_b": "valid/images/ppe7_-12-_jpg.rf.6d5b5db725c00337e7f1d9f7b238873e.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-19-_jpg",
+          "original_stem_b": "ppe7_-12-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-19-_jpg.rf.151ee0e9b08b3869bf916b761c67a3ad.jpg",
+          "image_b": "valid/images/ppe7_-2-_jpg.rf.a989c7887ef6f74d987574a325f331d6.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-19-_jpg",
+          "original_stem_b": "ppe7_-2-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-19-_jpg.rf.151ee0e9b08b3869bf916b761c67a3ad.jpg",
+          "image_b": "valid/images/ppe7_-7-_jpg.rf.8be78256eab64d6b54c7e3aa2a114f0e.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-19-_jpg",
+          "original_stem_b": "ppe7_-7-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-3-_jpg.rf.6cc138e802b3e1553ba865cd9d18702e.jpg",
+          "image_b": "test/images/ppe7_-6-_jpg.rf.96538b9503240dfc1a92d91c6dcf9ecc.jpg",
+          "split_a": "train",
+          "split_b": "test",
+          "original_stem_a": "ppe7_-3-_jpg",
+          "original_stem_b": "ppe7_-6-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 2,
+            "vest": 2
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-3-_jpg.rf.6cc138e802b3e1553ba865cd9d18702e.jpg",
+          "image_b": "train/images/ppe7_-5-_jpg.rf.ad1641c6b92a8d98de8019aeae806090.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe7_-3-_jpg",
+          "original_stem_b": "ppe7_-5-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-3-_jpg.rf.6cc138e802b3e1553ba865cd9d18702e.jpg",
+          "image_b": "valid/images/ppe7_-12-_jpg.rf.6d5b5db725c00337e7f1d9f7b238873e.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-3-_jpg",
+          "original_stem_b": "ppe7_-12-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-3-_jpg.rf.6cc138e802b3e1553ba865cd9d18702e.jpg",
+          "image_b": "valid/images/ppe7_-2-_jpg.rf.a989c7887ef6f74d987574a325f331d6.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-3-_jpg",
+          "original_stem_b": "ppe7_-2-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-3-_jpg.rf.6cc138e802b3e1553ba865cd9d18702e.jpg",
+          "image_b": "valid/images/ppe7_-7-_jpg.rf.8be78256eab64d6b54c7e3aa2a114f0e.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-3-_jpg",
+          "original_stem_b": "ppe7_-7-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-5-_jpg.rf.ad1641c6b92a8d98de8019aeae806090.jpg",
+          "image_b": "test/images/ppe7_-6-_jpg.rf.96538b9503240dfc1a92d91c6dcf9ecc.jpg",
+          "split_a": "train",
+          "split_b": "test",
+          "original_stem_a": "ppe7_-5-_jpg",
+          "original_stem_b": "ppe7_-6-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 2,
+            "vest": 2
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-5-_jpg.rf.ad1641c6b92a8d98de8019aeae806090.jpg",
+          "image_b": "valid/images/ppe7_-12-_jpg.rf.6d5b5db725c00337e7f1d9f7b238873e.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-5-_jpg",
+          "original_stem_b": "ppe7_-12-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-5-_jpg.rf.ad1641c6b92a8d98de8019aeae806090.jpg",
+          "image_b": "valid/images/ppe7_-2-_jpg.rf.a989c7887ef6f74d987574a325f331d6.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-5-_jpg",
+          "original_stem_b": "ppe7_-2-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "train/images/ppe7_-5-_jpg.rf.ad1641c6b92a8d98de8019aeae806090.jpg",
+          "image_b": "valid/images/ppe7_-7-_jpg.rf.8be78256eab64d6b54c7e3aa2a114f0e.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-5-_jpg",
+          "original_stem_b": "ppe7_-7-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "valid/images/ppe7_-12-_jpg.rf.6d5b5db725c00337e7f1d9f7b238873e.jpg",
+          "image_b": "test/images/ppe7_-6-_jpg.rf.96538b9503240dfc1a92d91c6dcf9ecc.jpg",
+          "split_a": "valid",
+          "split_b": "test",
+          "original_stem_a": "ppe7_-12-_jpg",
+          "original_stem_b": "ppe7_-6-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 2,
+            "vest": 2
+          }
+        },
+        {
+          "image_a": "valid/images/ppe7_-12-_jpg.rf.6d5b5db725c00337e7f1d9f7b238873e.jpg",
+          "image_b": "valid/images/ppe7_-2-_jpg.rf.a989c7887ef6f74d987574a325f331d6.jpg",
+          "split_a": "valid",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-12-_jpg",
+          "original_stem_b": "ppe7_-2-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "valid/images/ppe7_-12-_jpg.rf.6d5b5db725c00337e7f1d9f7b238873e.jpg",
+          "image_b": "valid/images/ppe7_-7-_jpg.rf.8be78256eab64d6b54c7e3aa2a114f0e.jpg",
+          "split_a": "valid",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-12-_jpg",
+          "original_stem_b": "ppe7_-7-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "valid/images/ppe7_-2-_jpg.rf.a989c7887ef6f74d987574a325f331d6.jpg",
+          "image_b": "test/images/ppe7_-6-_jpg.rf.96538b9503240dfc1a92d91c6dcf9ecc.jpg",
+          "split_a": "valid",
+          "split_b": "test",
+          "original_stem_a": "ppe7_-2-_jpg",
+          "original_stem_b": "ppe7_-6-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 2,
+            "vest": 2
+          }
+        },
+        {
+          "image_a": "valid/images/ppe7_-2-_jpg.rf.a989c7887ef6f74d987574a325f331d6.jpg",
+          "image_b": "valid/images/ppe7_-7-_jpg.rf.8be78256eab64d6b54c7e3aa2a114f0e.jpg",
+          "split_a": "valid",
+          "split_b": "valid",
+          "original_stem_a": "ppe7_-2-_jpg",
+          "original_stem_b": "ppe7_-7-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          }
+        },
+        {
+          "image_a": "valid/images/ppe7_-7-_jpg.rf.8be78256eab64d6b54c7e3aa2a114f0e.jpg",
+          "image_b": "test/images/ppe7_-6-_jpg.rf.96538b9503240dfc1a92d91c6dcf9ecc.jpg",
+          "split_a": "valid",
+          "split_b": "test",
+          "original_stem_a": "ppe7_-7-_jpg",
+          "original_stem_b": "ppe7_-6-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 4
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 2,
+            "no_vest": 2,
+            "vest": 2
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0005",
+      "review_status": "REVIEW_REQUIRED",
+      "original_splits": [
+        "test",
+        "train"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "test/images/ppe8_-19-_jpg.rf.75946d7be91d410f6cb64bc6e859de43.jpg",
+          "split": "test",
+          "original_stem": "ppe8_-19-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 2,
+            "no_helmet": 6,
+            "no_vest": 5,
+            "vest": 3
+          }
+        },
+        {
+          "path": "train/images/ppe8_-20-_jpg.rf.2d85e8543ca1c3b16308d87f5cfad0a0.jpg",
+          "split": "train",
+          "original_stem": "ppe8_-20-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 2,
+            "no_helmet": 5,
+            "no_vest": 5,
+            "vest": 3
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/ppe8_-20-_jpg.rf.2d85e8543ca1c3b16308d87f5cfad0a0.jpg",
+          "image_b": "test/images/ppe8_-19-_jpg.rf.75946d7be91d410f6cb64bc6e859de43.jpg",
+          "split_a": "train",
+          "split_b": "test",
+          "original_stem_a": "ppe8_-20-_jpg",
+          "original_stem_b": "ppe8_-19-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 5,
+            "no_vest": 5,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 6,
+            "no_vest": 5,
+            "vest": 3
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0006",
+      "review_status": "REVIEW_REQUIRED",
+      "original_splits": [
+        "test",
+        "train"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "test/images/ppe_1218_jpg.rf.7bdc4512758f165a72d106c61feadff0.jpg",
+          "split": "test",
+          "original_stem": "ppe_1218_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 4,
+            "no_helmet": 1,
+            "no_vest": 5,
+            "vest": 0
+          }
+        },
+        {
+          "path": "train/images/ppe_1208_jpg.rf.da144673c499c2c5a28152feab59731e.jpg",
+          "split": "train",
+          "original_stem": "ppe_1208_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 4,
+            "no_helmet": 1,
+            "no_vest": 5,
+            "vest": 0
+          }
+        },
+        {
+          "path": "train/images/ppe_1237_jpg.rf.af8afbdaeacb7139d382d721b3213db1.jpg",
+          "split": "train",
+          "original_stem": "ppe_1237_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 5,
+            "no_helmet": 0,
+            "no_vest": 5,
+            "vest": 0
+          }
+        },
+        {
+          "path": "train/images/ppe_1259_jpg.rf.2572138898da74c6dd1b1f3eb2aa9104.jpg",
+          "split": "train",
+          "original_stem": "ppe_1259_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 4,
+            "no_helmet": 1,
+            "no_vest": 5,
+            "vest": 0
+          }
+        },
+        {
+          "path": "train/images/ppe_1285_jpg.rf.2fb29beee1aec98cbca0a349b40955b5.jpg",
+          "split": "train",
+          "original_stem": "ppe_1285_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 5,
+            "no_helmet": 0,
+            "no_vest": 5,
+            "vest": 0
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/ppe_1208_jpg.rf.da144673c499c2c5a28152feab59731e.jpg",
+          "image_b": "test/images/ppe_1218_jpg.rf.7bdc4512758f165a72d106c61feadff0.jpg",
+          "split_a": "train",
+          "split_b": "test",
+          "original_stem_a": "ppe_1208_jpg",
+          "original_stem_b": "ppe_1218_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 4,
+            "no_helmet": 1,
+            "no_vest": 5,
+            "vest": 0
+          },
+          "class_counts_b": {
+            "helmet": 4,
+            "no_helmet": 1,
+            "no_vest": 5,
+            "vest": 0
+          }
+        },
+        {
+          "image_a": "train/images/ppe_1208_jpg.rf.da144673c499c2c5a28152feab59731e.jpg",
+          "image_b": "train/images/ppe_1237_jpg.rf.af8afbdaeacb7139d382d721b3213db1.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe_1208_jpg",
+          "original_stem_b": "ppe_1237_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 4,
+            "no_helmet": 1,
+            "no_vest": 5,
+            "vest": 0
+          },
+          "class_counts_b": {
+            "helmet": 5,
+            "no_helmet": 0,
+            "no_vest": 5,
+            "vest": 0
+          }
+        },
+        {
+          "image_a": "train/images/ppe_1208_jpg.rf.da144673c499c2c5a28152feab59731e.jpg",
+          "image_b": "train/images/ppe_1259_jpg.rf.2572138898da74c6dd1b1f3eb2aa9104.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe_1208_jpg",
+          "original_stem_b": "ppe_1259_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 4,
+            "no_helmet": 1,
+            "no_vest": 5,
+            "vest": 0
+          },
+          "class_counts_b": {
+            "helmet": 4,
+            "no_helmet": 1,
+            "no_vest": 5,
+            "vest": 0
+          }
+        },
+        {
+          "image_a": "train/images/ppe_1208_jpg.rf.da144673c499c2c5a28152feab59731e.jpg",
+          "image_b": "train/images/ppe_1285_jpg.rf.2fb29beee1aec98cbca0a349b40955b5.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe_1208_jpg",
+          "original_stem_b": "ppe_1285_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 4,
+            "no_helmet": 1,
+            "no_vest": 5,
+            "vest": 0
+          },
+          "class_counts_b": {
+            "helmet": 5,
+            "no_helmet": 0,
+            "no_vest": 5,
+            "vest": 0
+          }
+        },
+        {
+          "image_a": "train/images/ppe_1237_jpg.rf.af8afbdaeacb7139d382d721b3213db1.jpg",
+          "image_b": "test/images/ppe_1218_jpg.rf.7bdc4512758f165a72d106c61feadff0.jpg",
+          "split_a": "train",
+          "split_b": "test",
+          "original_stem_a": "ppe_1237_jpg",
+          "original_stem_b": "ppe_1218_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 5,
+            "no_helmet": 0,
+            "no_vest": 5,
+            "vest": 0
+          },
+          "class_counts_b": {
+            "helmet": 4,
+            "no_helmet": 1,
+            "no_vest": 5,
+            "vest": 0
+          }
+        },
+        {
+          "image_a": "train/images/ppe_1237_jpg.rf.af8afbdaeacb7139d382d721b3213db1.jpg",
+          "image_b": "train/images/ppe_1259_jpg.rf.2572138898da74c6dd1b1f3eb2aa9104.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe_1237_jpg",
+          "original_stem_b": "ppe_1259_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 5,
+            "no_helmet": 0,
+            "no_vest": 5,
+            "vest": 0
+          },
+          "class_counts_b": {
+            "helmet": 4,
+            "no_helmet": 1,
+            "no_vest": 5,
+            "vest": 0
+          }
+        },
+        {
+          "image_a": "train/images/ppe_1259_jpg.rf.2572138898da74c6dd1b1f3eb2aa9104.jpg",
+          "image_b": "test/images/ppe_1218_jpg.rf.7bdc4512758f165a72d106c61feadff0.jpg",
+          "split_a": "train",
+          "split_b": "test",
+          "original_stem_a": "ppe_1259_jpg",
+          "original_stem_b": "ppe_1218_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 4,
+            "no_helmet": 1,
+            "no_vest": 5,
+            "vest": 0
+          },
+          "class_counts_b": {
+            "helmet": 4,
+            "no_helmet": 1,
+            "no_vest": 5,
+            "vest": 0
+          }
+        },
+        {
+          "image_a": "train/images/ppe_1259_jpg.rf.2572138898da74c6dd1b1f3eb2aa9104.jpg",
+          "image_b": "train/images/ppe_1285_jpg.rf.2fb29beee1aec98cbca0a349b40955b5.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe_1259_jpg",
+          "original_stem_b": "ppe_1285_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 4,
+            "no_helmet": 1,
+            "no_vest": 5,
+            "vest": 0
+          },
+          "class_counts_b": {
+            "helmet": 5,
+            "no_helmet": 0,
+            "no_vest": 5,
+            "vest": 0
+          }
+        },
+        {
+          "image_a": "train/images/ppe_1285_jpg.rf.2fb29beee1aec98cbca0a349b40955b5.jpg",
+          "image_b": "test/images/ppe_1218_jpg.rf.7bdc4512758f165a72d106c61feadff0.jpg",
+          "split_a": "train",
+          "split_b": "test",
+          "original_stem_a": "ppe_1285_jpg",
+          "original_stem_b": "ppe_1218_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 5,
+            "no_helmet": 0,
+            "no_vest": 5,
+            "vest": 0
+          },
+          "class_counts_b": {
+            "helmet": 4,
+            "no_helmet": 1,
+            "no_vest": 5,
+            "vest": 0
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0007",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train"
+      ],
+      "spans_multiple_splits": false,
+      "recommended_future_split_handling": "KEEP_GROUP_TOGETHER_IF_RESPLIT",
+      "members": [
+        {
+          "path": "train/images/00035_jpg.rf.3bfb43938e031a146607d1b9ff3bf2df.jpg",
+          "split": "train",
+          "original_stem": "00035_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "path": "train/images/00035_jpg.rf.e0d0e29ec312f767a4e6383f3423170d.jpg",
+          "split": "train",
+          "original_stem": "00035_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/00035_jpg.rf.3bfb43938e031a146607d1b9ff3bf2df.jpg",
+          "image_b": "train/images/00035_jpg.rf.e0d0e29ec312f767a4e6383f3423170d.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "00035_jpg",
+          "original_stem_b": "00035_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0008",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train",
+        "valid"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "train/images/00048_jpg.rf.8f3a7c75f321d9c74962d081dfb3c8f2.jpg",
+          "split": "train",
+          "original_stem": "00048_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 9,
+            "no_vest": 3,
+            "vest": 3
+          }
+        },
+        {
+          "path": "valid/images/00048_jpg.rf.de5b571f7331d7534449a932546dede6.jpg",
+          "split": "valid",
+          "original_stem": "00048_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 9,
+            "no_vest": 3,
+            "vest": 3
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/00048_jpg.rf.8f3a7c75f321d9c74962d081dfb3c8f2.jpg",
+          "image_b": "valid/images/00048_jpg.rf.de5b571f7331d7534449a932546dede6.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "00048_jpg",
+          "original_stem_b": "00048_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 9,
+            "no_vest": 3,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 9,
+            "no_vest": 3,
+            "vest": 3
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0009",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train",
+        "valid"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "train/images/00049_jpg.rf.5a0b2c35fc9ad2d6e85388ab1b4d2eea.jpg",
+          "split": "train",
+          "original_stem": "00049_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 2
+          }
+        },
+        {
+          "path": "valid/images/00049_jpg.rf.699c274419df6dc8f4f8d9306c8bed2b.jpg",
+          "split": "valid",
+          "original_stem": "00049_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 2
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/00049_jpg.rf.5a0b2c35fc9ad2d6e85388ab1b4d2eea.jpg",
+          "image_b": "valid/images/00049_jpg.rf.699c274419df6dc8f4f8d9306c8bed2b.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "00049_jpg",
+          "original_stem_b": "00049_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 2
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0010",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train",
+        "valid"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "train/images/00056_jpg.rf.1eb63f29daea996999c66f00f275cb32.jpg",
+          "split": "train",
+          "original_stem": "00056_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "path": "valid/images/00056_jpg.rf.96c5884414826ffddc8144477680809a.jpg",
+          "split": "valid",
+          "original_stem": "00056_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/00056_jpg.rf.1eb63f29daea996999c66f00f275cb32.jpg",
+          "image_b": "valid/images/00056_jpg.rf.96c5884414826ffddc8144477680809a.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "00056_jpg",
+          "original_stem_b": "00056_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0011",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train"
+      ],
+      "spans_multiple_splits": false,
+      "recommended_future_split_handling": "KEEP_GROUP_TOGETHER_IF_RESPLIT",
+      "members": [
+        {
+          "path": "train/images/00060_jpg.rf.062c089863a4ddd9b81c17eca7e42939.jpg",
+          "split": "train",
+          "original_stem": "00060_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 15,
+            "no_vest": 0,
+            "vest": 14
+          }
+        },
+        {
+          "path": "train/images/00060_jpg.rf.302c84a6331418d73f3a94446f5d9173.jpg",
+          "split": "train",
+          "original_stem": "00060_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 15,
+            "no_vest": 0,
+            "vest": 14
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/00060_jpg.rf.062c089863a4ddd9b81c17eca7e42939.jpg",
+          "image_b": "train/images/00060_jpg.rf.302c84a6331418d73f3a94446f5d9173.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "00060_jpg",
+          "original_stem_b": "00060_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 15,
+            "no_vest": 0,
+            "vest": 14
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 15,
+            "no_vest": 0,
+            "vest": 14
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0012",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train",
+        "valid"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "train/images/00085_jpg.rf.5083e8734d8c542313da4992c0e3c292.jpg",
+          "split": "train",
+          "original_stem": "00085_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "path": "valid/images/00085_jpg.rf.35264a69d3ffdf0d3e38767640bab18d.jpg",
+          "split": "valid",
+          "original_stem": "00085_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/00085_jpg.rf.5083e8734d8c542313da4992c0e3c292.jpg",
+          "image_b": "valid/images/00085_jpg.rf.35264a69d3ffdf0d3e38767640bab18d.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "00085_jpg",
+          "original_stem_b": "00085_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0013",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train",
+        "valid"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "train/images/00087_jpg.rf.8aa994653de2ffad916002f762902db8.jpg",
+          "split": "train",
+          "original_stem": "00087_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "path": "train/images/00087_jpg.rf.c4c6e36393f0c3f13f27754cd3a18013.jpg",
+          "split": "train",
+          "original_stem": "00087_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "path": "valid/images/00087_jpg.rf.474ce3024045f81616553aca344642e0.jpg",
+          "split": "valid",
+          "original_stem": "00087_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/00087_jpg.rf.8aa994653de2ffad916002f762902db8.jpg",
+          "image_b": "train/images/00087_jpg.rf.c4c6e36393f0c3f13f27754cd3a18013.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "00087_jpg",
+          "original_stem_b": "00087_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "image_a": "train/images/00087_jpg.rf.8aa994653de2ffad916002f762902db8.jpg",
+          "image_b": "valid/images/00087_jpg.rf.474ce3024045f81616553aca344642e0.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "00087_jpg",
+          "original_stem_b": "00087_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "image_a": "train/images/00087_jpg.rf.c4c6e36393f0c3f13f27754cd3a18013.jpg",
+          "image_b": "valid/images/00087_jpg.rf.474ce3024045f81616553aca344642e0.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "00087_jpg",
+          "original_stem_b": "00087_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0014",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train",
+        "valid"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "train/images/00091_jpg.rf.1f464a034ccb53ba1ec3699a64fabf67.jpg",
+          "split": "train",
+          "original_stem": "00091_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 6,
+            "no_vest": 2,
+            "vest": 4
+          }
+        },
+        {
+          "path": "valid/images/00091_jpg.rf.90ae9233dd627c83aa17cf5f3015230a.jpg",
+          "split": "valid",
+          "original_stem": "00091_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 6,
+            "no_vest": 2,
+            "vest": 4
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/00091_jpg.rf.1f464a034ccb53ba1ec3699a64fabf67.jpg",
+          "image_b": "valid/images/00091_jpg.rf.90ae9233dd627c83aa17cf5f3015230a.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "00091_jpg",
+          "original_stem_b": "00091_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 6,
+            "no_vest": 2,
+            "vest": 4
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 6,
+            "no_vest": 2,
+            "vest": 4
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0015",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train"
+      ],
+      "spans_multiple_splits": false,
+      "recommended_future_split_handling": "KEEP_GROUP_TOGETHER_IF_RESPLIT",
+      "members": [
+        {
+          "path": "train/images/00097_jpg.rf.6a6af40fb59c9d7f0eacdc56e608d44a.jpg",
+          "split": "train",
+          "original_stem": "00097_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "path": "train/images/00097_jpg.rf.c9331f8755e5851100ced5fd34694f05.jpg",
+          "split": "train",
+          "original_stem": "00097_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/00097_jpg.rf.6a6af40fb59c9d7f0eacdc56e608d44a.jpg",
+          "image_b": "train/images/00097_jpg.rf.c9331f8755e5851100ced5fd34694f05.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "00097_jpg",
+          "original_stem_b": "00097_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0016",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train"
+      ],
+      "spans_multiple_splits": false,
+      "recommended_future_split_handling": "KEEP_GROUP_TOGETHER_IF_RESPLIT",
+      "members": [
+        {
+          "path": "train/images/00098_jpg.rf.04f16c62cad6cc50ebabef36074de367.jpg",
+          "split": "train",
+          "original_stem": "00098_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 1
+          }
+        },
+        {
+          "path": "train/images/00098_jpg.rf.8f1c8b4ffb4962f7732b2f68721f3350.jpg",
+          "split": "train",
+          "original_stem": "00098_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 1
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/00098_jpg.rf.04f16c62cad6cc50ebabef36074de367.jpg",
+          "image_b": "train/images/00098_jpg.rf.8f1c8b4ffb4962f7732b2f68721f3350.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "00098_jpg",
+          "original_stem_b": "00098_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 1
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0017",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train"
+      ],
+      "spans_multiple_splits": false,
+      "recommended_future_split_handling": "KEEP_GROUP_TOGETHER_IF_RESPLIT",
+      "members": [
+        {
+          "path": "train/images/00100_jpg.rf.4601a6395b5798ca06450ab392ceaa8c.jpg",
+          "split": "train",
+          "original_stem": "00100_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 5,
+            "no_helmet": 6,
+            "no_vest": 7,
+            "vest": 2
+          }
+        },
+        {
+          "path": "train/images/00100_jpg.rf.4e5a02de8a2d1a44c6f70b5cc5d9feed.jpg",
+          "split": "train",
+          "original_stem": "00100_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 2
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/00100_jpg.rf.4601a6395b5798ca06450ab392ceaa8c.jpg",
+          "image_b": "train/images/00100_jpg.rf.4e5a02de8a2d1a44c6f70b5cc5d9feed.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "00100_jpg",
+          "original_stem_b": "00100_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 5,
+            "no_helmet": 6,
+            "no_vest": 7,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 2
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0018",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train",
+        "valid"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "train/images/00122_jpg.rf.60a3cee2562706208fd8b60908571f3e.jpg",
+          "split": "train",
+          "original_stem": "00122_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "path": "valid/images/00122_jpg.rf.588070903b146273dea29d91970167a1.jpg",
+          "split": "valid",
+          "original_stem": "00122_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/00122_jpg.rf.60a3cee2562706208fd8b60908571f3e.jpg",
+          "image_b": "valid/images/00122_jpg.rf.588070903b146273dea29d91970167a1.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "00122_jpg",
+          "original_stem_b": "00122_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0019",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train",
+        "valid"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "train/images/00236_jpg.rf.162292eb899eb3ccfe4202595790b96d.jpg",
+          "split": "train",
+          "original_stem": "00236_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "path": "valid/images/00236_jpg.rf.74e4b3a7beeffb6f224b86b4e9950cbe.jpg",
+          "split": "valid",
+          "original_stem": "00236_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/00236_jpg.rf.162292eb899eb3ccfe4202595790b96d.jpg",
+          "image_b": "valid/images/00236_jpg.rf.74e4b3a7beeffb6f224b86b4e9950cbe.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "00236_jpg",
+          "original_stem_b": "00236_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0020",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train"
+      ],
+      "spans_multiple_splits": false,
+      "recommended_future_split_handling": "KEEP_GROUP_TOGETHER_IF_RESPLIT",
+      "members": [
+        {
+          "path": "train/images/00267_jpg.rf.5c47e2229d8f72ea953f826f4761eac0.jpg",
+          "split": "train",
+          "original_stem": "00267_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "path": "train/images/00267_jpg.rf.bac67031a964fcf053c83756d1bc0f63.jpg",
+          "split": "train",
+          "original_stem": "00267_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/00267_jpg.rf.5c47e2229d8f72ea953f826f4761eac0.jpg",
+          "image_b": "train/images/00267_jpg.rf.bac67031a964fcf053c83756d1bc0f63.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "00267_jpg",
+          "original_stem_b": "00267_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0021",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train",
+        "valid"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "train/images/59_JPG_jpg.rf.61eb30f05df55e48c453c84883ac63a3.jpg",
+          "split": "train",
+          "original_stem": "59_JPG_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 1,
+            "vest": 0
+          }
+        },
+        {
+          "path": "valid/images/59_JPG_jpg.rf.9bbc022b9d0343717895373c8e7d4cb3.jpg",
+          "split": "valid",
+          "original_stem": "59_JPG_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 1,
+            "vest": 0
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/59_JPG_jpg.rf.61eb30f05df55e48c453c84883ac63a3.jpg",
+          "image_b": "valid/images/59_JPG_jpg.rf.9bbc022b9d0343717895373c8e7d4cb3.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "59_JPG_jpg",
+          "original_stem_b": "59_JPG_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 1,
+            "vest": 0
+          },
+          "class_counts_b": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 1,
+            "vest": 0
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0022",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train",
+        "valid"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "train/images/AightSird0542_jpg.rf.e3b17f49eeae337c68b98ff0e6ded8f7.jpg",
+          "split": "train",
+          "original_stem": "AightSird0542_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 2
+          }
+        },
+        {
+          "path": "valid/images/AightSird0542_jpg.rf.e39033dff3c6e905a89403910071bdff.jpg",
+          "split": "valid",
+          "original_stem": "AightSird0542_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 2
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/AightSird0542_jpg.rf.e3b17f49eeae337c68b98ff0e6ded8f7.jpg",
+          "image_b": "valid/images/AightSird0542_jpg.rf.e39033dff3c6e905a89403910071bdff.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "AightSird0542_jpg",
+          "original_stem_b": "AightSird0542_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 2,
+            "no_vest": 0,
+            "vest": 2
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0023",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train"
+      ],
+      "spans_multiple_splits": false,
+      "recommended_future_split_handling": "KEEP_GROUP_TOGETHER_IF_RESPLIT",
+      "members": [
+        {
+          "path": "train/images/image_from_china-1379-_jpg.rf.0bedd5b20e413970a0e471f34c6f3898.jpg",
+          "split": "train",
+          "original_stem": "image_from_china-1379-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 4,
+            "no_vest": 4,
+            "vest": 0
+          }
+        },
+        {
+          "path": "train/images/image_from_china-1379-_jpg.rf.f3dd04addc565246fba8a9ee78ff2d9c.jpg",
+          "split": "train",
+          "original_stem": "image_from_china-1379-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 4,
+            "no_vest": 4,
+            "vest": 0
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/image_from_china-1379-_jpg.rf.0bedd5b20e413970a0e471f34c6f3898.jpg",
+          "image_b": "train/images/image_from_china-1379-_jpg.rf.f3dd04addc565246fba8a9ee78ff2d9c.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "image_from_china-1379-_jpg",
+          "original_stem_b": "image_from_china-1379-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 4,
+            "no_vest": 4,
+            "vest": 0
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 4,
+            "no_vest": 4,
+            "vest": 0
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0024",
+      "review_status": "REVIEW_REQUIRED",
+      "original_splits": [
+        "train",
+        "valid"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "train/images/image_from_china-1991-_jpg.rf.3a4a4d5e3c005bf0aea30b260ffb05ee.jpg",
+          "split": "train",
+          "original_stem": "image_from_china-1991-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 0
+          }
+        },
+        {
+          "path": "valid/images/image_from_china-1990-_jpg.rf.279783548436b5137aca849d34ce520b.jpg",
+          "split": "valid",
+          "original_stem": "image_from_china-1990-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 0
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/image_from_china-1991-_jpg.rf.3a4a4d5e3c005bf0aea30b260ffb05ee.jpg",
+          "image_b": "valid/images/image_from_china-1990-_jpg.rf.279783548436b5137aca849d34ce520b.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "image_from_china-1991-_jpg",
+          "original_stem_b": "image_from_china-1990-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 0
+          },
+          "class_counts_b": {
+            "helmet": 0,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 0
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0025",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train"
+      ],
+      "spans_multiple_splits": false,
+      "recommended_future_split_handling": "KEEP_GROUP_TOGETHER_IF_RESPLIT",
+      "members": [
+        {
+          "path": "train/images/image_from_china-341-_jpg.rf.89d53e340fb2f62acadec4130f0a84f2.jpg",
+          "split": "train",
+          "original_stem": "image_from_china-341-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 2,
+            "no_helmet": 5,
+            "no_vest": 7,
+            "vest": 0
+          }
+        },
+        {
+          "path": "train/images/image_from_china-341-_jpg.rf.fe84fa09bcf3252e0916ed05e0703ee6.jpg",
+          "split": "train",
+          "original_stem": "image_from_china-341-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 2,
+            "no_helmet": 5,
+            "no_vest": 7,
+            "vest": 0
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/image_from_china-341-_jpg.rf.89d53e340fb2f62acadec4130f0a84f2.jpg",
+          "image_b": "train/images/image_from_china-341-_jpg.rf.fe84fa09bcf3252e0916ed05e0703ee6.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "image_from_china-341-_jpg",
+          "original_stem_b": "image_from_china-341-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 5,
+            "no_vest": 7,
+            "vest": 0
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 5,
+            "no_vest": 7,
+            "vest": 0
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0026",
+      "review_status": "REVIEW_REQUIRED",
+      "original_splits": [
+        "train",
+        "valid"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "train/images/image_from_china-4469-_jpg.rf.23b29da189a472aecdbeb03ae4068d53.jpg",
+          "split": "train",
+          "original_stem": "image_from_china-4469-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 5,
+            "no_helmet": 0,
+            "no_vest": 2,
+            "vest": 3
+          }
+        },
+        {
+          "path": "valid/images/image_from_china-4235-1-_jpg.rf.adbbaf65d334298def3caaf642e0fc5d.jpg",
+          "split": "valid",
+          "original_stem": "image_from_china-4235-1-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 5,
+            "no_helmet": 0,
+            "no_vest": 2,
+            "vest": 3
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/image_from_china-4469-_jpg.rf.23b29da189a472aecdbeb03ae4068d53.jpg",
+          "image_b": "valid/images/image_from_china-4235-1-_jpg.rf.adbbaf65d334298def3caaf642e0fc5d.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "image_from_china-4469-_jpg",
+          "original_stem_b": "image_from_china-4235-1-_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 5,
+            "no_helmet": 0,
+            "no_vest": 2,
+            "vest": 3
+          },
+          "class_counts_b": {
+            "helmet": 5,
+            "no_helmet": 0,
+            "no_vest": 2,
+            "vest": 3
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0027",
+      "review_status": "REVIEW_REQUIRED",
+      "original_splits": [
+        "train",
+        "valid"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "train/images/ppe8_-12-_jpg.rf.fde2e761fa0703dc005573f6d6bb2962.jpg",
+          "split": "train",
+          "original_stem": "ppe8_-12-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 3,
+            "no_helmet": 3,
+            "no_vest": 6,
+            "vest": 0
+          }
+        },
+        {
+          "path": "valid/images/ppe8_-14-_jpg.rf.f2be8f51923e8c7720c1d82630562e2e.jpg",
+          "split": "valid",
+          "original_stem": "ppe8_-14-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 5,
+            "no_helmet": 4,
+            "no_vest": 3,
+            "vest": 5
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/ppe8_-12-_jpg.rf.fde2e761fa0703dc005573f6d6bb2962.jpg",
+          "image_b": "valid/images/ppe8_-14-_jpg.rf.f2be8f51923e8c7720c1d82630562e2e.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe8_-12-_jpg",
+          "original_stem_b": "ppe8_-14-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 3,
+            "no_helmet": 3,
+            "no_vest": 6,
+            "vest": 0
+          },
+          "class_counts_b": {
+            "helmet": 5,
+            "no_helmet": 4,
+            "no_vest": 3,
+            "vest": 5
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0028",
+      "review_status": "REVIEW_REQUIRED",
+      "original_splits": [
+        "train"
+      ],
+      "spans_multiple_splits": false,
+      "recommended_future_split_handling": "KEEP_GROUP_TOGETHER_IF_RESPLIT",
+      "members": [
+        {
+          "path": "train/images/ppe8_-4-_jpg.rf.17e4f2f9709d117b833daaf7596b0e5c.jpg",
+          "split": "train",
+          "original_stem": "ppe8_-4-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 1,
+            "vest": 1
+          }
+        },
+        {
+          "path": "train/images/ppe8_-5-_jpg.rf.2b3d5215d45123aa9a3871f4096d519d.jpg",
+          "split": "train",
+          "original_stem": "ppe8_-5-_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 1,
+            "vest": 2
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/ppe8_-4-_jpg.rf.17e4f2f9709d117b833daaf7596b0e5c.jpg",
+          "image_b": "train/images/ppe8_-5-_jpg.rf.2b3d5215d45123aa9a3871f4096d519d.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe8_-4-_jpg",
+          "original_stem_b": "ppe8_-5-_jpg",
+          "perceptual_hamming_distance": 2,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 1,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 1,
+            "vest": 2
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0029",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train"
+      ],
+      "spans_multiple_splits": false,
+      "recommended_future_split_handling": "KEEP_GROUP_TOGETHER_IF_RESPLIT",
+      "members": [
+        {
+          "path": "train/images/ppe_0144_jpg.rf.025f91bb95e9adf49678750a9b4ec435.jpg",
+          "split": "train",
+          "original_stem": "ppe_0144_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "path": "train/images/ppe_0144_jpg.rf.2afe5a26a7ca13390a7d40443114d021.jpg",
+          "split": "train",
+          "original_stem": "ppe_0144_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 1,
+            "vest": 0
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/ppe_0144_jpg.rf.025f91bb95e9adf49678750a9b4ec435.jpg",
+          "image_b": "train/images/ppe_0144_jpg.rf.2afe5a26a7ca13390a7d40443114d021.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe_0144_jpg",
+          "original_stem_b": "ppe_0144_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 1,
+            "vest": 0
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0030",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train"
+      ],
+      "spans_multiple_splits": false,
+      "recommended_future_split_handling": "KEEP_GROUP_TOGETHER_IF_RESPLIT",
+      "members": [
+        {
+          "path": "train/images/ppe_0146_jpg.rf.71f5f2351617a51e2b8002584f72cd76.jpg",
+          "split": "train",
+          "original_stem": "ppe_0146_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 1,
+            "vest": 1
+          }
+        },
+        {
+          "path": "train/images/ppe_0146_jpg.rf.af79647dd793c77de9a05686f192ae41.jpg",
+          "split": "train",
+          "original_stem": "ppe_0146_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 1,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 1
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/ppe_0146_jpg.rf.71f5f2351617a51e2b8002584f72cd76.jpg",
+          "image_b": "train/images/ppe_0146_jpg.rf.af79647dd793c77de9a05686f192ae41.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe_0146_jpg",
+          "original_stem_b": "ppe_0146_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 1,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 1,
+            "no_helmet": 1,
+            "no_vest": 1,
+            "vest": 1
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0031",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train"
+      ],
+      "spans_multiple_splits": false,
+      "recommended_future_split_handling": "KEEP_GROUP_TOGETHER_IF_RESPLIT",
+      "members": [
+        {
+          "path": "train/images/ppe_0153_jpg.rf.80152d8f291a501b52f060ffcacbafc4.jpg",
+          "split": "train",
+          "original_stem": "ppe_0153_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 2
+          }
+        },
+        {
+          "path": "train/images/ppe_0153_jpg.rf.868dc3e46293f709bbd3ff267865afa2.jpg",
+          "split": "train",
+          "original_stem": "ppe_0153_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 2
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/ppe_0153_jpg.rf.80152d8f291a501b52f060ffcacbafc4.jpg",
+          "image_b": "train/images/ppe_0153_jpg.rf.868dc3e46293f709bbd3ff267865afa2.jpg",
+          "split_a": "train",
+          "split_b": "train",
+          "original_stem_a": "ppe_0153_jpg",
+          "original_stem_b": "ppe_0153_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 2
+          },
+          "class_counts_b": {
+            "helmet": 2,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 2
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "PUBLIC_DUP_0032",
+      "review_status": "LIKELY_SAME_SOURCE",
+      "original_splits": [
+        "train",
+        "valid"
+      ],
+      "spans_multiple_splits": true,
+      "recommended_future_split_handling": "KEEP_WHOLE_GROUP_IN_ONE_SPLIT",
+      "members": [
+        {
+          "path": "train/images/ppe_1062_jpg.rf.75bf4f6c3fbcbdffc6119b3186dad07f.jpg",
+          "split": "train",
+          "original_stem": "ppe_1062_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 1
+          }
+        },
+        {
+          "path": "valid/images/ppe_1062_jpg.rf.4c62c68a1223b9d7131da3f496858ddd.jpg",
+          "split": "valid",
+          "original_stem": "ppe_1062_jpg",
+          "dimensions": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ],
+      "candidate_pairs": [
+        {
+          "image_a": "train/images/ppe_1062_jpg.rf.75bf4f6c3fbcbdffc6119b3186dad07f.jpg",
+          "image_b": "valid/images/ppe_1062_jpg.rf.4c62c68a1223b9d7131da3f496858ddd.jpg",
+          "split_a": "train",
+          "split_b": "valid",
+          "original_stem_a": "ppe_1062_jpg",
+          "original_stem_b": "ppe_1062_jpg",
+          "perceptual_hamming_distance": 0,
+          "same_decoded_pixel_hash": false,
+          "dimensions_a": {
+            "width": 640,
+            "height": 640
+          },
+          "dimensions_b": {
+            "width": 640,
+            "height": 640
+          },
+          "class_counts_a": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 1
+          },
+          "class_counts_b": {
+            "helmet": 1,
+            "no_helmet": 0,
+            "no_vest": 0,
+            "vest": 1
+          }
+        }
+      ]
+    }
+  ]
+}
