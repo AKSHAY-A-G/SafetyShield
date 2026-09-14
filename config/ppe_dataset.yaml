@@ -1,14 +1,13 @@
-# SafetyShield Milestone 8 PPE Dataset Configuration
-# Portable Ultralytics YOLO dataset specification
-path: data/dataset/ppe/roboflow_export
-train: images/train
-val: images/val
-test: images/test
+# SafetyShield PPE smoke-dataset configuration.
+# This portable path is relative to this file. The export has no test split.
+path: ../data/dataset/ppe/roboflow_export/SafetyShield PPE.v1-ppe_smoke_v1.yolo26
+train: train/images
+val: valid/images
 
 # Exactly four initial PPE classes for SafetyShield Milestone 8
 # Note: UNKNOWN is not a detector class (handled in downstream inference logic)
 names:
   0: helmet
   1: no_helmet
-  2: vest
-  3: no_vest
+  2: no_vest
+  3: vest

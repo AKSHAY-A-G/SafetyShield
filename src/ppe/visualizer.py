@@ -17,8 +17,8 @@ from src.ppe.validator import validate_label_line
 CLASS_COLORS: dict[int, tuple[int, int, int]] = {
     0: (0, 220, 0),      # helmet: bright green
     1: (0, 0, 230),      # no_helmet: red
-    2: (255, 180, 0),    # vest: cyan/amber
-    3: (200, 0, 220),    # no_vest: magenta
+    2: (200, 0, 220),    # no_vest: magenta
+    3: (255, 180, 0),    # vest: cyan/amber
 }
 
 

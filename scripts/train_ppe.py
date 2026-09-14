@@ -102,7 +102,7 @@ def main() -> int:
     gate_result = check_training_gate(args.data, manifest_path=manifest_target)
 
     if not gate_result.can_train:
-        print(f"❌ TRAINING GATE FAILED: {gate_result.reason}", file=sys.stderr)
+        print(f"TRAINING GATE FAILED: {gate_result.reason}", file=sys.stderr)
         print(
             "\nTraining is strictly blocked until a valid, non-empty, leakage-free labelled dataset exists.\n"
             "Action required: User annotates crops and exports YOLO dataset to data/dataset/ppe/roboflow_export/.",
@@ -110,7 +110,7 @@ def main() -> int:
         )
         return 1
 
-    print(f"✅ {gate_result.reason}")
+    print(f"TRAINING GATE PASSED: {gate_result.reason}")
 
     if args.gate_only:
         print("Gate-only check complete. Exiting without training.")

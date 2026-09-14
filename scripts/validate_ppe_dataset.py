@@ -81,14 +81,14 @@ def main() -> int:
     if report.warnings:
         print(f"\nWarnings ({len(report.warnings)}):")
         for w in report.warnings[:5]:
-            print(f"  ⚠️ {w}")
+            print(f"  WARNING: {w}")
         if len(report.warnings) > 5:
             print(f"  ... and {len(report.warnings) - 5} more warnings.")
 
     if report.fatal_errors:
         print(f"\nFatal Errors ({len(report.fatal_errors)}):", file=sys.stderr)
         for err in report.fatal_errors[:10]:
-            print(f"  ❌ {err}", file=sys.stderr)
+            print(f"  ERROR: {err}", file=sys.stderr)
         return 1
 
     return 0

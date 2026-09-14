@@ -53,7 +53,7 @@ class PPEDatasetTests(unittest.TestCase):
 
     # 1. Accepted four-class mapping
     def test_accepted_four_class_mapping(self) -> None:
-        expected = {0: "helmet", 1: "no_helmet", 2: "vest", 3: "no_vest"}
+        expected = {0: "helmet", 1: "no_helmet", 2: "no_vest", 3: "vest"}
         self.assertEqual(dict(PPE_CLASSES), expected)
         self.assertEqual(len(PPE_CLASSES), 4)
 
@@ -139,7 +139,7 @@ class PPEDatasetTests(unittest.TestCase):
 
         yaml_path = d / "data.yaml"
         yaml_path.write_text(
-            yaml.safe_dump({"names": ["helmet", "no_helmet", "vest", "no_vest"]}),
+            yaml.safe_dump({"names": ["helmet", "no_helmet", "no_vest", "vest"]}),
             encoding="utf-8",
         )
 
@@ -159,7 +159,7 @@ class PPEDatasetTests(unittest.TestCase):
 
         yaml_path = d / "data.yaml"
         yaml_path.write_text(
-            yaml.safe_dump({"names": ["helmet", "no_helmet", "vest", "no_vest"]}),
+            yaml.safe_dump({"names": ["helmet", "no_helmet", "no_vest", "vest"]}),
             encoding="utf-8",
         )
 
@@ -180,7 +180,7 @@ class PPEDatasetTests(unittest.TestCase):
 
         yaml_path = d / "data.yaml"
         yaml_path.write_text(
-            yaml.safe_dump({"names": ["helmet", "no_helmet", "vest", "no_vest"]}),
+            yaml.safe_dump({"names": ["helmet", "no_helmet", "no_vest", "vest"]}),
             encoding="utf-8",
         )
 
@@ -373,7 +373,7 @@ class PPEDatasetTests(unittest.TestCase):
         yaml_path = d / "data.yaml"
         yaml_path.write_text(
             yaml.safe_dump({
-                "names": ["helmet", "no_helmet", "vest", "no_vest"],
+                "names": ["helmet", "no_helmet", "no_vest", "vest"],
                 "train": "train",
                 "val": "val",
             }),
@@ -398,7 +398,7 @@ class PPEDatasetTests(unittest.TestCase):
 
         yaml_path = d / "data.yaml"
         yaml_path.write_text(
-            yaml.safe_dump({"names": ["helmet", "no_helmet", "vest", "no_vest"]}),
+            yaml.safe_dump({"names": ["helmet", "no_helmet", "no_vest", "vest"]}),
             encoding="utf-8",
         )
 
@@ -418,7 +418,7 @@ class PPEDatasetTests(unittest.TestCase):
 
         yaml_path = d / "data.yaml"
         yaml_path.write_text(
-            yaml.safe_dump({"names": ["helmet", "no_helmet", "vest", "no_vest"]}),
+            yaml.safe_dump({"names": ["helmet", "no_helmet", "no_vest", "vest"]}),
             encoding="utf-8",
         )
 
@@ -446,7 +446,7 @@ class PPEDatasetTests(unittest.TestCase):
 
         yaml_path = d / "data.yaml"
         yaml_path.write_text(
-            yaml.safe_dump({"names": ["helmet", "no_helmet", "vest", "no_vest"]}),
+            yaml.safe_dump({"names": ["helmet", "no_helmet", "no_vest", "vest"]}),
             encoding="utf-8",
         )
 

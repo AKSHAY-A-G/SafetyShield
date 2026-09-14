@@ -105,6 +105,29 @@ def validate_dataset_yaml(yaml_path: Path) -> dict:
     return content
 
 
+def _resolve_split_directories(root_dir: Path, cfg: dict, split: str) -> tuple[Path, Path]:
+    """Resolve a configured YOLO image split and its sibling label directory."""
+    configured_path = cfg.get(split)
+    if isinstance(configured_path, str) and configured_path:
+        img_dir = Path(configured_path)
+        if not img_dir.is_absolute():
+            img_dir = root_dir / img_dir
+        if img_dir.name == "images":
+            return img_dir, img_dir.with_name("labels")
+        return img_dir, img_dir / "labels"
+
+    # Backward-compatible discovery for preparation datasets without paths.
+    img_dir = root_dir / "images" / split
+    lbl_dir = root_dir / "labels" / split
+    if not img_dir.exists():
+        img_dir = root_dir / split / "images"
+        lbl_dir = root_dir / split / "labels"
+    if not img_dir.exists():
+        img_dir = root_dir / split
+        lbl_dir = root_dir / split
+    return img_dir, lbl_dir
+
+
 def validate_ppe_dataset(
     dataset_dir: Path | None = None,
     yaml_path: Path | None = None,
@@ -116,6 +139,10 @@ def validate_ppe_dataset(
             cfg = validate_dataset_yaml(yaml_path)
             resolved_yaml = str(yaml_path)
             root_dir = yaml_path.parent
+            dataset_path = cfg.get("path")
+            if isinstance(dataset_path, str) and dataset_path:
+                configured_root = Path(dataset_path)
+                root_dir = configured_root if configured_root.is_absolute() else root_dir / configured_root
         except Exception as err:
             return DatasetValidationReport(
                 is_valid=False,
@@ -155,28 +182,21 @@ def validate_ppe_dataset(
         report.images_per_split[split] = 0
         report.instances_per_split_class[split] = {c_name: 0 for c_name in report.classes}
 
-        # Ultralytics supports root/images/split or root/split/images or root/split
-        img_dir = root_dir / "images" / split
-        lbl_dir = root_dir / "labels" / split
+        img_dir, lbl_dir = _resolve_split_directories(root_dir, cfg, split)
 
-        if not img_dir.exists():
-            img_dir = root_dir / split / "images"
-            lbl_dir = root_dir / split / "labels"
-        if not img_dir.exists():
-            img_dir = root_dir / split
-            lbl_dir = root_dir / split
-
-        img_files = []
+        img_files: set[Path] = set()
         if img_dir.exists():
             for ext in (".jpg", ".jpeg", ".png", ".bmp", ".webp"):
-                img_files.extend(list(img_dir.glob(f"*{ext}")))
-                img_files.extend(list(img_dir.glob(f"*{ext.upper()}")))
+                # Windows globbing is case-insensitive, so the uppercase
+                # pattern can return the same path as the lowercase pattern.
+                img_files.update(img_dir.glob(f"*{ext}"))
+                img_files.update(img_dir.glob(f"*{ext.upper()}"))
 
         split_images[split] = sorted(img_files)
-        report.images_per_split[split] = len(img_files)
+        report.images_per_split[split] = len(split_images[split])
 
         # Check filename collisions across splits
-        for img_path in img_files:
+        for img_path in split_images[split]:
             stem = img_path.stem
             if stem in all_image_stems:
                 report.warnings.append(
@@ -191,7 +211,7 @@ def validate_ppe_dataset(
 
         # Build label lookup
         lbl_by_stem = {p.stem: p for p in lbl_files}
-        img_by_stem = {p.stem: p for p in img_files}
+        img_by_stem = {p.stem: p for p in split_images[split]}
 
         # Check orphan labels (label exists, but image missing)
         for stem, l_path in lbl_by_stem.items():
@@ -200,7 +220,7 @@ def validate_ppe_dataset(
                 report.warnings.append(f"Orphan label file without image: {l_path.name}")
 
         # Check each image and its label
-        for img_path in img_files:
+        for img_path in split_images[split]:
             stem = img_path.stem
             l_path = lbl_by_stem.get(stem)
 

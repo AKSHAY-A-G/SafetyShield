@@ -8,8 +8,9 @@ from typing import Mapping
 PPE_CLASSES: Mapping[int, str] = {
     0: "helmet",
     1: "no_helmet",
-    2: "vest",
-    3: "no_vest",
+    # Preserve the class IDs emitted by the manually exported Roboflow data.
+    2: "no_vest",
+    3: "vest",
 }
 
 PPE_CLASS_NAME_TO_ID: Mapping[str, int] = {
