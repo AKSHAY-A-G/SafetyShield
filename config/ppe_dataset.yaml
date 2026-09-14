@@ -1,6 +1,7 @@
 # SafetyShield PPE smoke-dataset configuration.
-# This portable path is relative to this file. The export has no test split.
-path: ../data/dataset/ppe/roboflow_export/SafetyShield PPE.v1-ppe_smoke_v1.yolo26
+# This portable path is relative to the project working directory. The export
+# has no test split.
+path: data/dataset/ppe/roboflow_export/SafetyShield PPE.v1-ppe_smoke_v1.yolo26
 train: train/images
 val: valid/images
 

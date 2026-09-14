@@ -1439,6 +1439,32 @@ The user manually manages annotation via the Roboflow web UI:
 - **SMOKE TRAINING: NOT STARTED**
 - **MILESTONE 8 STATUS: PREPARATION COMPLETE (MANUAL ANNOTATION REQUIRED)**
 
+### 8. Authorized PPE CUDA smoke training (2026-09-14)
+
+The historical preparation observations above predate the manually annotated
+Roboflow export. A separate, explicitly authorized engineering smoke test then
+validated the training loop; it is **not** Milestone 9 full training or a PPE
+quality evaluation.
+
+| Check | Actual observed result |
+| --- | --- |
+| Dataset | Roboflow YOLO26 export: 76 images, 46 train, 30 validation, no test split, 168 labelled instances |
+| Class order | `0 helmet`, `1 no_helmet`, `2 no_vest`, `3 vest`; labels were not remapped |
+| Gate immediately before training | PASS: valid, non-empty train/validation splits and 168 instances |
+| Training run | PASS: `yolo26n.pt` transfer learning, 2 epochs, `imgsz=640`, batch 2, CUDA device 0, workers 2, cache false |
+| Hardware execution | PASS on NVIDIA GeForce GTX 1650 (4 GiB); no CUDA OOM and no batch-size fallback. Ultralytics disabled AMP after its GTX 1650 safety check. |
+| Training/validation loops | PASS: both epochs and the final best-checkpoint validation completed |
+| Artifacts | Readable `last.pt`, `best.pt`, `results.csv`, plots and validation renders in ignored `runs/detect/outputs/ppe_training/ppe_smoke_2ep-2/` |
+| Smoke inference | Not run: no existing safe project PPE inference/review utility; no Milestone 9 inference architecture was added |
+
+The 2-epoch metric values are **not suitable for final model evaluation**.
+The intentionally camera-separated smoke split has only two camera groups,
+no independent test split, `train no_vest = 1`, `validation helmet = 1`, and
+formal provenance reconciliation is still pending. More source diversity and
+class coverage are required before any full training or benchmark claim.
+
+**PPE FULL TRAINING: NOT STARTED.**
+
 Next milestone: Milestone 9 (PPE Model Training and Benchmark Evaluation - NOT STARTED / requires separate authorization).
 
 Technical references consulted for the environment checks:

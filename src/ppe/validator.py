@@ -14,6 +14,9 @@ from src.ppe.models import BBoxNormalized, DatasetValidationReport
 from src.ppe.splitter import check_source_group_leakage, load_split_manifest
 
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+
 def validate_label_line(line: str, line_no: int, filename: str) -> BBoxNormalized:
     """Validate a single YOLO-format normalized bbox annotation line.
 
@@ -142,7 +145,7 @@ def validate_ppe_dataset(
             dataset_path = cfg.get("path")
             if isinstance(dataset_path, str) and dataset_path:
                 configured_root = Path(dataset_path)
-                root_dir = configured_root if configured_root.is_absolute() else root_dir / configured_root
+                root_dir = configured_root if configured_root.is_absolute() else PROJECT_ROOT / configured_root
         except Exception as err:
             return DatasetValidationReport(
                 is_valid=False,
