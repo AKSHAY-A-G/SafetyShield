@@ -11,8 +11,16 @@ Current stage: **Milestones 0-8 COMPLETE.**
 Milestone 8:
 - PPE dataset/training preparation COMPLETE; `ppe_validation_v1` is frozen with
   130 validation images and 285 annotations from `cam1_ppe_validation_2026-09-15`.
-- The validation set has zero exact overlap with `training_pool_v1`; it is not
-  training data and the independent Test dataset is NOT PREPARED.
+- `training_pool_v1` remains training-only and `ppe_validation_v1` remains a
+  frozen Validation dataset with zero exact overlap between them.
+- `ppe_test_v3` is the frozen held-out Test dataset: 100 independent `cam2`
+  images and 209 annotations, canonicalized from an immutable Roboflow export
+  using a verified class-ID reconciliation. The original export declared
+  source IDs `0=no_helmet`, `1=no_vest`, and `2=vest`; the canonical copy
+  remaps those IDs to `1`, `2`, and `3` respectively, without changing image
+  content or box coordinates. It has zero exact overlap with either training
+  or validation. Its helmet ground-truth count is zero, so it cannot support a
+  held-out helmet precision/recall claim.
 - PPE full training has NOT started.
 
 Milestone 9:
@@ -1332,8 +1340,8 @@ Milestone 8 defines **exactly four** initial object classes:
 | :--- | :--- | :--- | :--- |
 | **0** | `helmet` | Safety helmet / hard hat present | Tightly encloses the visible helmet |
 | **1** | `no_helmet` | Uncovered head with helmet confirmed absent | Tightly encloses the visible uncovered head region |
-| **2** | `vest` | High-visibility safety / reflective vest present | Tightly encloses the visible vest garment |
-| **3** | `no_vest` | Torso visible with high-visibility vest confirmed absent | Tightly encloses the visible upper torso/clothing area |
+| **2** | `no_vest` | Torso visible with high-visibility vest confirmed absent | Tightly encloses the visible upper torso/clothing area |
+| **3** | `vest` | High-visibility safety / reflective vest present | Tightly encloses the visible vest garment |
 
 No other classes (`person`, `face`, `boots`, `gloves`, etc.) are introduced in
 Milestone 8.
