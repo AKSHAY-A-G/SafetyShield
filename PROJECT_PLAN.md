@@ -6,12 +6,14 @@ camera, followed by helmet/vest analysis, safety events, evidence and a simple
 dashboard. Each milestone must demonstrate an observable result before the next
 one begins.
 
-Current stage: **Milestones 0-7 COMPLETE.**
+Current stage: **Milestones 0-8 COMPLETE.**
 
 Milestone 8:
-- PPE dataset/training PREPARATION COMPLETE.
-- Manual PPE annotation required.
-- Training has NOT started.
+- PPE dataset/training preparation COMPLETE; `ppe_validation_v1` is frozen with
+  130 validation images and 285 annotations from `cam1_ppe_validation_2026-09-15`.
+- The validation set has zero exact overlap with `training_pool_v1`; it is not
+  training data and the independent Test dataset is NOT PREPARED.
+- PPE full training has NOT started.
 
 Milestone 9:
 - NOT STARTED / requires separate authorization.

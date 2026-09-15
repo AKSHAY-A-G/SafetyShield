@@ -1,0 +1,37 @@
+{
+  "dataset_name": "ppe_validation_v1",
+  "role": "validation",
+  "image_count": 130,
+  "label_file_count": 130,
+  "class_order": {
+    "0": "helmet",
+    "1": "no_helmet",
+    "2": "no_vest",
+    "3": "vest"
+  },
+  "class_counts": {
+    "no_helmet": 117,
+    "vest": 50,
+    "no_vest": 98,
+    "helmet": 20
+  },
+  "total_annotations": 285,
+  "source_groups": [
+    {
+      "camera_id": "cam1",
+      "clip_id": "cam1_ppe_validation_2026-09-15",
+      "split": "validation",
+      "image_count": 130
+    }
+  ],
+  "roboflow_version": 1,
+  "preprocessing": "Auto-Orient; 640x640; Fit with black edges / preserve aspect ratio",
+  "augmentation": "none",
+  "training_pool_exact_overlap": 0,
+  "freeze_status": "FROZEN",
+  "freeze_reason": "All required provenance documented; manual screenshot source identity is recorded from explicit user confirmation.",
+  "usage_restrictions": [
+    "THIS DATASET MUST NOT BE USED FOR TRAINING.",
+    "THIS DATASET MUST NOT BE USED AS THE FUTURE TEST SET."
+  ]
+}

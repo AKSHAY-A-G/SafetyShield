@@ -19,6 +19,7 @@ def extract_frames_from_video(
     interval_seconds: float = DEFAULT_SAMPLING_INTERVAL_SECONDS,
     max_frames: int | None = None,
     block_duration_seconds: float = 30.0,
+    clip_id: str | None = None,
 ) -> list[SourceFrameInfo]:
     """Extract frames at configurable time intervals from a local recorded video.
 
@@ -33,7 +34,10 @@ def extract_frames_from_video(
         raise ValueError("block_duration_seconds must be strictly positive")
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    clip_name = video_path.stem
+    # The logical clip ID can deliberately differ from an on-disk filename.
+    # This retains stable provenance when a supplied file has a duplicate
+    # extension or a transport-specific filename.
+    clip_name = clip_id or video_path.stem
 
     cap = cv2.VideoCapture(str(video_path))
     if not cap.isOpened():

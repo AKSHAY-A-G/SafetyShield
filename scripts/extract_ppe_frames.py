@@ -31,6 +31,18 @@ def parse_args() -> argparse.Namespace:
         help="Camera identifier for source-group metadata.",
     )
     parser.add_argument(
+        "--clip-id",
+        type=str,
+        default=None,
+        help="Logical source clip ID recorded in manifests; defaults to the input filename stem.",
+    )
+    parser.add_argument(
+        "--fixed-split",
+        choices=("train", "val", "test", "validation"),
+        default=None,
+        help="Assign every extracted source group to one explicit split instead of deriving train/val/test splits.",
+    )
+    parser.add_argument(
         "--output-dir",
         type=Path,
         default=PROJECT_ROOT / "data" / "dataset" / "ppe" / "source_frames",
@@ -89,6 +101,7 @@ def main() -> int:
             interval_seconds=args.interval_seconds,
             max_frames=args.max_frames,
             block_duration_seconds=args.block_duration_seconds,
+            clip_id=args.clip_id,
         )
     except Exception as err:
         print(f"Extraction failed: {err}", file=sys.stderr)
@@ -97,6 +110,16 @@ def main() -> int:
     print(f"Extracted {len(frames)} native-resolution frames.")
     write_frame_manifest(frames, args.manifest)
     print(f"Saved frames manifest to: {args.manifest}")
+
+    if args.fixed_split is not None:
+        fixed_split = "val" if args.fixed_split == "validation" else args.fixed_split
+        write_split_manifest(
+            frames,
+            {frame.source_image: fixed_split for frame in frames},
+            args.split_manifest,
+        )
+        print(f"Saved fixed '{fixed_split}' split manifest to: {args.split_manifest}")
+        return 0
 
     # Generate source-group split assignments if multiple groups exist
     unique_groups = {f.source_group for f in frames}
